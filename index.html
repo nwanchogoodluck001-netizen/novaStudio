@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaStudios — Read, Listen & Watch Original Novels</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Configuration with Reference Color Palette -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: "#111113",        // Main Background
+              surface: "#18181B",   // Elevated Surfaces / Cards / Nav
+              obsidian: "#0A0A0C",  // Deep Card Shadows / Overlays
+              crimson: "#E5194B",   // Primary Brand Accent
+              berry: "#D11D53",     // Secondary Accent / Hover
+              amber: "#F5A623",     // Warm Amber / Gold
+              gold: "#F8D568",      // Golden Glow / Highlight
+              muted: "#8E8E93",     // Secondary / Inactive Text
+              taupe: "#B59E88",     // Muted Warm Taupe
+              steel: "#1E2B3C",     // Midnight Steel Blue
+            },
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', "sans-serif"],
+            display: ['"Cinzel"', "serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-main: #111113;
+      --bg-surface: #18181b;
+      --bg-obsidian: #0a0a0c;
+      --accent-crimson: #e5194b;
+      --accent-berry: #d11d53;
+      --accent-amber: #f5a623;
+      --accent-gold: #f8d568;
+      --text-primary: #ffffff;
+      --text-muted: #8e8e93;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Rotating Celestial Astrolabe Background Animation */
+    @keyframes spinSlow {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    @keyframes spinReverseSlow {
+      0% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+    }
+
+    @keyframes pulseAura {
+      0%, 100% {
+        opacity: 0.28;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        opacity: 0.45;
+        transform: translate(-50%, -50%) scale(1.06);
+      }
+    }
+
+    .hero-orbit-outer {
+      animation: spinSlow 48s linear infinite;
+    }
+
+    .hero-orbit-inner {
+      animation: spinReverseSlow 32s linear infinite;
+    }
+
+    .hero-aura {
+      animation: pulseAura 8s ease-in-out infinite;
+    }
+
+    /* Hide Scrollbar for Horizontal Carousels */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Audio Equalizer Bars */
+    @keyframes eqBar {
+      0%, 100% { height: 6px; }
+      50% { height: 26px; }
+    }
+    .eq-playing .bar-1 { animation: eqBar 0.7s ease-in-out infinite; }
+    .eq-playing .bar-2 { animation: eqBar 0.5s ease-in-out infinite 0.15s; }
+    .eq-playing .bar-3 { animation: eqBar 0.8s ease-in-out infinite 0.3s; }
+    .eq-playing .bar-4 { animation: eqBar 0.6s ease-in-out infinite 0.1s; }
+    .eq-playing .bar-5 { animation: eqBar 0.75s ease-in-out infinite 0.25s; }
+
+    /* Custom Card Hover Elevation */
+    .novel-card {
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    }
+    .novel-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 35px -10px rgba(229, 25, 75, 0.22);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-nova-crimson selection:text-white">
+
+  <!-- ==================== STICKY GLASSMORPHIC NAVBAR ==================== -->
+  <header class="sticky top-0 z-50 bg-nova-bg/85 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        
+        <!-- Brand Logo -->
+        <a href="#" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30 group-hover:scale-105 transition-transform">
+            <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+          </div>
+          <span class="text-xl md:text-2xl font-extrabold tracking-tight text-white">
+            Nova<span class="text-nova-crimson">Studios</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-nova-muted">
+          <a href="#hero" class="text-white hover:text-nova-crimson transition-colors">Home</a>
+          <a href="dashboard/index.html" class="text-nova-gold hover:text-white transition-colors flex items-center gap-1.5 font-bold">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#new-arrivals" class="hover:text-white transition-colors">Novels</a>
+          <a href="#emerging-stars" class="hover:text-white transition-colors">Audio Dramas</a>
+          <a href="#editors-picks" class="hover:text-white transition-colors">Video Trailers</a>
+          <a href="#ecosystem" class="hover:text-white transition-colors">Offline Downloads</a>
+        </nav>
+
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Search Toggle -->
+          <div class="relative hidden sm:block">
+            <input
+              id="quickSearchInput"
+              type="text"
+              placeholder="Search novels, audio..."
+              class="w-44 lg:w-56 bg-nova-surface border border-white/10 focus:border-nova-crimson rounded-full py-1.5 pl-9 pr-4 text-xs text-white placeholder-nova-muted outline-none transition-all"
+            />
+            <i data-lucide="search" class="w-4 h-4 text-nova-muted absolute left-3 top-1/2 -translate-y-1/2"></i>
+          </div>
+
+          <!-- Primary CTA -->
+          <a
+            href="dashboard/index.html"
+            class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-nova-crimson to-nova-berry text-white text-xs md:text-sm font-bold px-4 py-2.5 rounded-full shadow-lg shadow-nova-crimson/25 transition-all hover:scale-105"
+          >
+            <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
+            <span>Launch App</span>
+          </a>
+
+          <a
+            href="auth/register.html"
+            class="hidden sm:inline-flex items-center gap-2 bg-nova-surface hover:bg-white/10 border border-white/10 text-white text-xs md:text-sm font-semibold px-4 py-2.5 rounded-full transition-all"
+          >
+            <span>Register</span>
+          </a>
+
+          <a href="auth/login.html"
+            class="hidden sm:inline-flex items-center gap-2 bg-nova-surface hover:bg-white/10 border border-white/10 text-white text-xs md:text-sm font-semibold px-4 py-2.5 rounded-full transition-all">
+            <span>Login</span>
+          </a>
+
+
+          <!-- User Profile Initial Badge (Reference "N" Circle) -->
+          <!-- <div
+            class="w-9 h-9 rounded-full bg-nova-berry flex items-center justify-center text-white font-bold text-sm shadow-md cursor-pointer"
+            title="NovaStudios Member"
+          >
+            N
+          </div> -->
+
+          <!-- Mobile Hamburger Menu Button -->
+          <button
+            id="mobileMenuBtn"
+            class="md:hidden p-2 rounded-lg bg-nova-surface text-white hover:text-nova-crimson"
+            aria-label="Toggle Menu"
+          >
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden bg-nova-surface border-b border-white/10 px-4 pt-3 pb-5 space-y-3">
+      <div class="relative">
+        <input
+          type="text"
+          oninput="document.getElementById('quickSearchInput').value = this.value; filterAllNovels(this.value)"
+          placeholder="Search novels, audio, video..."
+          class="w-full bg-nova-bg border border-white/10 rounded-xl py-2 pl-9 pr-4 text-sm text-white placeholder-nova-muted outline-none"
+        />
+        <i data-lucide="search" class="w-4 h-4 text-nova-muted absolute left-3 top-1/2 -translate-y-1/2"></i>
+      </div>
+      <nav class="flex flex-col space-y-2 text-sm font-medium">
+        <a href="dashboard/index.html" class="py-2 px-3 rounded-lg bg-nova-crimson text-white font-bold flex items-center justify-between">
+          <span>Launch Dashboard</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#hero" class="py-1.5 text-white">Home</a>
+        <a href="#new-arrivals" class="py-1.5 text-nova-muted hover:text-white">Novels & E-Books</a>
+        <a href="#emerging-stars" class="py-1.5 text-nova-muted hover:text-white">Audio Dramas</a>
+        <a href="#editors-picks" class="py-1.5 text-nova-muted hover:text-white">Video Trailers</a>
+        <a href="#ecosystem" class="py-1.5 text-nova-muted hover:text-white">Offline Downloads</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION WITH ROTATING BACKGROUND & AUTO SLIDESHOW ==================== -->
+  <section id="hero" class="relative min-h-[88vh] flex items-center overflow-hidden border-b border-white/5">
+    
+    <!-- Rotating Celestial Background Layer -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <!-- Ambient Crimson & Gold Radial Aura -->
+      <div
+        class="hero-aura absolute top-1/2 left-1/2 w-[540px] h-[540px] md:w-[780px] md:h-[780px] rounded-full blur-3xl"
+        style="background: radial-gradient(circle, rgba(229,25,75,0.38) 0%, rgba(245,166,35,0.16) 45%, rgba(17,17,19,0) 75%);"
+      ></div>
+
+      <!-- Outer Rotating Astrolabe Ring -->
+      <svg
+        class="hero-orbit-outer absolute top-1/2 left-1/2 w-[680px] h-[680px] md:w-[980px] md:h-[980px] opacity-20"
+        viewBox="0 0 600 600"
+        fill="none"
+      >
+        <circle cx="300" cy="300" r="285" stroke="#E5194B" stroke-width="1.2" stroke-dasharray="10 14" />
+        <circle cx="300" cy="300" r="245" stroke="#F8D568" stroke-width="0.8" stroke-dasharray="4 10" />
+        <polygon points="300,15 546,442 54,442" stroke="#E5194B" stroke-width="0.7" fill="none" />
+        <polygon points="300,585 54,158 546,158" stroke="#F5A623" stroke-width="0.7" fill="none" />
+        <circle cx="300" cy="15" r="5" fill="#E5194B" />
+        <circle cx="300" cy="585" r="5" fill="#F8D568" />
+        <circle cx="15" cy="300" r="5" fill="#D11D53" />
+        <circle cx="585" cy="300" r="5" fill="#F5A623" />
+      </svg>
+
+      <!-- Inner Counter-Rotating Geometric Ring -->
+      <svg
+        class="hero-orbit-inner absolute top-1/2 left-1/2 w-[420px] h-[420px] md:w-[620px] md:h-[620px] opacity-25"
+        viewBox="0 0 400 400"
+        fill="none"
+      >
+        <circle cx="200" cy="200" r="185" stroke="#D11D53" stroke-width="1" stroke-dasharray="22 12" />
+        <rect x="69" y="69" width="262" height="262" stroke="#F8D568" stroke-width="0.7" />
+        <rect
+          x="69"
+          y="69"
+          width="262"
+          height="262"
+          transform="rotate(45 200 200)"
+          stroke="#E5194B"
+          stroke-width="0.7"
+        />
+      </svg>
+
+      <!-- Vignette Edge Mask -->
+      <div class="absolute inset-0 bg-gradient-to-b from-nova-bg/40 via-transparent to-nova-bg"></div>
+    </div>
+
+    <!-- Hero Foreground Content & Automatic Slideshow -->
+    <div
+      id="heroSlideshowContainer"
+      class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 w-full"
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        
+        <!-- Left Story Details (7 Columns) -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <!-- Slide Badge & Rating -->
+          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-nova-surface/90 border border-white/10">
+            <span class="w-2 h-2 rounded-full bg-nova-crimson animate-ping"></span>
+            <span id="heroGenre" class="text-xs font-semibold uppercase tracking-wider text-nova-gold">
+              Dark Fantasy • Original Series
+            </span>
+            <span class="text-white/20">|</span>
+            <span id="heroRating" class="text-xs font-bold text-nova-amber flex items-center gap-1">
+              ★ 4.9
+            </span>
+          </div>
+
+          <!-- Dynamic Title -->
+          <h1
+            id="heroTitle"
+            class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-500"
+          >
+            Lady Of The Shadows
+          </h1>
+
+          <!-- Dynamic Synopsis -->
+          <p
+            id="heroSynopsis"
+            class="text-nova-muted text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+          >
+            Betrayed by the royal court she swore to protect, an exiled archivist uncovers a forbidden manuscript that allows her to command the whispers of the empire—and rewrite her destiny.
+          </p>
+
+          <!-- Multi-Format Availability Pills -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 text-xs font-medium">
+            <span class="px-3 py-1.5 rounded-lg bg-nova-surface border border-white/10 text-white flex items-center gap-1.5">
+              <i data-lucide="book-open" class="w-3.5 h-3.5 text-nova-crimson"></i>
+              <span id="heroChapters">142 Chapters • PDF/EPUB</span>
+            </span>
+            <span class="px-3 py-1.5 rounded-lg bg-nova-surface border border-white/10 text-white flex items-center gap-1.5">
+              <i data-lucide="headphones" class="w-3.5 h-3.5 text-nova-amber"></i>
+              <span id="heroAudioDuration">18h Full-Cast Audio</span>
+            </span>
+            <span class="px-3 py-1.5 rounded-lg bg-nova-surface border border-white/10 text-white flex items-center gap-1.5">
+              <i data-lucide="clapperboard" class="w-3.5 h-3.5 text-nova-gold"></i>
+              <span>4K Motion Trailer</span>
+            </span>
+          </div>
+
+          <!-- Primary Multi-Action Buttons -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
+            <a href="/auth/register.html">
+            <button
+              class="inline-flex items-center gap-2 bg-nova-crimson hover:bg-nova-berry text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-nova-crimson/30 transition-all cursor-pointer"
+            >
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              <span>Get in touch</span>
+            </button>
+            </a>
+
+            <a href="/auth/register.html">
+            <button
+              
+              class="inline-flex items-center gap-2 bg-nova-surface hover:bg-white/10 text-white border border-white/15 font-semibold px-6 py-3.5 rounded-xl transition-all cursor-pointer"
+            >
+              <i data-lucide="headphones" class="w-4 h-4 text-nova-amber"></i>
+              <span>Listen Audio</span>
+            </button>
+            </a>
+
+            <a href="/auth/register.html">
+            <button
+              
+              class="inline-flex items-center gap-2 bg-nova-obsidian hover:bg-nova-surface text-white border border-white/10 font-semibold px-5 py-3.5 rounded-xl transition-all cursor-pointer"
+            >
+              <i data-lucide="play-circle" class="w-4 h-4 text-nova-gold"></i>
+              <span>Watch Video</span>
+            </button>
+          </div>
+        </a>
+
+          <!-- Slideshow Dots & Controls -->
+          <div class="flex items-center justify-center lg:justify-start gap-4 pt-3">
+            <div id="heroDots" class="flex items-center gap-2"></div>
+            <div class="flex items-center gap-2 ml-2">
+              <button
+                onclick="prevHeroSlide()"
+                aria-label="Previous Slide"
+                class="w-8 h-8 rounded-full bg-nova-surface border border-white/10 hover:border-nova-crimson flex items-center justify-center text-white transition-colors"
+              >
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              </button>
+              <button
+                onclick="nextHeroSlide()"
+                aria-label="Next Slide"
+                class="w-8 h-8 rounded-full bg-nova-surface border border-white/10 hover:border-nova-crimson flex items-center justify-center text-white transition-colors"
+              >
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Featured Cover Artwork Showcase (5 Columns) -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-72 sm:w-80 md:w-[340px] group">
+            <!-- Ambient Back Glow -->
+            <div class="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-nova-crimson/40 via-nova-berry/20 to-nova-amber/30 blur-xl opacity-80 group-hover:opacity-100 transition-opacity"></div>
+
+            <!-- Main Cover Card -->
+            <div class="relative aspect-[2/3] rounded-2xl overflow-hidden bg-nova-surface border border-white/15 shadow-2xl">
+              <img
+                id="heroCoverImage"
+                src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=85"
+                alt="Featured Novel Cover"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <!-- Bottom Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-nova-obsidian via-nova-obsidian/30 to-transparent"></div>
+
+              <!-- Top Right Format Badges -->
+              <div class="absolute top-3.5 right-3.5 flex flex-col gap-2">
+                <span class="px-2.5 py-1 rounded-md bg-nova-obsidian/85 backdrop-blur-md text-[11px] font-bold text-nova-gold border border-nova-gold/30">
+                  EPUB + PDF
+                </span>
+                <span class="px-2.5 py-1 rounded-md bg-nova-crimson text-[11px] font-bold text-white shadow">
+                  AUDIO + VIDEO
+                </span>
+              </div>
+
+              <!-- Bottom Overlay Title & Quick Play -->
+              <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+                <div>
+                  <p id="heroAuthor" class="text-xs text-nova-taupe font-medium">By Elena Vance</p>
+                  <p id="heroCardTitle" class="font-display text-lg font-bold text-white leading-snug">
+                    Lady Of The Shadows
+                  </p>
+                </div>
+                <button
+                  onclick="openCurrentHeroModal('audio')"
+                  aria-label="Play Audio Sample"
+                  class="w-11 h-11 rounded-full bg-nova-crimson hover:bg-nova-berry text-white flex items-center justify-center shadow-lg shadow-nova-crimson/40 shrink-0 transition-transform hover:scale-105"
+                >
+                  <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MULTI-FORMAT EXPERIENCE ECOSYSTEM ==================== -->
+  <section id="ecosystem" class="py-14 border-b border-white/5 bg-nova-obsidian/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <div class="p-5 rounded-2xl bg-nova-surface border border-white/5 hover:border-nova-crimson/40 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-nova-crimson/15 text-nova-crimson flex items-center justify-center mb-4">
+            <i data-lucide="book-open-check" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-bold text-white mb-1.5">Read & Offline Download</h3>
+          <p class="text-xs text-nova-muted leading-relaxed">
+            Read crisp chapters online or download formatted PDF & EPUB editions for zero-data offline reading.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-nova-surface border border-white/5 hover:border-nova-amber/40 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-nova-amber/15 text-nova-amber flex items-center justify-center mb-4">
+            <i data-lucide="headphones" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-bold text-white mb-1.5">Full-Cast Audio Dramas</h3>
+          <p class="text-xs text-nova-muted leading-relaxed">
+            Switch seamlessly from text to cinematic voice-acted audiobooks with immersive background scores.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-nova-surface border border-white/5 hover:border-nova-gold/40 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-nova-gold/15 text-nova-gold flex items-center justify-center mb-4">
+            <i data-lucide="film" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-bold text-white mb-1.5">Novel Video Adaptations</h3>
+          <p class="text-xs text-nova-muted leading-relaxed">
+            Watch animated key scenes, character trailers, and visual episode recaps for every flagship novel.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-nova-surface border border-white/5 hover:border-nova-berry/40 transition-colors">
+          <div class="w-10 h-10 rounded-xl bg-nova-berry/15 text-nova-berry flex items-center justify-center mb-4">
+            <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-bold text-white mb-1.5">Smart Chapter Sync</h3>
+          <p class="text-xs text-nova-muted leading-relaxed">
+            Your reading page, audio timestamp, and video episode stay synced automatically across every screen.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CURATED MEDIA SHELVES (POCKET FM DARK GRID) ==================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-16">
+
+    <!-- Filter Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-white/5">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-white">Explore NovaStudios Library</h2>
+        <p class="text-xs sm:text-sm text-nova-muted">Click any title to read chapters, download PDF/EPUB, stream audio, or watch trailers.</p>
+      </div>
+      <div id="genreFilters" class="flex flex-wrap items-center gap-2">
+        <button onclick="setActiveFilter('All', this)" class="filter-btn active px-4 py-1.5 rounded-full text-xs font-semibold bg-nova-crimson text-white transition-colors">All</button>
+        <button onclick="setActiveFilter('Fantasy', this)" class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-nova-surface text-nova-muted hover:text-white transition-colors">Fantasy</button>
+        <button onclick="setActiveFilter('Romance', this)" class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-nova-surface text-nova-muted hover:text-white transition-colors">Romance</button>
+        <button onclick="setActiveFilter('Sci-Fi', this)" class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-nova-surface text-nova-muted hover:text-white transition-colors">Sci-Fi & Thriller</button>
+      </div>
+    </div>
+
+    <!-- SECTION 1: NEW ARRIVALS -->
+    <section id="new-arrivals" class="space-y-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">New Arrivals</h2>
+          <span class="text-nova-crimson font-bold text-xl">&rsaquo;</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="hidden sm:inline text-xs text-nova-muted mr-2">Auto-sliding shelf</span>
+          <button onclick="scrollShelf('shelf-new', -1)" class="w-8 h-8 rounded-full bg-nova-surface hover:bg-nova-crimson text-white flex items-center justify-center transition-colors">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button onclick="scrollShelf('shelf-new', 1)" class="w-8 h-8 rounded-full bg-nova-surface hover:bg-nova-crimson text-white flex items-center justify-center transition-colors">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="shelf-new" class="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar scroll-smooth pb-2">
+        <!-- Cards injected via JS -->
+      </div>
+    </section>
+
+    <!-- SECTION 2: EMERGING STARS -->
+    <section id="emerging-stars" class="space-y-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Emerging Stars</h2>
+          <span class="text-nova-crimson font-bold text-xl">&rsaquo;</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="scrollShelf('shelf-emerging', -1)" class="w-8 h-8 rounded-full bg-nova-surface hover:bg-nova-crimson text-white flex items-center justify-center transition-colors">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button onclick="scrollShelf('shelf-emerging', 1)" class="w-8 h-8 rounded-full bg-nova-surface hover:bg-nova-crimson text-white flex items-center justify-center transition-colors">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="shelf-emerging" class="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar scroll-smooth pb-2">
+        <!-- Cards injected via JS -->
+      </div>
+    </section>
+
+    <!-- SECTION 3: EDITOR'S PICKS -->
+    <section id="editors-picks" class="space-y-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Editor's Picks</h2>
+          <span class="text-nova-crimson font-bold text-xl">&rsaquo;</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="scrollShelf('shelf-editors', -1)" class="w-8 h-8 rounded-full bg-nova-surface hover:bg-nova-crimson text-white flex items-center justify-center transition-colors">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button onclick="scrollShelf('shelf-editors', 1)" class="w-8 h-8 rounded-full bg-nova-surface hover:bg-nova-crimson text-white flex items-center justify-center transition-colors">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="shelf-editors" class="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar scroll-smooth pb-2">
+        <!-- Cards injected via JS -->
+      </div>
+    </section>
+
+    <!-- ==================== CTA BANNER ==================== -->
+    <section class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-nova-surface via-nova-obsidian to-nova-surface border border-nova-crimson/30 p-8 sm:p-12">
+      <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-nova-crimson/20 blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div class="space-y-3 text-center lg:text-left max-w-2xl">
+          <span class="inline-block px-3 py-1 rounded-full bg-nova-amber/15 text-nova-amber text-xs font-bold uppercase tracking-wider">
+            Unlimited Multi-Format Pass
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+            Take Every Story Anywhere — Read, Listen, or Watch Offline.
+          </h2>
+          <p class="text-sm sm:text-base text-nova-muted">
+            Download complete novel volumes in PDF/EPUB, stream lossless spatial audio dramas, and unlock exclusive behind-the-scenes video episodes.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-3 shrink-0">
+            <a href="/auth/register.html">
+          <button
+            onclick="triggerDownload('NovaStudios_Starter_Anthology.pdf')"
+            class="px-6 py-3.5 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white font-semibold text-sm shadow-lg shadow-nova-crimson/30 transition-all flex items-center gap-2"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Download Free Bundle</span>
+          </button>
+        </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-nova-obsidian border-t border-white/5 pt-14 pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-10 border-b border-white/5">
+        <div class="space-y-3">
+          <a href="#" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-nova-crimson flex items-center justify-center">
+              <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+            </div>
+            <span class="text-xl font-extrabold text-white">
+              Nova<span class="text-nova-crimson">Studios</span>
+            </span>
+          </a>
+          <p class="text-xs text-nova-muted leading-relaxed">
+            The next-generation storytelling studio uniting digital novels, offline e-books, full-cast audio dramas, and cinematic video adaptations.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-3">Formats</h4>
+          <ul class="space-y-2 text-xs text-nova-muted">
+            <li><a href="#new-arrivals" class="hover:text-white transition-colors">Web Novels & Chapters</a></li>
+            <li><a href="#new-arrivals" class="hover:text-white transition-colors">Offline PDF & EPUB Downloads</a></li>
+            <li><a href="#emerging-stars" class="hover:text-white transition-colors">Full-Cast Audio Dramas</a></li>
+            <li><a href="#editors-picks" class="hover:text-white transition-colors">Animated Video Trailers</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-3">Top Genres</h4>
+          <ul class="space-y-2 text-xs text-nova-muted">
+            <li><a href="#new-arrivals" class="hover:text-white transition-colors">Dark Fantasy & Mythology</a></li>
+            <li><a href="#emerging-stars" class="hover:text-white transition-colors">Billionaire & Royal Romance</a></li>
+            <li><a href="#editors-picks" class="hover:text-white transition-colors">Dystopian Sci-Fi</a></li>
+            <li><a href="#editors-picks" class="hover:text-white transition-colors">Supernatural Mystery</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-3">Studio Updates</h4>
+          <p class="text-xs text-nova-muted mb-3">Get notified when new audio episodes and downloadable volumes drop.</p>
+          <form onsubmit="event.preventDefault(); showToast('Subscribed to NovaStudios weekly releases!');" class="flex gap-2">
+            <input
+              type="email"
+              required
+              placeholder="Enter your email"
+              class="w-full bg-nova-surface border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-nova-muted outline-none focus:border-nova-crimson"
+            />
+            <button type="submit" class="px-3.5 py-2 rounded-lg bg-nova-crimson hover:bg-nova-berry text-white text-xs font-semibold">
+              Join
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-nova-muted">
+        <p>&copy; 2026 NovaStudios Entertainment. All rights reserved.</p>
+        <div class="flex items-center gap-5">
+          <a href="#" class="hover:text-white">Terms of Service</a>
+          <a href="#" class="hover:text-white">Privacy Policy</a>
+          <a href="admin/index.html" class="hover:text-nova-gold text-nova-gold/80 flex items-center gap-1">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+            <span>Admin Terminal</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MULTI-FORMAT INTERACTIVE PREVIEW MODAL ==================== -->
+  <div
+    id="mediaModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-nova-obsidian/85 backdrop-blur-md p-4"
+  >
+    <div class="relative w-full max-w-2xl rounded-2xl bg-nova-surface border border-white/15 shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-nova-obsidian/60">
+        <div class="flex items-center gap-3">
+          <span id="modalBadge" class="px-2.5 py-0.5 rounded bg-nova-crimson text-[11px] font-bold uppercase text-white">
+            Read & Download
+          </span>
+          <h3 id="modalTitle" class="font-display font-bold text-base sm:text-lg text-white truncate">
+            Lady Of The Shadows
+          </h3>
+        </div>
+        <button
+          onclick="closeMediaModal()"
+          class="w-8 h-8 rounded-full bg-white/5 hover:bg-nova-crimson text-white flex items-center justify-center transition-colors"
+        >
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Format Switcher Tabs inside Modal -->
+      <div class="grid grid-cols-3 border-b border-white/10 bg-nova-bg text-xs font-semibold">
+        <button
+          id="tab-read"
+          onclick="switchModalTab('read')"
+          class="py-3 flex items-center justify-center gap-1.5 border-b-2 border-nova-crimson text-white"
+        >
+          <i data-lucide="book-open" class="w-4 h-4 text-nova-crimson"></i>
+          <span>Read & Download</span>
+        </button>
+        <button
+          id="tab-audio"
+          onclick="switchModalTab('audio')"
+          class="py-3 flex items-center justify-center gap-1.5 border-b-2 border-transparent text-nova-muted hover:text-white"
+        >
+          <i data-lucide="headphones" class="w-4 h-4 text-nova-amber"></i>
+          <span>Audio Version</span>
+        </button>
+        <button
+          id="tab-video"
+          onclick="switchModalTab('video')"
+          class="py-3 flex items-center justify-center gap-1.5 border-b-2 border-transparent text-nova-muted hover:text-white"
+        >
+          <i data-lucide="clapperboard" class="w-4 h-4 text-nova-gold"></i>
+          <span>Video Trailer</span>
+        </button>
+      </div>
+
+      <!-- Modal Dynamic Body -->
+      <div class="p-6 max-h-[75vh] overflow-y-auto">
+        
+        <!-- 1. READ & DOWNLOAD VIEW -->
+        <div id="view-read" class="space-y-4">
+          <div class="flex items-center justify-between text-xs text-nova-muted">
+            <span id="modalAuthor">By Elena Vance</span>
+            <span id="modalChapterCount" class="text-nova-gold font-semibold">Chapter 1 Preview</span>
+          </div>
+          <div class="p-5 rounded-xl bg-nova-bg border border-white/5 text-sm text-gray-200 leading-relaxed space-y-3 font-serif">
+            <p id="modalExcerpt">
+              "The lanterns along the Obsidian Spire flickered out one by one as the midnight bell tolled across the capital. Sera clutched the silver-bound ledger against her cloak, knowing that by dawn, every royal guard in the realm would be hunting for the girl who stole the Emperor's unwritten history..."
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <button
+              id="modalDownloadPdfBtn"
+              class="flex-1 min-w-[160px] py-3 px-4 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors"
+            >
+              <i data-lucide="file-down" class="w-4 h-4"></i>
+              <span>Download Full PDF</span>
+            </button>
+            <button
+              id="modalDownloadEpubBtn"
+              class="flex-1 min-w-[160px] py-3 px-4 rounded-xl bg-nova-bg hover:bg-white/10 border border-white/15 text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors"
+            >
+              <i data-lucide="book" class="w-4 h-4 text-nova-gold"></i>
+              <span>Download EPUB</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. AUDIO DRAMA PLAYER VIEW -->
+        <div id="view-audio" class="hidden space-y-5">
+          <div class="flex items-center gap-4">
+            <img id="modalAudioCover" src="" alt="Audio Cover" class="w-20 h-28 rounded-xl object-cover border border-white/10" />
+            <div class="space-y-1.5">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-nova-amber">Spatial Audio Drama • Episode 01</span>
+              <h4 id="modalAudioTitle" class="text-lg font-bold text-white">Lady Of The Shadows</h4>
+              <p class="text-xs text-nova-muted">Narrated by Full Studio Cast • Dolby Atmos Mix</p>
+              <!-- Animated Equalizer -->
+              <div id="audioEqualizer" class="eq-playing flex items-end gap-1 h-7 pt-1">
+                <span class="bar-1 w-1.5 bg-nova-crimson rounded-full"></span>
+                <span class="bar-2 w-1.5 bg-nova-amber rounded-full"></span>
+                <span class="bar-3 w-1.5 bg-nova-gold rounded-full"></span>
+                <span class="bar-4 w-1.5 bg-nova-berry rounded-full"></span>
+                <span class="bar-5 w-1.5 bg-nova-crimson rounded-full"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Scrubber -->
+          <div class="space-y-1.5">
+            <input
+              id="audioProgress"
+              type="range"
+              min="0"
+              max="100"
+              value="28"
+              class="w-full accent-nova-crimson cursor-pointer"
+            />
+            <div class="flex justify-between text-[11px] text-nova-muted">
+              <span id="audioCurrentTime">04:12</span>
+              <span>15:00</span>
+            </div>
+          </div>
+
+          <!-- Audio Controls -->
+          <div class="flex items-center justify-center gap-5">
+            <button onclick="showToast('Rewound 15 seconds')" class="p-2.5 rounded-full bg-nova-bg text-nova-muted hover:text-white">
+              <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+            </button>
+            <button
+              id="audioPlayPauseBtn"
+              onclick="toggleAudioPlayback()"
+              class="w-14 h-14 rounded-full bg-nova-crimson hover:bg-nova-berry text-white flex items-center justify-center shadow-lg shadow-nova-crimson/35 transition-transform hover:scale-105"
+            >
+              <i id="audioPlayIcon" data-lucide="pause" class="w-6 h-6 fill-current"></i>
+            </button>
+            <button onclick="showToast('Skipped ahead 15 seconds')" class="p-2.5 rounded-full bg-nova-bg text-nova-muted hover:text-white">
+              <i data-lucide="rotate-cw" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. VIDEO TRAILER VIEW -->
+        <div id="view-video" class="hidden space-y-4">
+          <div class="relative aspect-video rounded-xl overflow-hidden bg-nova-obsidian border border-white/10 group">
+            <img id="modalVideoPoster" src="" alt="Video Preview" class="w-full h-full object-cover opacity-65" />
+            <div class="absolute inset-0 bg-gradient-to-t from-nova-obsidian via-transparent to-nova-obsidian/40"></div>
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+              <button
+                onclick="showToast('Streaming 1080p Cinematic Novel Adaptation...')"
+                class="w-16 h-16 rounded-full bg-nova-crimson/95 hover:bg-nova-berry text-white flex items-center justify-center shadow-2xl shadow-nova-crimson/50 transition-transform hover:scale-110 mb-3"
+              >
+                <i data-lucide="play" class="w-7 h-7 fill-current ml-0.5"></i>
+              </button>
+              <p class="text-sm font-bold text-white">Official Motion Adaptation — Episode 1</p>
+              <p class="text-xs text-nova-gold">1080p HD • English Subtitles</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div
+    id="toastBanner"
+    class="fixed bottom-5 right-5 z-50 translate-y-24 opacity-0 pointer-events-none transition-all duration-300 bg-nova-surface border border-nova-crimson/50 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-medium"
+  >
+    <span class="w-2.5 h-2.5 rounded-full bg-nova-crimson"></span>
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    // Curated Novel Catalog (Matching Reference Visual Style & Multi-Format Capabilities)
+    const novelsData = [
+      {
+        id: "lady-shadows",
+        shelf: "new",
+        title: "Lady Of The Shadows",
+        author: "Elena Vance",
+        genre: "Fantasy",
+        badge: "Dark Fantasy • Original",
+        rating: "4.9",
+        chapters: "142 Chapters • PDF/EPUB",
+        audioDuration: "18h Full-Cast Audio",
+        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=85",
+        synopsis: "Betrayed by the royal court she swore to protect, an exiled archivist uncovers a forbidden manuscript that allows her to command the whispers of the empire.",
+        excerpt: "The lanterns along the Obsidian Spire flickered out one by one as the midnight bell tolled across the capital. Sera clutched the silver-bound ledger against her cloak, knowing that by dawn, every royal guard in the realm would be hunting her."
+      },
+      {
+        id: "ex-became-god",
+        shelf: "new",
+        title: "My Ex Became a God",
+        author: "Kaito Ren",
+        genre: "Fantasy",
+        badge: "Celestial Romance • Trending",
+        rating: "4.8",
+        chapters: "210 Chapters • PDF/EPUB",
+        audioDuration: "24h Full-Cast Audio",
+        image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=85",
+        synopsis: "Three years after breaking off their mortal engagement, she ascends to the Astral Citadel—only to discover the sovereign ruling the heavens is the man she left behind.",
+        excerpt: "Silver starlight cascaded over the marble balcony as he stepped through the veil of clouds. 'You told me to reach higher than the mortal realm, Lyra,' he murmured, his golden eyes illuminating the night."
+      },
+      {
+        id: "unwritten-promise",
+        shelf: "new",
+        title: "The Unwritten Promise",
+        author: "Clara Sterling",
+        genre: "Romance",
+        badge: "Contemporary Drama",
+        rating: "4.7",
+        chapters: "98 Chapters • PDF/EPUB",
+        audioDuration: "11h Audio Drama",
+        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=85",
+        synopsis: "A struggling violinist discovers a series of unsent letters hidden inside a restored grand piano, leading her straight to the reclusive heir of a media empire.",
+        excerpt: "Folded beneath the lowest ivory key was an envelope yellowed with time, sealed in crimson wax. Every note she played seemed to awaken a memory neither of them had lived yet."
+      },
+      {
+        id: "velvet-crown",
+        shelf: "new",
+        title: "Crown of Crimson Ash",
+        author: "Darius Thorne",
+        genre: "Fantasy",
+        badge: "Epic Saga",
+        rating: "4.9",
+        chapters: "175 Chapters • PDF/EPUB",
+        audioDuration: "21h Full-Cast Audio",
+        image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=85",
+        synopsis: "When the sun vanishes for seven winters, an outcast blacksmith forges a blade from fallen starlight to reclaim a throne drowned in shadow.",
+        excerpt: "Sparks erupted across the basalt anvil like captured fireflies. The ore refused to bend to ordinary flame—it demanded a blood oath."
+      },
+      {
+        id: "cold-blue-eyes",
+        shelf: "emerging",
+        title: "Cold Blue Eyes",
+        author: "Nova Astra",
+        genre: "Romance",
+        badge: "Ruthless CEO • #1 Hit",
+        rating: "4.9",
+        chapters: "320 Chapters • PDF/EPUB",
+        audioDuration: "36h Full-Cast Audio",
+        image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=85",
+        synopsis: "Bound by a high-stakes corporate contract to save her family's estate, she must outsmart a cold-hearted billionaire whose piercing gaze hides a decade-old secret.",
+        excerpt: "Rain lashed against the floor-to-ceiling glass of the 88th floor. Julian signed the merger without looking up, his icy blue eyes finally locking onto hers across the mahogany desk."
+      },
+      {
+        id: "calor",
+        shelf: "emerging",
+        title: "Calor: Iron Horizon",
+        author: "Marcus Vane",
+        genre: "Sci-Fi",
+        badge: "Post-Apocalyptic Sci-Fi",
+        rating: "4.8",
+        chapters: "160 Chapters • PDF/EPUB",
+        audioDuration: "19h Spatial Audio",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=85",
+        synopsis: "In a ruined megacity guarded by colossal orbital titans, a rogue scavenger uncovers the last functioning geo-core capable of reigniting Earth.",
+        excerpt: "Beyond the rusted perimeter wall, the Colossi stirred against the ash-choked horizon, their searchlights carving beams through the perpetual twilight."
+      },
+      {
+        id: "billionaire-pact",
+        shelf: "emerging",
+        title: "Billionaire's Midnight Pact",
+        author: "Sienna Brooks",
+        genre: "Romance",
+        badge: "High Society Thriller",
+        rating: "4.7",
+        chapters: "145 Chapters • PDF/EPUB",
+        audioDuration: "16h Audio Drama",
+        image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=85",
+        synopsis: "One masquerade gala in Monaco turns an investigative journalist into the reluctant fiancée of Europe's most enigmatic tech mogul.",
+        excerpt: "The chandelier light caught the edge of his tuxedo lapel as he leaned in. 'Play along until midnight,' he whispered, 'and I'll give you the front-page story you came for.'"
+      },
+      {
+        id: "neon-requiem",
+        shelf: "emerging",
+        title: "Neon Requiem 2099",
+        author: "Zane Mercer",
+        genre: "Sci-Fi",
+        badge: "Cyberpunk Noir",
+        rating: "4.8",
+        chapters: "112 Chapters • PDF/EPUB",
+        audioDuration: "14h Spatial Audio",
+        image: "https://images.unsplash.com/photo-1515630278258-407f66498911?auto=format&fit=crop&w=800&q=85",
+        synopsis: "A memory-hacker in Neo-Port steals an encrypted neural file that exposes the syndicate controlling the city's dreams.",
+        excerpt: "Neon crimson reflected off the rain-slicked asphalt of Sector 9 as the neural deck hummed to life in his palm."
+      },
+      {
+        id: "academy-gods",
+        shelf: "editors",
+        title: "Academy of 4gotten Gods",
+        author: "Aurelia Frost",
+        genre: "Fantasy",
+        badge: "Editor's Choice • Action Fantasy",
+        rating: "5.0",
+        chapters: "280 Chapters • PDF/EPUB",
+        audioDuration: "32h Full-Cast Audio",
+        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=85",
+        synopsis: "Ranked zero at the world's premier arcane academy, a scholarship student awakens the dormant lightning of four banished deities during the Grand Trial.",
+        excerpt: "Golden lightning fractured the arena floor as the ancient seal shattered. Every grandmaster in the observation tower rose to their feet in stunned silence."
+      },
+      {
+        id: "vampire-atlantis",
+        shelf: "editors",
+        title: "Vampire of Atlantis",
+        author: "Damon Night",
+        genre: "Fantasy",
+        badge: "Supernatural Mystery",
+        rating: "4.8",
+        chapters: "190 Chapters • PDF/EPUB",
+        audioDuration: "22h Full-Cast Audio",
+        image: "https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&w=800&q=85",
+        synopsis: "Beneath the midnight tide of an ancient sunken citadel, a nocturnal detective investigates a string of vanishings tied to an immortal bloodline.",
+        excerpt: "The blue beacon pulsed through the coastal fog as footsteps echoed along the cobblestone pier—too fast for any mortal heart to follow."
+      },
+      {
+        id: "the-castle-heir",
+        shelf: "editors",
+        title: "The Obsidian Castle",
+        author: "Victoria Crown",
+        genre: "Romance",
+        badge: "Royal Intrigue",
+        rating: "4.9",
+        chapters: "165 Chapters • PDF/EPUB",
+        audioDuration: "19h Audio Drama",
+        image: "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=800&q=85",
+        synopsis: "Crowned queen overnight after a sudden succession crisis, she must navigate treacherous alliances inside a fortress where every wall has ears.",
+        excerpt: "Candlelight danced across the stained-glass windows of the throne room as the doors swung open to announce the northern duke."
+      },
+      {
+        id: "starlight-protocol",
+        shelf: "editors",
+        title: "Starlight Protocol",
+        author: "Orion Hale",
+        genre: "Sci-Fi",
+        badge: "Space Opera",
+        rating: "4.8",
+        chapters: "130 Chapters • PDF/EPUB",
+        audioDuration: "15h Spatial Audio",
+        image: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=800&q=85",
+        synopsis: "Stranded beyond the outer rim, a lone pilot decodes a distress signal transmitted from her own ship ten years in the future.",
+        excerpt: "Static cleared from the cockpit receiver, revealing a voice she recognized instantly—her own, warning her not to open the airlock."
+      }
+    ];
+
+    // Hero Featured Slides (First 4 flagship titles)
+    const heroSlides = [novelsData[0], novelsData[1], novelsData[8], novelsData[4]];
+    let currentHeroIndex = 0;
+    let heroInterval = null;
+    let activeNovelForModal = heroSlides[0];
+    let isAudioPlaying = true;
+    let currentCategoryFilter = "All";
+
+    // Initialize Lucide Icons & App State
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      renderHeroDots();
+      updateHeroSlide(0);
+      startHeroAutoplay();
+      renderAllShelves();
+      startAutoShelfScroll();
+
+      // Pause Hero Slideshow on Hover
+      const heroContainer = document.getElementById("heroSlideshowContainer");
+      heroContainer.addEventListener("mouseenter", () => clearInterval(heroInterval));
+      heroContainer.addEventListener("mouseleave", startHeroAutoplay);
+
+      // Mobile Menu Toggle
+      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      });
+
+      // Live Search Input
+      document.getElementById("quickSearchInput").addEventListener("input", (e) => {
+        filterAllNovels(e.target.value);
+      });
+    });
+
+    // ==================== HERO SLIDESHOW LOGIC ====================
+    function renderHeroDots() {
+      const dotsContainer = document.getElementById("heroDots");
+      dotsContainer.innerHTML = heroSlides
+        .map(
+          (_, idx) => `
+          <button
+            onclick="updateHeroSlide(${idx})"
+            aria-label="Go to slide ${idx + 1}"
+            class="h-2 rounded-full transition-all duration-300 ${
+              idx === currentHeroIndex ? "w-8 bg-nova-crimson" : "w-2 bg-white/25 hover:bg-white/50"
+            }"
+          ></button>
+        `
+        )
+        .join("");
+    }
+
+    function updateHeroSlide(index) {
+      currentHeroIndex = (index + heroSlides.length) % heroSlides.length;
+      const slide = heroSlides[currentHeroIndex];
+
+      document.getElementById("heroGenre").textContent = slide.badge;
+      document.getElementById("heroRating").textContent = `★ ${slide.rating}`;
+      document.getElementById("heroTitle").textContent = slide.title;
+      document.getElementById("heroSynopsis").textContent = slide.synopsis;
+      document.getElementById("heroChapters").textContent = slide.chapters;
+      document.getElementById("heroAudioDuration").textContent = slide.audioDuration;
+      document.getElementById("heroCoverImage").src = slide.image;
+      document.getElementById("heroAuthor").textContent = `By ${slide.author}`;
+      document.getElementById("heroCardTitle").textContent = slide.title;
+
+      renderHeroDots();
+    }
+
+    function nextHeroSlide() {
+      updateHeroSlide(currentHeroIndex + 1);
+    }
+
+    function prevHeroSlide() {
+      updateHeroSlide(currentHeroIndex - 1);
+    }
+
+    function startHeroAutoplay() {
+      clearInterval(heroInterval);
+      heroInterval = setInterval(() => {
+        nextHeroSlide();
+      }, 5000);
+    }
+
+    function openCurrentHeroModal(mode) {
+      openMediaModal(heroSlides[currentHeroIndex].id, mode);
+    }
+
+    // ==================== RENDER CURATED MEDIA SHELVES ====================
+    function createNovelCardHTML(novel) {
+      return `
+        <article
+          onclick="openMediaModal('${novel.id}', 'read')"
+          class="novel-card group relative shrink-0 w-44 sm:w-52 md:w-56 cursor-pointer select-none"
+        >
+          <!-- 2:3 Vertical Poster Container -->
+          <div class="relative aspect-[2/3] rounded-xl overflow-hidden bg-nova-surface border border-white/10">
+            <img
+              src="${novel.image}"
+              alt="${novel.title}"
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <!-- Deep Obsidian Bottom Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-nova-obsidian via-nova-obsidian/35 to-transparent"></div>
+
+            <!-- Top Format Indicators (Audio + Video + Download) -->
+            <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-nova-obsidian/80 backdrop-blur-md text-[10px] font-bold text-nova-amber border border-white/10">
+                ★ ${novel.rating}
+              </span>
+              <div class="flex items-center gap-1">
+                <span title="Audio Version Available" class="w-6 h-6 rounded-full bg-nova-obsidian/80 backdrop-blur-md text-white flex items-center justify-center border border-white/10">
+                  <i data-lucide="headphones" class="w-3 h-3 text-nova-amber"></i>
+                </span>
+                <span title="Video Adaptation Available" class="w-6 h-6 rounded-full bg-nova-obsidian/80 backdrop-blur-md text-white flex items-center justify-center border border-white/10">
+                  <i data-lucide="video" class="w-3 h-3 text-nova-gold"></i>
+                </span>
+              </div>
+            </div>
+
+            <!-- Hover Quick-Action Bar -->
+            <div class="absolute inset-x-2.5 bottom-14 flex items-center justify-center gap-1.5 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <button
+                onclick="event.stopPropagation(); openMediaModal('${novel.id}', 'read')"
+                class="px-2.5 py-1.5 rounded-lg bg-nova-crimson hover:bg-nova-berry text-white text-[11px] font-bold shadow"
+              >
+                Read
+              </button>
+              <button
+                onclick="event.stopPropagation(); openMediaModal('${novel.id}', 'audio')"
+                class="px-2.5 py-1.5 rounded-lg bg-nova-surface/95 hover:bg-white/20 text-white text-[11px] font-bold border border-white/15"
+              >
+                Audio
+              </button>
+              <button
+                onclick="event.stopPropagation(); triggerDownload('${novel.title.replace(/\s+/g, '_')}.pdf')"
+                title="Download PDF"
+                class="p-1.5 rounded-lg bg-nova-obsidian/95 hover:bg-nova-amber hover:text-black text-white border border-white/15 transition-colors"
+              >
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <!-- Poster Bottom Title -->
+            <div class="absolute bottom-3 left-3 right-3">
+              <p class="text-[10px] font-semibold uppercase tracking-wider text-nova-taupe truncate">
+                ${novel.genre}
+              </p>
+              <h3 class="font-display text-sm sm:text-base font-bold text-white leading-tight line-clamp-2">
+                ${novel.title}
+              </h3>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderAllShelves(searchQuery = "") {
+      const shelves = {
+        new: document.getElementById("shelf-new"),
+        emerging: document.getElementById("shelf-emerging"),
+        editors: document.getElementById("shelf-editors"),
+      };
+
+      Object.keys(shelves).forEach((shelfKey) => {
+        const filtered = novelsData.filter((item) => {
+          const matchesShelf = item.shelf === shelfKey;
+          const matchesGenre = currentCategoryFilter === "All" || item.genre === currentCategoryFilter;
+          const matchesSearch =
+            !searchQuery ||
+            item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.genre.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchesShelf && matchesGenre && matchesSearch;
+        });
+
+        shelves[shelfKey].innerHTML = filtered.length
+          ? filtered.map(createNovelCardHTML).join("")
+          : `<p class="text-xs text-nova-muted py-6">No matching titles found in this shelf.</p>`;
+      });
+
+      lucide.createIcons();
+    }
+
+    function setActiveFilter(category, btnEl) {
+      currentCategoryFilter = category;
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.classList.remove("bg-nova-crimson", "text-white");
+        btn.classList.add("bg-nova-surface", "text-nova-muted");
+      });
+      btnEl.classList.remove("bg-nova-surface", "text-nova-muted");
+      btnEl.classList.add("bg-nova-crimson", "text-white");
+      renderAllShelves(document.getElementById("quickSearchInput").value);
+    }
+
+    function filterAllNovels(query) {
+      renderAllShelves(query);
+    }
+
+    // Horizontal Shelf Scrolling & Gentle Automatic Slideshow
+    function scrollShelf(shelfId, direction) {
+      const container = document.getElementById(shelfId);
+      const scrollAmount = 260 * direction;
+      if (direction === 1 && container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }
+
+    function startAutoShelfScroll() {
+      setInterval(() => {
+        const newShelf = document.getElementById("shelf-new");
+        if (newShelf && !newShelf.matches(":hover")) {
+          scrollShelf("shelf-new", 1);
+        }
+      }, 6500);
+    }
+
+    // ==================== INTERACTIVE MULTI-FORMAT MODAL ====================
+    function openMediaModal(novelId, initialTab = "read") {
+      const novel = novelsData.find((n) => n.id === novelId) || novelsData[0];
+      activeNovelForModal = novel;
+
+      document.getElementById("modalTitle").textContent = novel.title;
+      document.getElementById("modalAuthor").textContent = `Written by ${novel.author}`;
+      document.getElementById("modalChapterCount").textContent = novel.chapters;
+      document.getElementById("modalExcerpt").textContent = `"${novel.excerpt}"`;
+
+      document.getElementById("modalAudioCover").src = novel.image;
+      document.getElementById("modalAudioTitle").textContent = novel.title;
+      document.getElementById("modalVideoPoster").src = novel.image;
+
+      const cleanFileName = novel.title.replace(/[^a-z0-9]/gi, "_");
+      document.getElementById("modalDownloadPdfBtn").onclick = () => triggerDownload(`${cleanFileName}.pdf`);
+      document.getElementById("modalDownloadEpubBtn").onclick = () => triggerDownload(`${cleanFileName}.epub`);
+
+      switchModalTab(initialTab);
+
+      const modal = document.getElementById("mediaModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      lucide.createIcons();
+    }
+
+    function closeMediaModal() {
+      const modal = document.getElementById("mediaModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function switchModalTab(tabName) {
+      const tabs = ["read", "audio", "video"];
+      const badgeLabels = {
+        read: "Read & Offline Download",
+        audio: "Full-Cast Audio Drama",
+        video: "HD Video Adaptation",
+      };
+
+      document.getElementById("modalBadge").textContent = badgeLabels[tabName];
+
+      tabs.forEach((t) => {
+        const tabBtn = document.getElementById(`tab-${t}`);
+        const viewPanel = document.getElementById(`view-${t}`);
+
+        if (t === tabName) {
+          tabBtn.classList.add("border-nova-crimson", "text-white");
+          tabBtn.classList.remove("border-transparent", "text-nova-muted");
+          viewPanel.classList.remove("hidden");
+        } else {
+          tabBtn.classList.remove("border-nova-crimson", "text-white");
+          tabBtn.classList.add("border-transparent", "text-nova-muted");
+          viewPanel.classList.add("hidden");
+        }
+      });
+    }
+
+    function toggleAudioPlayback() {
+      isAudioPlaying = !isAudioPlaying;
+      const eq = document.getElementById("audioEqualizer");
+      const icon = document.getElementById("audioPlayIcon");
+
+      if (isAudioPlaying) {
+        eq.classList.add("eq-playing");
+        icon.setAttribute("data-lucide", "pause");
+      } else {
+        eq.classList.remove("eq-playing");
+        icon.setAttribute("data-lucide", "play");
+      }
+      lucide.createIcons();
+    }
+
+    // ==================== DOWNLOAD & TOAST FEEDBACK ====================
+    function triggerDownload(filename) {
+      showToast(`Downloading ${filename} for offline access...`);
+    }
+
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById("toastBanner");
+      document.getElementById("toastMessage").textContent = message;
+
+      toast.classList.remove("translate-y-24", "opacity-0");
+      toast.classList.add("translate-y-0", "opacity-100");
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add("translate-y-24", "opacity-0");
+        toast.classList.remove("translate-y-0", "opacity-100");
+      }, 3400);
+    }
+  </script>
+</body>
+</html>

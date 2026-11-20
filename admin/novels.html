@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Manage Novels — NovaStudios Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Palette -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',
+              surface: '#18181B',
+              obsidian: '#0A0A0C',
+              crimson: '#E5194B',
+              berry: '#D11D53',
+              gold: '#F5A623',
+              glow: '#F8D568',
+              muted: '#8E8E93'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+  <style>
+    .admin-input {
+      background-color: #0A0A0C;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      transition: all 0.15s ease-in-out;
+    }
+    .admin-input:focus {
+      outline: none;
+      border-color: #E5194B;
+      box-shadow: 0 0 0 1px #E5194B;
+    }
+    .table-row-hover:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+  </style>
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-20 lg:pb-10 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight font-display text-white">
+            Nova<span class="text-nova-crimson">Admin</span>
+          </span>
+          <div class="text-[10px] text-nova-muted font-mono tracking-wider uppercase">Novel Inventory</div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Modules</div>
+      
+      <a href="index.html" id="nav-overview" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <span>Overview & Analytics</span>
+      </a>
+
+      <a href="upload.html" id="nav-upload" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="cloud-upload" class="w-5 h-5 text-nova-gold"></i>
+        <span>Upload Content</span>
+      </a>
+
+      <a href="novels.html" id="nav-novels" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl bg-nova-crimson/10 text-white font-semibold border-l-4 border-nova-crimson">
+        <i data-lucide="book-open" class="w-5 h-5 text-nova-crimson"></i>
+        <span>Manage Novels</span>
+      </a>
+
+      <a href="users.html" id="nav-users" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="users" class="w-5 h-5 text-emerald-400"></i>
+        <span>Registered Users</span>
+      </a>
+
+      <a href="adsense.html" id="nav-adsense" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="dollar-sign" class="w-5 h-5 text-nova-glow"></i>
+        <span>Google AdSense</span>
+      </a>
+
+      <a href="settings.html" id="nav-settings" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="sliders" class="w-5 h-5"></i>
+        <span>Platform Settings</span>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-white/5 bg-nova-obsidian/40">
+      <a
+        href="../dashboard/index.html"
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs border border-white/10 transition-colors"
+      >
+        <i data-lucide="external-link" class="w-4 h-4 text-nova-crimson"></i>
+        <span>Back to User App</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN PAGE WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- Top App Header -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-8 py-3.5">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3">
+          <button
+            id="mobileMenuBtn"
+            class="lg:hidden p-2 rounded-xl bg-nova-surface border border-white/10 text-white hover:text-nova-crimson transition-colors"
+            aria-label="Toggle Navigation Drawer"
+          >
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div>
+            <h1 class="text-base sm:text-xl font-bold font-display text-white">
+              Published Novels & Episodes Directory
+            </h1>
+            <p class="text-[11px] text-nova-muted">Control publication states, episode stems, and distribution</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="upload.html"
+            class="px-4 py-2 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white text-xs font-bold shadow-md shadow-nova-crimson/25 transition-all flex items-center gap-2"
+          >
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Upload New Title</span>
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Mobile Slide-over Drawer -->
+    <div id="mobileDrawer" class="fixed inset-0 z-50 bg-nova-obsidian/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 lg:hidden">
+      <div class="fixed left-0 top-0 bottom-0 w-72 bg-nova-surface p-6 flex flex-col justify-between shadow-2xl border-r border-white/10">
+        <div>
+          <div class="flex items-center justify-between pb-6 border-b border-white/10">
+            <span class="font-bold font-display text-lg text-white">NovaAdmin</span>
+          </div>
+          <nav class="py-6 space-y-2">
+            <a href="index.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>Overview & Analytics</span>
+            </a>
+            <a href="upload.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="cloud-upload" class="w-4 h-4 text-nova-gold"></i>
+              <span>Upload Content</span>
+            </a>
+            <a href="novels.html" class="flex items-center gap-3 p-3 rounded-xl bg-nova-crimson/10 text-white font-medium text-sm">
+              <i data-lucide="book-open" class="w-4 h-4 text-nova-crimson"></i>
+              <span>Manage Novels</span>
+            </a>
+            <a href="users.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+              <span>Registered Users</span>
+            </a>
+            <a href="adsense.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="dollar-sign" class="w-4 h-4 text-nova-glow"></i>
+              <span>Google AdSense</span>
+            </a>
+            <a href="settings.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="sliders" class="w-4 h-4"></i>
+              <span>Platform Settings</span>
+            </a>
+          </nav>
+        </div>
+        <div>
+          <a href="../dashboard/index.html" class="flex items-center justify-center gap-2 p-3 rounded-xl bg-nova-crimson text-white font-bold text-xs">
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            <span>Back to User App</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-8 py-6 space-y-6">
+
+      <!-- Summary Stats & Search Filter Bar -->
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 rounded-2xl bg-nova-surface border border-white/5 shadow-xl">
+        <div class="flex items-center gap-4">
+          <div>
+            <div class="text-xs text-nova-muted">Total Published Titles</div>
+            <div class="text-2xl font-black font-display text-white font-mono" id="totalTitlesCount">0</div>
+          </div>
+          <div class="h-8 w-[1px] bg-white/10"></div>
+          <div>
+            <div class="text-xs text-nova-muted">Active Episode Stems</div>
+            <div class="text-2xl font-black font-display text-nova-gold font-mono" id="totalEpisodesCount">0</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <!-- Category Filter -->
+          <select
+            id="categoryFilterSelect"
+            onchange="handleFilterChange()"
+            class="admin-input rounded-xl px-3.5 py-2 text-xs cursor-pointer"
+          >
+            <option value="ALL">All Categories</option>
+            <option value="romantic">Romantic</option>
+            <option value="dark-fantasy">Dark Fantasy</option>
+            <option value="billionaire-ceo">Billionaire & CEO</option>
+            <option value="scifi-thriller">Sci-Fi & Thriller</option>
+          </select>
+
+          <!-- Search Input -->
+          <div class="relative flex-1 sm:w-64">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-nova-muted absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input
+              type="text"
+              id="novelSearchInput"
+              placeholder="Filter by title or author..."
+              class="admin-input w-full rounded-xl pl-9 pr-3 py-2 text-xs"
+              oninput="handleFilterChange()"
+            />
+          </div>
+
+          <!-- Seed / Import Catalog Option -->
+          <button
+            onclick="importMasterCatalog()"
+            class="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-nova-gold hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            title="Import platform default catalog into storage"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Import Master Catalog</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Published Novels Table -->
+      <div class="p-5 sm:p-7 rounded-2xl bg-nova-surface border border-white/5 shadow-xl space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold font-display text-white">Stored Catalog Records</h3>
+          <span class="text-xs text-nova-muted" id="tableFilterSummary">Showing 0 records</span>
+        </div>
+
+        <div class="rounded-xl border border-white/5 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead class="bg-nova-obsidian text-nova-muted text-[11px] uppercase tracking-wider font-display border-b border-white/5">
+                <tr>
+                  <th class="py-3 px-4">Title & Cover</th>
+                  <th class="py-3 px-4">Genre Category</th>
+                  <th class="py-3 px-4">Total Episodes</th>
+                  <th class="py-3 px-4">Formats Available</th>
+                  <th class="py-3 px-4">Publication Status</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="novelsTableBody" class="divide-y divide-white/5">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 sm:px-8 text-center text-xs text-nova-muted">
+      <p>© 2026 NovaStudios Entertainment Inc. All publications persist directly to platform state.</p>
+    </footer>
+
+  </div>
+
+  <!-- Shared Story Data Store (for on-demand master catalog import) -->
+  <script src="../assets/js/stories-data.js"></script>
+
+  <!-- Shared Admin Core Module -->
+  <script src="../assets/js/admin-core.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initAdminNavigation("novels");
+      renderNovelsTable();
+      lucide.createIcons();
+    });
+
+    function renderNovelsTable() {
+      const novels = getStoredNovels();
+      const tbody = document.getElementById("novelsTableBody");
+      const titlesCount = document.getElementById("totalTitlesCount");
+      const epCount = document.getElementById("totalEpisodesCount");
+      const summary = document.getElementById("tableFilterSummary");
+
+      const totalEps = novels.reduce((acc, n) => acc + (n.totalEpisodes || 1), 0);
+      titlesCount.textContent = novels.length.toLocaleString();
+      epCount.textContent = totalEps.toLocaleString();
+
+      const search = document.getElementById("novelSearchInput").value.toLowerCase().trim();
+      const cat = document.getElementById("categoryFilterSelect").value;
+
+      const filtered = novels.filter(n => {
+        const matchesQuery = !search ||
+          n.title.toLowerCase().includes(search) ||
+          n.author.toLowerCase().includes(search);
+        const matchesCat = cat === "ALL" || n.categorySlug === cat;
+        return matchesQuery && matchesCat;
+      });
+
+      summary.textContent = `Showing ${filtered.length} of ${novels.length} records`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-12 text-center text-nova-muted">
+              <div class="w-12 h-12 rounded-2xl bg-white/5 mx-auto flex items-center justify-center text-nova-muted mb-3">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+              </div>
+              <p class="text-sm font-semibold text-white">No novels published in database yet</p>
+              <p class="text-xs text-nova-muted mt-1 max-w-sm mx-auto">Upload new novels using the Content Studio or import the platform master catalog.</p>
+              <div class="mt-4 flex items-center justify-center gap-3">
+                <a href="upload.html" class="px-4 py-2 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white text-xs font-bold transition-all">
+                  Upload First Novel
+                </a>
+                <button onclick="importMasterCatalog()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-nova-gold text-xs font-semibold transition-all">
+                  Import Master Catalog
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(novel => {
+        const isPublished = novel.status === 'PUBLISHED';
+        const catMap = {
+          "romantic": "bg-rose-500/20 text-rose-300 border-rose-500/30",
+          "dark-fantasy": "bg-purple-500/20 text-purple-300 border-purple-500/30",
+          "billionaire-ceo": "bg-amber-500/20 text-amber-300 border-amber-500/30",
+          "scifi-thriller": "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
+        };
+        const catClass = catMap[novel.categorySlug] || "bg-white/10 text-white border-white/20";
+
+        return `
+          <tr class="table-row-hover transition-colors">
+            <!-- Title & Cover -->
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-3">
+                <img
+                  src="${novel.cover}"
+                  alt="${novel.title}"
+                  class="w-9 h-12 rounded-lg object-cover bg-nova-obsidian flex-shrink-0 border border-white/10 shadow"
+                  onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80'"
+                />
+                <div class="min-w-0">
+                  <div class="font-bold text-white truncate max-w-xs">${novel.title}</div>
+                  <div class="text-[11px] text-nova-muted truncate">${novel.author}</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Category -->
+            <td class="py-3 px-4">
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded border ${catClass}">
+                ${novel.categoryName || novel.categorySlug}
+              </span>
+            </td>
+
+            <!-- Episodes -->
+            <td class="py-3 px-4 font-mono font-semibold text-nova-gold">
+              ${novel.totalEpisodes || 1} EPs
+            </td>
+
+            <!-- Formats -->
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-nova-berry/20 text-nova-berry border border-nova-berry/30">Read</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-nova-gold/20 text-nova-gold border border-nova-gold/30">Audio</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-nova-crimson/20 text-nova-crimson border border-nova-crimson/30">Video</span>
+              </div>
+            </td>
+
+            <!-- Status -->
+            <td class="py-3 px-4">
+              <button
+                onclick="toggleNovelStatus('${novel.id}')"
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold font-mono transition-colors ${isPublished ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-white/10 text-nova-muted border border-white/10'}"
+              >
+                <span class="w-1.5 h-1.5 rounded-full ${isPublished ? 'bg-emerald-400' : 'bg-nova-muted'}"></span>
+                <span>${novel.status || 'PUBLISHED'}</span>
+              </button>
+            </td>
+
+            <!-- Actions -->
+            <td class="py-3 px-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <a
+                  href="../dashboard/episodes.html?category=${novel.categorySlug}&novel=${novel.id}"
+                  target="_blank"
+                  class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors"
+                  title="Preview in App"
+                >
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+                <button
+                  onclick="deleteNovel('${novel.id}')"
+                  class="p-1.5 rounded-lg bg-nova-crimson/10 hover:bg-nova-crimson text-nova-crimson hover:text-white transition-colors"
+                  title="Delete Novel"
+                >
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function handleFilterChange() {
+      renderNovelsTable();
+    }
+
+    function toggleNovelStatus(novelId) {
+      const novels = getStoredNovels();
+      const n = novels.find(item => item.id === novelId);
+      if (n) {
+        n.status = n.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+        saveStoredNovels(novels);
+        renderNovelsTable();
+        showAdminToast(`Status for "${n.title}" set to ${n.status}`);
+      }
+    }
+
+    function deleteNovel(novelId) {
+      if (!confirm("Are you sure you want to permanently remove this novel from the platform?")) return;
+      let novels = getStoredNovels();
+      novels = novels.filter(item => item.id !== novelId);
+      saveStoredNovels(novels);
+      renderNovelsTable();
+      showAdminToast("Novel deleted from storage.");
+    }
+
+    function importMasterCatalog() {
+      if (typeof window.NOVA_DATA !== "undefined" && window.NOVA_DATA.novels) {
+        const catalog = window.NOVA_DATA.novels.map(n => ({
+          id: n.id,
+          title: n.title,
+          author: n.author,
+          categorySlug: n.categorySlug,
+          categoryName: n.categoryName,
+          cover: n.cover,
+          synopsis: n.synopsis,
+          totalEpisodes: n.totalEpisodes || 1,
+          formats: n.formats || ["Text", "Audio", "Video"],
+          status: "PUBLISHED"
+        }));
+        saveStoredNovels(catalog);
+        renderNovelsTable();
+        showAdminToast(`Imported ${catalog.length} master novels into storage!`);
+      } else {
+        showAdminToast("Master catalog source not reachable.", "error");
+      }
+    }
+  </script>
+</body>
+</html>

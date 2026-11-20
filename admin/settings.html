@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Platform Settings — NovaStudios Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Palette -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',
+              surface: '#18181B',
+              obsidian: '#0A0A0C',
+              crimson: '#E5194B',
+              berry: '#D11D53',
+              gold: '#F5A623',
+              glow: '#F8D568',
+              muted: '#8E8E93'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+  <style>
+    .admin-input {
+      background-color: #0A0A0C;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      transition: all 0.15s ease-in-out;
+    }
+    .admin-input:focus {
+      outline: none;
+      border-color: #E5194B;
+      box-shadow: 0 0 0 1px #E5194B;
+    }
+  </style>
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-20 lg:pb-10 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight font-display text-white">
+            Nova<span class="text-nova-crimson">Admin</span>
+          </span>
+          <div class="text-[10px] text-nova-muted font-mono tracking-wider uppercase">System Config</div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Modules</div>
+      
+      <a href="index.html" id="nav-overview" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <span>Overview & Analytics</span>
+      </a>
+
+      <a href="upload.html" id="nav-upload" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="cloud-upload" class="w-5 h-5 text-nova-gold"></i>
+        <span>Upload Content</span>
+      </a>
+
+      <a href="novels.html" id="nav-novels" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="book-open" class="w-5 h-5"></i>
+        <span>Manage Novels</span>
+      </a>
+
+      <a href="users.html" id="nav-users" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="users" class="w-5 h-5 text-emerald-400"></i>
+        <span>Registered Users</span>
+      </a>
+
+      <a href="adsense.html" id="nav-adsense" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="dollar-sign" class="w-5 h-5 text-nova-glow"></i>
+        <span>Google AdSense</span>
+      </a>
+
+      <a href="settings.html" id="nav-settings" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl bg-nova-crimson/10 text-white font-semibold border-l-4 border-nova-crimson">
+        <i data-lucide="sliders" class="w-5 h-5 text-nova-crimson"></i>
+        <span>Platform Settings</span>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-white/5 bg-nova-obsidian/40">
+      <a
+        href="../dashboard/index.html"
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs border border-white/10 transition-colors"
+      >
+        <i data-lucide="external-link" class="w-4 h-4 text-nova-crimson"></i>
+        <span>Back to User App</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN PAGE WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- Top App Header -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-8 py-3.5">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3">
+          <button
+            id="mobileMenuBtn"
+            class="lg:hidden p-2 rounded-xl bg-nova-surface border border-white/10 text-white hover:text-nova-crimson transition-colors"
+            aria-label="Toggle Navigation Drawer"
+          >
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div>
+            <h1 class="text-base sm:text-xl font-bold font-display text-white">
+              Platform & Storage Configuration
+            </h1>
+            <p class="text-[11px] text-nova-muted">System parameters, storage driver diagnostics, and JSON data exports</p>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Mobile Slide-over Drawer -->
+    <div id="mobileDrawer" class="fixed inset-0 z-50 bg-nova-obsidian/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 lg:hidden">
+      <div class="fixed left-0 top-0 bottom-0 w-72 bg-nova-surface p-6 flex flex-col justify-between shadow-2xl border-r border-white/10">
+        <div>
+          <div class="flex items-center justify-between pb-6 border-b border-white/10">
+            <span class="font-bold font-display text-lg text-white">NovaAdmin</span>
+          </div>
+          <nav class="py-6 space-y-2">
+            <a href="index.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>Overview & Analytics</span>
+            </a>
+            <a href="upload.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="cloud-upload" class="w-4 h-4"></i>
+              <span>Upload Content</span>
+            </a>
+            <a href="novels.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              <span>Manage Novels</span>
+            </a>
+            <a href="users.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="users" class="w-4 h-4"></i>
+              <span>Registered Users</span>
+            </a>
+            <a href="adsense.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+              <span>Google AdSense</span>
+            </a>
+            <a href="settings.html" class="flex items-center gap-3 p-3 rounded-xl bg-nova-crimson/10 text-white font-medium text-sm">
+              <i data-lucide="sliders" class="w-4 h-4 text-nova-crimson"></i>
+              <span>Platform Settings</span>
+            </a>
+          </nav>
+        </div>
+        <div>
+          <a href="../dashboard/index.html" class="flex items-center justify-center gap-2 p-3 rounded-xl bg-nova-crimson text-white font-bold text-xs">
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            <span>Back to User App</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-8 py-6 space-y-6">
+
+      <!-- Platform Settings Form -->
+      <div class="p-5 sm:p-7 rounded-2xl bg-nova-surface border border-white/5 shadow-xl space-y-6">
+        <div class="border-b border-white/5 pb-4">
+          <h3 class="text-base sm:text-lg font-bold font-display text-white flex items-center gap-2">
+            <i data-lucide="sliders" class="w-5 h-5 text-nova-crimson"></i>
+            <span>Platform Variables</span>
+          </h3>
+          <p class="text-xs text-nova-muted">Core operational configurations across user and admin workflows</p>
+        </div>
+
+        <form onsubmit="handleSettingsSave(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">Platform Brand Name</label>
+              <input id="setBrandName" type="text" class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs font-semibold" value="NovaStudios" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">Support & Admin Email</label>
+              <input id="setSupportEmail" type="email" class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs" value="support@novastudios.com" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">CDN & Media Storage Endpoint</label>
+              <input id="setCdnEndpoint" type="url" class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs font-mono" value="https://cdn.novastudios.com" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <label class="flex items-center gap-3 p-3.5 rounded-xl bg-nova-obsidian/70 border border-white/5 cursor-pointer">
+              <input id="setAllowRegistration" type="checkbox" checked class="w-4 h-4 accent-nova-crimson rounded" />
+              <div>
+                <span class="text-xs font-semibold text-white block">Allow User Self-Registration</span>
+                <span class="text-[10px] text-nova-muted">Enables public sign-up on /auth/register.html</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-xl bg-nova-obsidian/70 border border-white/5 cursor-pointer">
+              <input id="setMaintenance" type="checkbox" class="w-4 h-4 accent-nova-crimson rounded" onchange="handleMaintenanceToggle(this.checked)" />
+              <div>
+                <span class="text-xs font-semibold text-white block">Maintenance Mode</span>
+                <span class="text-[10px] text-nova-muted">Locks public dashboard for upgrades</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="pt-3 flex justify-end">
+            <button
+              type="submit"
+              class="px-6 py-2.5 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white text-xs font-bold transition-all shadow-md shadow-nova-crimson/25"
+            >
+              Save Platform Settings
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Storage Telemetry & Backup Operations -->
+      <div class="p-5 sm:p-7 rounded-2xl bg-nova-surface border border-white/5 shadow-xl space-y-5">
+        <div class="border-b border-white/5 pb-4">
+          <h3 class="text-base sm:text-lg font-bold font-display text-white flex items-center gap-2">
+            <i data-lucide="database" class="w-5 h-5 text-nova-gold"></i>
+            <span>Storage Driver & Snapshot Backups</span>
+          </h3>
+          <p class="text-xs text-nova-muted">Backup or migrate all platform keys (Users, Novels, Analytics, AdSense, Settings)</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-nova-obsidian/60 border border-white/5 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-nova-muted font-medium">Browser Storage Footprint</span>
+            <span class="text-white font-mono font-bold" id="storageUsageIndicator">0 KB / 5 MB</span>
+          </div>
+          <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+            <div id="storageBar" class="bg-nova-gold h-full w-0 transition-all"></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Export Backup -->
+          <div class="p-4 rounded-xl bg-nova-obsidian/60 border border-white/5 space-y-3">
+            <div>
+              <span class="text-xs font-bold text-white block">Export Complete Snapshot</span>
+              <span class="text-[10px] text-nova-muted">Downloads all local tables and logs into a single JSON file</span>
+            </div>
+            <button
+              onclick="exportFullBackup()"
+              class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-nova-gold hover:text-white text-xs font-semibold border border-white/10 transition-colors flex items-center justify-center gap-2"
+            >
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span>Export novastudios_backup.json</span>
+            </button>
+          </div>
+
+          <!-- Import Backup -->
+          <div class="p-4 rounded-xl bg-nova-obsidian/60 border border-white/5 space-y-3">
+            <div>
+              <span class="text-xs font-bold text-white block">Import System Snapshot</span>
+              <span class="text-[10px] text-nova-muted">Restores platform tables from a previously saved JSON snapshot</span>
+            </div>
+            <label class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-semibold border border-white/10 transition-colors flex items-center justify-center gap-2 cursor-pointer">
+              <i data-lucide="upload" class="w-4 h-4 text-emerald-400"></i>
+              <span>Select JSON Snapshot File</span>
+              <input type="file" accept=".json" class="hidden" onchange="importFullBackup(event)" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-rose-400 block">Purge Platform Storage</span>
+            <span class="text-[10px] text-nova-muted">Permanently wipes all registered users, published novels, analytics, and AdSense keys back to clean zero state.</span>
+          </div>
+          <button
+            onclick="purgeAllPlatformData()"
+            class="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold transition-all flex items-center gap-2"
+          >
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+            <span>Purge All Keys</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 sm:px-8 text-center text-xs text-nova-muted">
+      <p>© 2026 NovaStudios Entertainment Inc. Administrative configuration terminal.</p>
+    </footer>
+
+  </div>
+
+  <!-- Shared Admin Core Module -->
+  <script src="../assets/js/admin-core.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initAdminNavigation("settings");
+      loadSettings();
+      calculateStorageUsage();
+      lucide.createIcons();
+    });
+
+    function loadSettings() {
+      const s = getStoredSettings();
+      document.getElementById("setBrandName").value = s.siteName || "NovaStudios";
+      document.getElementById("setSupportEmail").value = s.supportEmail || "support@novastudios.com";
+      document.getElementById("setCdnEndpoint").value = s.cdnEndpoint || "https://cdn.novastudios.com";
+      document.getElementById("setAllowRegistration").checked = s.allowRegistration !== false;
+      document.getElementById("setMaintenance").checked = !!s.maintenanceMode;
+    }
+
+    function handleSettingsSave(e) {
+      e.preventDefault();
+      const s = {
+        siteName: document.getElementById("setBrandName").value.trim(),
+        supportEmail: document.getElementById("setSupportEmail").value.trim(),
+        cdnEndpoint: document.getElementById("setCdnEndpoint").value.trim(),
+        allowRegistration: document.getElementById("setAllowRegistration").checked,
+        maintenanceMode: document.getElementById("setMaintenance").checked
+      };
+      saveStoredSettings(s);
+      showAdminToast("Platform settings saved to storage!");
+    }
+
+    function handleMaintenanceToggle(checked) {
+      if (checked) {
+        showAdminToast("Warning: Maintenance mode enabled. Public dashboard shows service notice.", "warning");
+      } else {
+        showAdminToast("Maintenance mode disabled. Public dashboard live.");
+      }
+    }
+
+    function calculateStorageUsage() {
+      let totalBytes = 0;
+      for (const key of Object.values(NOVA_STORAGE_KEYS)) {
+        const item = localStorage.getItem(key);
+        if (item) totalBytes += item.length * 2; // approx 2 bytes per char
+      }
+      const kb = (totalBytes / 1024).toFixed(1);
+      const percent = Math.min(100, (totalBytes / (5 * 1024 * 1024)) * 100).toFixed(2);
+
+      document.getElementById("storageUsageIndicator").textContent = `${kb} KB used / 5 MB limit (${percent}%)`;
+      document.getElementById("storageBar").style.width = `${Math.max(1, percent)}%`;
+    }
+
+    function exportFullBackup() {
+      const backup = {};
+      for (const [name, key] of Object.entries(NOVA_STORAGE_KEYS)) {
+        try {
+          const raw = localStorage.getItem(key);
+          backup[name] = raw ? JSON.parse(raw) : null;
+        } catch (e) {
+          backup[name] = null;
+        }
+      }
+
+      const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.setAttribute("href", str);
+      downloadAnchor.setAttribute("download", `novastudios_backup_${new Date().toISOString().split("T")[0]}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      showAdminToast("System snapshot exported successfully!");
+    }
+
+    function importFullBackup(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const data = JSON.parse(evt.target.result);
+          if (data.USERS) localStorage.setItem(NOVA_STORAGE_KEYS.USERS, JSON.stringify(data.USERS));
+          if (data.NOVELS) localStorage.setItem(NOVA_STORAGE_KEYS.NOVELS, JSON.stringify(data.NOVELS));
+          if (data.ANALYTICS) localStorage.setItem(NOVA_STORAGE_KEYS.ANALYTICS, JSON.stringify(data.ANALYTICS));
+          if (data.ADSENSE) localStorage.setItem(NOVA_STORAGE_KEYS.ADSENSE, JSON.stringify(data.ADSENSE));
+          if (data.SETTINGS) localStorage.setItem(NOVA_STORAGE_KEYS.SETTINGS, JSON.stringify(data.SETTINGS));
+
+          showAdminToast("Backup restored into storage! Reloading...");
+          setTimeout(() => window.location.reload(), 1200);
+        } catch (err) {
+          showAdminToast("Invalid backup JSON file.", "error");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function purgeAllPlatformData() {
+      if (!confirm("DANGER: Are you sure you want to completely purge all NovaStudios local storage records? This will delete all users, novels, and reset analytics to 0.")) return;
+      if (!confirm("Please confirm a second time to proceed with full data wipe.")) return;
+
+      for (const key of Object.values(NOVA_STORAGE_KEYS)) {
+        localStorage.removeItem(key);
+      }
+
+      showAdminToast("All platform keys purged. Resetting to 0 baseline...");
+      setTimeout(() => window.location.href = "index.html", 1000);
+    }
+  </script>
+</body>
+</html>

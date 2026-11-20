@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Category Novels — NovaStudios</title>
+
+  <!-- Google Fonts: Outfit (Display) & Inter (UI/Reading) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',        // Main Background
+              surface: '#18181B',   // Elevated Surfaces / List Rows
+              obsidian: '#0A0A0C',  // Deep Shadows / Overlays
+              crimson: '#E5194B',   // Primary Brand Accent
+              berry: '#D11D53',     // Profile Badge & Secondary Accent
+              gold: '#F5A623',      // Warm Amber Gold
+              glow: '#F8D568',      // Golden Glow
+              muted: '#8E8E93',     // Muted Cool Gray
+              steel: '#1E2B3C',
+              taupe: '#B59E88'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-24 lg:pb-8 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30 group-hover:scale-105 transition-transform">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-2xl font-extrabold tracking-tight font-display text-white">
+          Nova<span class="text-nova-crimson">Studios</span>
+        </span>
+      </a>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Navigation</div>
+      
+      <a href="index.html" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span>Home Dashboard</span>
+      </a>
+
+      <a href="category.html?category=romantic" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl bg-nova-crimson/10 text-white font-semibold border-l-4 border-nova-crimson">
+        <i data-lucide="compass" class="w-5 h-5 text-nova-crimson"></i>
+        <span>Explore Genres</span>
+      </a>
+
+      <div class="pt-6 pb-2">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Categories</div>
+      </div>
+
+      <a href="category.html?category=romantic" id="sideLinkRomantic" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Romantic</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+      <a href="category.html?category=dark-fantasy" id="sideLinkDarkFantasy" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Dark Fantasy</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+      <a href="category.html?category=billionaire-ceo" id="sideLinkBillionaire" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Billionaire & CEO</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+      <a href="category.html?category=scifi-thriller" id="sideLinkScifi" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-cyan-500"></span> Sci-Fi & Thriller</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ==================== MAIN PAGE WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- ==================== TOP HEADER (Sticky, #111113) ==================== -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-6 py-3.5">
+      <div class="max-w-4xl mx-auto flex items-center justify-between gap-4">
+        
+        <!-- Left: Back Arrow (<) returning to dashboard/index.html & Title -->
+        <div class="flex items-center gap-3">
+          <a
+            href="index.html"
+            class="w-9 h-9 rounded-full bg-nova-surface hover:bg-white/10 border border-white/5 flex items-center justify-center text-white transition-colors group"
+            aria-label="Back to Home Dashboard"
+          >
+            <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform"></i>
+          </a>
+
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 id="categoryHeaderTitle" class="text-lg sm:text-xl font-bold font-display text-white">
+                Romantic Novels
+              </h1>
+              <span id="categoryCountBadge" class="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-nova-crimson/20 text-nova-crimson border border-nova-crimson/30">
+                0 Titles
+              </span>
+            </div>
+            <p id="categoryHeaderSubtitle" class="text-[11px] text-nova-muted line-clamp-1">
+              Curated master list of full novels and audio adaptations
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Search in Category -->
+        <div class="relative w-36 sm:w-48">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-nova-muted absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input
+            id="categorySearchInput"
+            type="text"
+            placeholder="Filter list..."
+            class="w-full bg-nova-surface border border-white/10 focus:border-nova-crimson rounded-full py-1.5 pl-8 pr-3 text-xs text-white placeholder-nova-muted outline-none transition-all"
+            oninput="handleCategoryFilter(this.value)"
+          />
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-5 space-y-6">
+
+      <!-- ==================== CATEGORY SWITCHER TABS ==================== -->
+      <section class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 text-xs select-none">
+        <a
+          id="tab-romantic"
+          href="category.html?category=romantic"
+          class="flex-shrink-0 px-4 py-2 rounded-xl bg-nova-surface border border-white/5 text-nova-muted hover:text-white transition-all font-semibold"
+        >
+          ❤️ Romantic
+        </a>
+        <a
+          id="tab-dark-fantasy"
+          href="category.html?category=dark-fantasy"
+          class="flex-shrink-0 px-4 py-2 rounded-xl bg-nova-surface border border-white/5 text-nova-muted hover:text-white transition-all font-semibold"
+        >
+          🔥 Dark Fantasy
+        </a>
+        <a
+          id="tab-billionaire-ceo"
+          href="category.html?category=billionaire-ceo"
+          class="flex-shrink-0 px-4 py-2 rounded-xl bg-nova-surface border border-white/5 text-nova-muted hover:text-white transition-all font-semibold"
+        >
+          💎 Billionaire & CEO
+        </a>
+        <a
+          id="tab-scifi-thriller"
+          href="category.html?category=scifi-thriller"
+          class="flex-shrink-0 px-4 py-2 rounded-xl bg-nova-surface border border-white/5 text-nova-muted hover:text-white transition-all font-semibold"
+        >
+          ⚡ Sci-Fi & Thriller
+        </a>
+      </section>
+
+      <!-- ==================== CATEGORY HERO INTRO BANNER ==================== -->
+      <section id="categoryBannerBox" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-nova-surface via-nova-surface to-nova-obsidian border border-white/5 flex items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span id="bannerTag" class="text-[10px] font-bold uppercase tracking-wider font-display px-2 py-0.5 rounded bg-white/10 text-nova-gold">
+              Trending Catalog
+            </span>
+            <span id="bannerListens" class="text-xs text-nova-muted">18.4M Listens</span>
+          </div>
+          <h2 id="bannerHeading" class="text-base sm:text-lg font-bold font-display text-white">
+            Romantic Novels
+          </h2>
+          <p id="bannerDescription" class="text-xs text-nova-muted max-w-xl">
+            Dangerous secrets, forbidden vows, and heart-racing electric tension.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           VERTICAL LIST ROWS (Structured study-index / lesson-note style)
+           Full-width #18181B list items separated by 1px solid rgba(255,255,255,0.06)
+           ================================================================= -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between px-2 text-[11px] font-bold uppercase tracking-wider text-nova-muted font-display">
+          <span>Catalog Index</span>
+          <span>Click Row to Open Episodes</span>
+        </div>
+
+        <div id="novelListContainer" class="rounded-2xl bg-nova-surface border border-white/5 overflow-hidden shadow-xl divide-y divide-white/[0.06]">
+          <!-- Rendered dynamically via JavaScript -->
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 text-center text-xs text-nova-muted">
+      <p>© 2026 NovaStudios Entertainment. Mobile Reading & Audio Network.</p>
+    </footer>
+
+  </div>
+
+  <!-- ==================== PERSISTENT BOTTOM NAVIGATION BAR (Mobile Fixed #18181B) ==================== -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-nova-surface/95 backdrop-blur-xl border-t border-white/5 z-50 px-3 flex items-center justify-around select-none">
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="home" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Home</span>
+    </a>
+
+    <!-- Explore (Active here in #FFFFFF) -->
+    <a href="category.html?category=romantic" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-white group">
+      <div class="relative">
+        <i data-lucide="compass" class="w-5 h-5 text-nova-crimson"></i>
+        <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-nova-crimson"></span>
+      </div>
+      <span class="text-[10px] font-bold font-display">Explore</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="flame" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Discover</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="bookmark" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Library</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <div class="w-5 h-5 rounded-full bg-nova-berry flex items-center justify-center text-[10px] font-bold text-white">
+        N
+      </div>
+      <span class="text-[10px] font-medium font-display">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Shared Story Data Store -->
+  <script src="../assets/js/stories-data.js"></script>
+
+  <!-- Category List Logic -->
+  <script>
+    let currentCategorySlug = "romantic";
+    let allNovelsInCategory = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const { category, novelId } = getStoryUrlParams();
+      currentCategorySlug = category || "romantic";
+
+      loadCategoryView(currentCategorySlug, novelId);
+      lucide.createIcons();
+    });
+
+    function loadCategoryView(slug, highlightedNovelId) {
+      const category = getCategory(slug);
+      allNovelsInCategory = getNovelsByCategory(slug);
+
+      // Update Header Text & Count Badge
+      document.getElementById("categoryHeaderTitle").textContent = `${category.name} Novels`;
+      document.getElementById("categoryCountBadge").textContent = `${allNovelsInCategory.length} Titles`;
+      document.getElementById("categoryHeaderSubtitle").textContent = category.tagline;
+
+      // Update Banner Box
+      document.getElementById("bannerHeading").textContent = category.name;
+      document.getElementById("bannerDescription").textContent = category.description;
+      document.getElementById("bannerTag").textContent = category.badge;
+      document.getElementById("bannerListens").textContent = `${category.totalListens} Plays`;
+
+      // Highlight Active Tab Pill
+      const tabs = ["romantic", "dark-fantasy", "billionaire-ceo", "scifi-thriller"];
+      tabs.forEach(t => {
+        const tabEl = document.getElementById(`tab-${t}`);
+        if (tabEl) {
+          if (t === category.slug) {
+            tabEl.className = "flex-shrink-0 px-4 py-2 rounded-xl bg-nova-crimson text-white font-bold shadow-md shadow-nova-crimson/30 transition-all";
+          } else {
+            tabEl.className = "flex-shrink-0 px-4 py-2 rounded-xl bg-nova-surface border border-white/5 text-nova-muted hover:text-white transition-all font-semibold";
+          }
+        }
+      });
+
+      renderNovelsList(allNovelsInCategory, highlightedNovelId);
+    }
+
+    /** Render the structured lesson-note / study-index vertical list */
+    function renderNovelsList(novels, highlightedNovelId) {
+      const container = document.getElementById("novelListContainer");
+      if (!container) return;
+
+      if (novels.length === 0) {
+        container.innerHTML = `
+          <div class="py-16 text-center text-nova-muted text-xs">
+            <i data-lucide="book-x" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
+            No novels found matching your filter in this category.
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = novels.map((novel, index) => {
+        const idxNumber = (index + 1) < 10 ? `0${index + 1}` : `${index + 1}`;
+        const isHighlighted = highlightedNovelId && novel.id.toLowerCase() === highlightedNovelId.toLowerCase();
+
+        return `
+          <a
+            href="episodes.html?category=${novel.categorySlug}&novel=${novel.id}"
+            id="novel-row-${novel.id}"
+            class="list-row-hover flex items-center justify-between p-3.5 sm:p-4 hover:bg-white/[0.04] transition-all cursor-pointer group ${isHighlighted ? 'bg-nova-crimson/10 active-row' : ''}"
+          >
+            <!-- Left Info: Index badge + Cover + Details -->
+            <div class="flex items-center gap-3 sm:gap-4 min-w-0 pr-3">
+              
+              <!-- Numbered index badge (01, 02, 03...) -->
+              <span class="w-8 sm:w-10 text-center font-display font-black text-sm sm:text-base text-nova-muted group-hover:text-nova-crimson transition-colors flex-shrink-0 font-mono">
+                ${idxNumber}
+              </span>
+
+              <!-- Compact square cover icon with rounded corners -->
+              <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden bg-nova-obsidian border border-white/10 flex-shrink-0 shadow">
+                <img
+                  src="${novel.cover}"
+                  alt="${novel.title}"
+                  loading="lazy"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80'"
+                />
+              </div>
+
+              <!-- Novel Title & Subtitle Metadata -->
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <h3 class="text-sm sm:text-base font-bold font-display text-white group-hover:text-nova-crimson transition-colors truncate">
+                    ${novel.title}
+                  </h3>
+                  <span class="hidden sm:inline-block text-[9px] font-bold px-1.5 py-0.5 rounded ${novel.badgeColor || 'bg-white/10 text-white'} uppercase">
+                    ${novel.badge}
+                  </span>
+                </div>
+
+                <!-- Subtitle Metadata: Author, Total Episodes, Format Tags -->
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] text-nova-muted mt-0.5">
+                  <span class="text-white/80 font-medium truncate">${novel.author}</span>
+                  <span class="text-white/30">•</span>
+                  <span class="text-nova-gold font-semibold">${novel.totalEpisodes} Episodes</span>
+                  <span class="text-white/30">•</span>
+                  <span class="text-white/70">${novel.formats.join(' • ')}</span>
+                </div>
+
+                <!-- Tags / Rating line -->
+                <div class="flex items-center gap-2 text-[10px] text-nova-muted mt-1">
+                  <span class="text-nova-gold flex items-center gap-0.5 font-bold">
+                    <i data-lucide="star" class="w-3 h-3 fill-nova-gold"></i> ${novel.rating}
+                  </span>
+                  <span>(${novel.totalPlays} plays)</span>
+                  <span class="hidden md:inline text-white/40">•</span>
+                  <span class="hidden md:inline text-white/50">${novel.tags.slice(0, 2).join(', ')}</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right-aligned Crimson Chevron (>) -->
+            <div class="flex items-center gap-2 flex-shrink-0 pl-2">
+              <span class="hidden sm:inline-block text-[11px] font-semibold text-nova-muted group-hover:text-nova-crimson transition-colors">
+                View Episodes
+              </span>
+              <div class="w-8 h-8 rounded-full bg-white/5 group-hover:bg-nova-crimson flex items-center justify-center transition-colors">
+                <i data-lucide="chevron-right" class="w-4 h-4 text-nova-crimson group-hover:text-white transition-colors"></i>
+              </div>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+
+      // If highlighted, smoothly scroll to it
+      if (highlightedNovelId) {
+        setTimeout(() => {
+          const el = document.getElementById(`novel-row-${highlightedNovelId}`);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 150);
+      }
+    }
+
+    /** Live in-category search filter */
+    function handleCategoryFilter(query) {
+      if (!query || query.trim() === "") {
+        renderNovelsList(allNovelsInCategory, null);
+        return;
+      }
+      const q = query.toLowerCase().trim();
+      const filtered = allNovelsInCategory.filter(n =>
+        n.title.toLowerCase().includes(q) ||
+        n.author.toLowerCase().includes(q) ||
+        n.tags.some(t => t.toLowerCase().includes(q))
+      );
+      renderNovelsList(filtered, null);
+    }
+  </script>
+</body>
+</html>

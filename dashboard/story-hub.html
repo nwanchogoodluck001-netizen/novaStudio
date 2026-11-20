@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Episode Studio Hub — NovaStudios</title>
+
+  <!-- Google Fonts: Outfit (Display), Inter (UI), and Merriweather (Reader Serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',        // Main Background
+              surface: '#18181B',   // Elevated Surfaces / Cards / Nav
+              obsidian: '#0A0A0C',  // Deep Shadows / Overlays
+              crimson: '#E5194B',   // Primary Brand Accent
+              berry: '#D11D53',     // Profile Badge & Secondary Accent
+              gold: '#F5A623',      // Warm Amber Gold
+              glow: '#F8D568',      // Golden Glow
+              muted: '#8E8E93',     // Muted Cool Gray
+              steel: '#1E2B3C',
+              taupe: '#B59E88'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Merriweather', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-24 lg:pb-8 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30 group-hover:scale-105 transition-transform">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-2xl font-extrabold tracking-tight font-display text-white">
+          Nova<span class="text-nova-crimson">Studios</span>
+        </span>
+      </a>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Navigation</div>
+      
+      <a href="index.html" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span>Home Dashboard</span>
+      </a>
+
+      <a id="sideEpisodesLink" href="#" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="list" class="w-5 h-5"></i>
+        <span>Episode Directory</span>
+      </a>
+
+      <div class="pt-6 pb-2">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Format Switcher</div>
+      </div>
+
+      <button onclick="switchFormatMode('audio')" id="sideTabAudio" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-gold bg-nova-gold/10 border border-nova-gold/20 transition-all text-left">
+        <i data-lucide="headphones" class="w-4 h-4"></i>
+        <span>Spatial Audio Player</span>
+      </button>
+
+      <button onclick="switchFormatMode('video')" id="sideTabVideo" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-muted hover:text-white hover:bg-white/5 transition-all text-left">
+        <i data-lucide="film" class="w-4 h-4"></i>
+        <span>1080p Video Mode</span>
+      </button>
+
+      <button onclick="switchFormatMode('read')" id="sideTabRead" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-muted hover:text-white hover:bg-white/5 transition-all text-left">
+        <i data-lucide="book-open" class="w-4 h-4"></i>
+        <span>Dark Chapter Reader</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- ==================== MAIN PAGE WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- ==================== TOP HEADER (Sticky, #111113) ==================== -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-6 py-3.5">
+      <div class="max-w-4xl mx-auto flex items-center justify-between gap-4">
+        
+        <!-- Left: Back Arrow returning to episodes.html + Title -->
+        <div class="flex items-center gap-3 min-w-0">
+          <a
+            id="backToEpisodesBtn"
+            href="episodes.html"
+            class="w-9 h-9 rounded-full bg-nova-surface hover:bg-white/10 border border-white/5 flex items-center justify-center text-white transition-colors group flex-shrink-0"
+            aria-label="Back to Episodes List"
+          >
+            <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform"></i>
+          </a>
+
+          <div class="min-w-0">
+            <span id="headerEpBadge" class="text-[10px] font-mono text-nova-gold uppercase tracking-wider font-bold">
+              Episode 1
+            </span>
+            <h1 id="headerEpTitle" class="text-sm sm:text-base font-bold font-display text-white truncate leading-tight">
+              The Midnight Contract
+            </h1>
+          </div>
+        </div>
+
+        <!-- Right: Prev / Next Navigation -->
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <a
+            id="prevEpHeaderBtn"
+            href="#"
+            class="p-2 rounded-full bg-nova-surface hover:bg-white/10 border border-white/5 text-nova-muted hover:text-white transition-colors"
+            title="Previous Episode"
+          >
+            <i data-lucide="skip-back" class="w-4 h-4"></i>
+          </a>
+
+          <span id="headerEpCounter" class="text-xs font-mono font-bold text-nova-muted px-1.5">
+            1 / 36
+          </span>
+
+          <a
+            id="nextEpHeaderBtn"
+            href="#"
+            class="p-2 rounded-full bg-nova-surface hover:bg-white/10 border border-white/5 text-nova-muted hover:text-white transition-colors"
+            title="Next Episode"
+          >
+            <i data-lucide="skip-forward" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-4 space-y-6">
+
+      <!-- ==================== HERO EPISODE BANNER ==================== -->
+      <section class="rounded-2xl p-4 sm:p-5 bg-nova-surface border border-white/10 shadow-xl flex items-center gap-4 relative overflow-hidden">
+        <!-- Cover Art -->
+        <div class="w-16 h-22 sm:w-20 sm:h-28 rounded-xl overflow-hidden bg-nova-obsidian border border-white/10 flex-shrink-0 shadow">
+          <img
+            id="hubNovelCover"
+            src=""
+            alt="Cover"
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <div class="flex-1 min-w-0 space-y-1">
+          <div class="flex items-center gap-2">
+            <span id="hubCategoryPill" class="text-[10px] font-mono font-bold text-nova-crimson uppercase">
+              Romantic
+            </span>
+            <span class="text-white/20">•</span>
+            <span id="hubNovelName" class="text-xs text-white/80 font-medium truncate">
+              Cold Blue Eyes
+            </span>
+          </div>
+
+          <h2 id="hubEpisodeHeading" class="text-base sm:text-xl font-extrabold font-display text-white truncate">
+            Episode 1: The Midnight Contract
+          </h2>
+
+          <div class="flex flex-wrap items-center gap-2 text-[11px] text-nova-muted pt-0.5">
+            <span class="text-nova-gold font-semibold flex items-center gap-1">
+              <i data-lucide="headphones" class="w-3 h-3"></i> <span id="hubAudioDuration">11:20</span>
+            </span>
+            <span>•</span>
+            <span class="text-white/70 flex items-center gap-1">
+              <i data-lucide="book-open" class="w-3 h-3"></i> <span id="hubReadDuration">6 min read</span>
+            </span>
+            <span class="hidden sm:inline">•</span>
+            <span class="hidden sm:inline text-nova-crimson font-medium">Dolby 3D Voice Drama</span>
+          </div>
+        </div>
+
+        <div class="hidden md:flex flex-col items-end gap-1.5 flex-shrink-0">
+          <span class="text-[10px] bg-green-500/20 text-green-400 font-bold px-2 py-0.5 rounded border border-green-500/30">
+            FULL ACCESS
+          </span>
+          <span class="text-[11px] text-nova-muted" id="hubAuthorName">Elena Vance</span>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           PRIMARY 3-ACTION SELECTOR CARDS / BUTTONS
+           1. Get Audio (#F5A623 Warm Gold accent)
+           2. Video (#E5194B Crimson Rose accent)
+           3. Read (#FFFFFF / #D11D53 accent)
+           ================================================================= -->
+      <section class="grid grid-cols-3 gap-2.5 sm:gap-4 select-none">
+        
+        <!-- CARD 1: GET AUDIO (#F5A623) -->
+        <button
+          id="btnSelectAudio"
+          onclick="switchFormatMode('audio')"
+          class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-nova-surface border-2 border-nova-gold text-nova-gold shadow-lg shadow-nova-gold/10 transition-all hover:scale-[1.02] active:scale-95 group text-center"
+        >
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-nova-gold/20 flex items-center justify-center mb-2 text-nova-gold group-hover:scale-110 transition-transform">
+            <i data-lucide="headphones" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+          </div>
+          <span class="text-xs sm:text-sm font-bold font-display uppercase tracking-wide">Get Audio</span>
+          <span class="text-[10px] text-nova-gold/70 mt-0.5 font-mono">Spatial 3D</span>
+        </button>
+
+        <!-- CARD 2: VIDEO (#E5194B) -->
+        <button
+          id="btnSelectVideo"
+          onclick="switchFormatMode('video')"
+          class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-nova-surface border border-white/10 text-nova-muted hover:text-white hover:border-nova-crimson/50 transition-all hover:scale-[1.02] active:scale-95 group text-center"
+        >
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/5 group-hover:bg-nova-crimson/20 flex items-center justify-center mb-2 text-nova-muted group-hover:text-nova-crimson group-hover:scale-110 transition-all">
+            <i data-lucide="video" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+          </div>
+          <span class="text-xs sm:text-sm font-bold font-display uppercase tracking-wide">Video</span>
+          <span class="text-[10px] text-nova-muted mt-0.5 font-mono">1080p HD</span>
+        </button>
+
+        <!-- CARD 3: READ (#FFFFFF / #D11D53) -->
+        <button
+          id="btnSelectRead"
+          onclick="switchFormatMode('read')"
+          class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-nova-surface border border-white/10 text-nova-muted hover:text-white hover:border-nova-berry/50 transition-all hover:scale-[1.02] active:scale-95 group text-center"
+        >
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/5 group-hover:bg-nova-berry/20 flex items-center justify-center mb-2 text-nova-muted group-hover:text-nova-berry group-hover:scale-110 transition-all">
+            <i data-lucide="book-open" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+          </div>
+          <span class="text-xs sm:text-sm font-bold font-display uppercase tracking-wide">Read</span>
+          <span class="text-[10px] text-nova-muted mt-0.5 font-mono">Full Text</span>
+        </button>
+
+      </section>
+
+      <!-- =================================================================
+           FORMAT CONTAINER 1: SPATIAL AUDIO PLAYER
+           Embedded spatial audio player with play/pause button, animated CSS
+           waveform bars, scrubber timer, playback speed, and Download MP3.
+           ================================================================= -->
+      <section id="audioFormatContainer" class="rounded-2xl bg-nova-surface border border-nova-gold/30 p-5 sm:p-7 shadow-2xl space-y-6">
+        
+        <!-- Player Header & Spatial Audio Indicator -->
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+          <div class="flex items-center gap-2">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-nova-gold opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-nova-gold"></span>
+            </span>
+            <span class="text-xs font-bold font-display text-white">Spatial Voice Theater</span>
+            <span class="text-[10px] bg-nova-gold/20 text-nova-gold font-mono px-2 py-0.5 rounded font-bold">DOLBY ATMOS</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- Download MP3 Button -->
+            <button
+              onclick="handleDownloadAction('Audio Episode MP3 (320kbps)')"
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-nova-gold/10 hover:bg-nova-gold/20 text-nova-gold border border-nova-gold/30 text-xs font-semibold transition-colors"
+            >
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Download MP3</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Animated Waveform Equalizer Display -->
+        <div class="h-28 sm:h-36 rounded-2xl bg-nova-obsidian border border-white/5 p-4 flex flex-col justify-end relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-nova-gold/10 via-transparent to-transparent pointer-events-none"></div>
+          
+          <!-- Animated CSS Waveform Bars -->
+          <div id="audioWaveformContainer" class="flex items-end justify-center gap-1.5 sm:gap-2 h-20 wave-paused">
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-6"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-12"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-18"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-14"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-20"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-16"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-10"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-19"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-14"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-8"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-16"></div>
+            <div class="wave-bar w-1.5 sm:w-2 bg-gradient-to-t from-nova-gold to-nova-glow rounded-full h-12"></div>
+          </div>
+
+          <!-- Live subtitle / voice narration hint -->
+          <div class="text-center text-[11px] text-nova-muted pt-2 font-mono truncate" id="audioNarrationStatus">
+            Narrator: Dual POV Voice Cast • Tap Play to begin spatial theater
+          </div>
+        </div>
+
+        <!-- Scrubber Bar & Timers -->
+        <div class="space-y-1.5">
+          <input
+            id="audioScrubber"
+            type="range"
+            min="0"
+            max="680"
+            value="0"
+            class="w-full h-2 bg-nova-obsidian rounded-lg audio-range cursor-pointer"
+            oninput="handleScrubberSeek(this.value)"
+          />
+          <div class="flex items-center justify-between text-xs font-mono text-nova-muted">
+            <span id="audioCurrentTime">00:00</span>
+            <span id="audioTotalDuration">11:20</span>
+          </div>
+        </div>
+
+        <!-- Playback Controls (Play/Pause, Skip 15s, Speed) -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+          
+          <!-- Playback Speed Buttons (1x, 1.25x, 1.5x, 2x) -->
+          <div class="flex items-center gap-1 bg-nova-obsidian p-1 rounded-xl border border-white/5">
+            <button onclick="setPlaybackSpeed(1, this)" class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-nova-gold text-nova-obsidian">1x</button>
+            <button onclick="setPlaybackSpeed(1.25, this)" class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-nova-muted hover:text-white">1.25x</button>
+            <button onclick="setPlaybackSpeed(1.5, this)" class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-nova-muted hover:text-white">1.5x</button>
+            <button onclick="setPlaybackSpeed(2, this)" class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-nova-muted hover:text-white">2x</button>
+          </div>
+
+          <!-- Main Player Action Buttons -->
+          <div class="flex items-center gap-4">
+            <!-- Skip 15s Back -->
+            <button onclick="skipAudioTime(-15)" class="p-2.5 rounded-full bg-nova-obsidian hover:bg-white/10 text-white transition-colors" title="Rewind 15 seconds">
+              <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Main Play / Pause Button -->
+            <button
+              id="audioPlayPauseBtn"
+              onclick="toggleAudioPlayback()"
+              class="w-14 h-14 rounded-full bg-gradient-to-tr from-nova-gold to-nova-glow text-nova-obsidian flex items-center justify-center shadow-xl shadow-nova-gold/30 hover:scale-105 active:scale-95 transition-all"
+            >
+              <i data-lucide="play" id="audioPlayIcon" class="w-6 h-6 fill-nova-obsidian ml-0.5"></i>
+              <i data-lucide="pause" id="audioPauseIcon" class="w-6 h-6 fill-nova-obsidian hidden"></i>
+            </button>
+
+            <!-- Skip 15s Forward -->
+            <button onclick="skipAudioTime(15)" class="p-2.5 rounded-full bg-nova-obsidian hover:bg-white/10 text-white transition-colors" title="Forward 15 seconds">
+              <i data-lucide="rotate-cw" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <!-- Volume & Sound Mode -->
+          <div class="hidden sm:flex items-center gap-2">
+            <i data-lucide="volume-2" class="w-4 h-4 text-nova-gold"></i>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value="0.8"
+              class="w-20 h-1.5 bg-nova-obsidian audio-range cursor-pointer"
+              oninput="setAudioVolume(this.value)"
+            />
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- =================================================================
+           FORMAT CONTAINER 2: VIDEO ADAPTATION PLAYER
+           Responsive 16:9 HD video player with play/pause controls, quality
+           badge (1080p), and Download MP4 option.
+           ================================================================= -->
+      <section id="videoFormatContainer" class="hidden rounded-2xl bg-nova-surface border border-nova-crimson/30 p-5 sm:p-7 shadow-2xl space-y-5">
+        
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-nova-crimson animate-pulse"></span>
+            <span class="text-xs font-bold font-display text-white">Cinematic Drama Video Adaptation</span>
+            <span class="text-[10px] bg-nova-crimson/20 text-nova-crimson font-mono px-2 py-0.5 rounded font-bold">1080p 60FPS</span>
+          </div>
+
+          <!-- Download MP4 Option -->
+          <button
+            onclick="handleDownloadAction('HD Video Adaptation MP4 (1080p)')"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-nova-crimson/10 hover:bg-nova-crimson/20 text-nova-crimson border border-nova-crimson/30 text-xs font-semibold transition-colors"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Download MP4</span>
+          </button>
+        </div>
+
+        <!-- Responsive 16:9 HD Video Container -->
+        <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-nova-obsidian border border-white/10 shadow-2xl flex items-center justify-center group">
+          
+          <!-- Background Scene Simulation Poster -->
+          <div
+            id="videoPosterImg"
+            class="absolute inset-0 bg-cover bg-center transition-all duration-700"
+            style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1200&q=80');"
+          ></div>
+          <div class="absolute inset-0 bg-nova-obsidian/60 backdrop-blur-[2px]"></div>
+
+          <!-- Dynamic Video Canvas / Animation -->
+          <canvas id="videoCinemaCanvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-60"></canvas>
+
+          <!-- Center Play / Pause Big Button Overlay -->
+          <button
+            id="videoCenterPlayBtn"
+            onclick="toggleVideoPlayback()"
+            class="relative z-10 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-nova-crimson/90 hover:bg-nova-crimson text-white flex items-center justify-center shadow-2xl shadow-nova-crimson/50 hover:scale-110 active:scale-95 transition-all"
+          >
+            <i data-lucide="play" id="videoCenterPlayIcon" class="w-8 h-8 fill-white ml-1"></i>
+            <i data-lucide="pause" id="videoCenterPauseIcon" class="w-8 h-8 fill-white hidden"></i>
+          </button>
+
+          <!-- Top Video Overlay Info -->
+          <div class="absolute top-3 left-3 right-3 flex items-center justify-between text-xs z-10">
+            <span class="bg-black/60 backdrop-blur-md px-2.5 py-1 rounded text-white font-mono text-[11px]" id="videoEpisodeTag">
+              EP 01 • SCENE 1
+            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="bg-nova-crimson text-white font-bold text-[10px] px-2 py-0.5 rounded">ORIGINAL</span>
+              <span class="bg-black/60 text-nova-gold font-bold text-[10px] px-2 py-0.5 rounded">DOLBY VISION</span>
+            </div>
+          </div>
+
+          <!-- Bottom Video Custom Controls Bar -->
+          <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-nova-obsidian via-nova-obsidian/90 to-transparent z-10 space-y-2">
+            <!-- Video Scrubber -->
+            <input
+              id="videoScrubber"
+              type="range"
+              min="0"
+              max="255"
+              value="0"
+              class="w-full h-1.5 bg-white/20 rounded cursor-pointer"
+              oninput="handleVideoSeek(this.value)"
+            />
+
+            <div class="flex items-center justify-between text-xs text-white">
+              <div class="flex items-center gap-3">
+                <button onclick="toggleVideoPlayback()" class="text-white hover:text-nova-crimson">
+                  <i data-lucide="play" class="w-4 h-4" id="videoBottomPlayIcon"></i>
+                </button>
+                <span class="font-mono text-[11px] text-white/80" id="videoTimeDisplay">00:00 / 04:15</span>
+              </div>
+
+              <div class="flex items-center gap-2.5 text-xs font-mono">
+                <!-- Quality Badge (1080p, toggleable) -->
+                <button onclick="cycleVideoQuality(this)" class="px-2 py-0.5 rounded bg-white/10 hover:bg-nova-crimson text-white text-[10px] font-bold">
+                  1080p
+                </button>
+                <button onclick="toggleFullscreenVideo()" class="text-white/80 hover:text-white">
+                  <i data-lucide="maximize" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- =================================================================
+           FORMAT CONTAINER 3: DISTRACTION-FREE CHAPTER READER
+           Clean dark-mode reader with font-size adjuster (A- / A+), full
+           readable chapter text, Download PDF/EPUB, and Next Episode ->.
+           ================================================================= -->
+      <section id="readFormatContainer" class="hidden rounded-2xl bg-nova-surface border border-white/10 p-5 sm:p-8 shadow-2xl space-y-6">
+        
+        <!-- Reader Controls Toolbar -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
+          
+          <!-- Font Size Adjusters & Font Family -->
+          <div class="flex items-center gap-2">
+            <div class="flex items-center bg-nova-obsidian p-1 rounded-xl border border-white/5">
+              <button onclick="adjustFontSize(-1)" class="px-2.5 py-1 text-xs font-bold text-nova-muted hover:text-white" title="Decrease font size">
+                A-
+              </button>
+              <span id="fontSizeDisplay" class="text-xs font-mono font-bold text-white px-2">100%</span>
+              <button onclick="adjustFontSize(1)" class="px-2.5 py-1 text-xs font-bold text-nova-muted hover:text-white" title="Increase font size">
+                A+
+              </button>
+            </div>
+
+            <!-- Serif / Sans Toggle -->
+            <button
+              id="fontFamilyToggleBtn"
+              onclick="toggleReaderFontFamily()"
+              class="px-3 py-1.5 rounded-xl bg-nova-obsidian hover:bg-white/10 border border-white/5 text-xs font-semibold text-white/80 hover:text-white transition-colors"
+            >
+              Serif
+            </button>
+          </div>
+
+          <!-- Download PDF / EPUB Button -->
+          <button
+            onclick="handleDownloadAction('Complete Chapter Text (PDF / EPUB)')"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-nova-berry/10 hover:bg-nova-berry/20 text-nova-berry border border-nova-berry/30 text-xs font-semibold transition-colors"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Download PDF/EPUB</span>
+          </button>
+
+        </div>
+
+        <!-- Full Readable Chapter Text Container -->
+        <article id="chapterTextArticle" class="font-reader-serif reader-font-base text-gray-200 space-y-4 max-w-none transition-all">
+          <!-- Rendered dynamically from episode.content -->
+        </article>
+
+        <!-- Chapter End Navigation Footer -->
+        <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <a
+            id="readerPrevEpBtn"
+            href="#"
+            class="w-full sm:w-auto px-5 py-3 rounded-xl bg-nova-obsidian hover:bg-white/10 border border-white/10 text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Previous Episode</span>
+          </a>
+
+          <a
+            id="readerNextEpBtn"
+            href="#"
+            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-nova-crimson/30 transition-all hover:scale-[1.02] active:scale-95"
+          >
+            <span>Next Episode</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+      </section>
+
+      <!-- ==================== QUICK EPISODE REVIEWS / COMMENTS PREVIEW ==================== -->
+      <section class="rounded-2xl p-5 bg-nova-surface border border-white/5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold font-display text-white">Listener & Reader Thoughts</h3>
+          <span class="text-xs text-nova-gold flex items-center gap-1 font-bold">
+            <i data-lucide="message-square" class="w-3.5 h-3.5"></i> 1,420 Comments
+          </span>
+        </div>
+
+        <div class="space-y-2.5 text-xs">
+          <div class="p-3 rounded-xl bg-nova-obsidian/70 border border-white/5 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white">Aria Thorne</span>
+              <span class="text-[10px] text-nova-muted">10 mins ago</span>
+            </div>
+            <p class="text-nova-muted">The dual-voice acting during the piano confrontation gave me absolute chills. Julian's voice is incredible!</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-nova-obsidian/70 border border-white/5 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white">Dante_Reader99</span>
+              <span class="text-[10px] text-nova-muted">1 hour ago</span>
+            </div>
+            <p class="text-nova-muted">Binge-reading this at 2 AM. Downloaded the audio pack for my morning commute!</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 text-center text-xs text-nova-muted">
+      <p>© 2026 NovaStudios Entertainment. Mobile Multimedia Story Hub.</p>
+    </footer>
+
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+  <div id="toastContainer" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 transform translate-y-3">
+    <div class="px-4 py-2.5 rounded-full bg-nova-surface border border-white/20 text-white text-xs font-semibold shadow-2xl flex items-center gap-2">
+      <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
+      <span id="toastMessage">Downloaded successfully!</span>
+    </div>
+  </div>
+
+  <!-- ==================== PERSISTENT BOTTOM NAVIGATION BAR ==================== -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-nova-surface/95 backdrop-blur-xl border-t border-white/5 z-50 px-3 flex items-center justify-around select-none">
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="home" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Home</span>
+    </a>
+
+    <a id="bottomExploreLink" href="category.html?category=romantic" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="compass" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Explore</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="flame" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Discover</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="bookmark" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Library</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <div class="w-5 h-5 rounded-full bg-nova-berry flex items-center justify-center text-[10px] font-bold text-white">
+        N
+      </div>
+      <span class="text-[10px] font-medium font-display">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Shared Story Data Store -->
+  <script src="../assets/js/stories-data.js"></script>
+
+  <!-- Story Hub Logic -->
+  <script>
+    let currentCategorySlug = "romantic";
+    let currentNovelId = "cold-blue-eyes";
+    let currentEpNum = 1;
+    let currentNovel = null;
+    let currentEpisode = null;
+
+    // Multimedia State
+    let activeFormat = "audio"; // 'audio' | 'video' | 'read'
+    let isAudioPlaying = false;
+    let audioCurrentSeconds = 0;
+    let audioTotalSeconds = 680;
+    let audioInterval = null;
+    let audioPlaybackRate = 1;
+    let webAudioCtx = null;
+    let webAudioOscillator = null;
+    let webAudioGain = null;
+
+    // Video State
+    let isVideoPlaying = false;
+    let videoSeconds = 0;
+    let videoTotalSeconds = 255;
+    let videoInterval = null;
+    let videoAnimId = null;
+
+    // Reader State
+    let readerFontSizeLevel = 1; // 0=sm, 1=base, 2=lg, 3=xl
+    let readerIsSerif = true;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const { category, novelId, ep } = getStoryUrlParams();
+      currentCategorySlug = category || "romantic";
+      currentNovelId = novelId || "cold-blue-eyes";
+      currentEpNum = ep || 1;
+
+      initStoryHub(currentCategorySlug, currentNovelId, currentEpNum);
+      lucide.createIcons();
+    });
+
+    function initStoryHub(catSlug, novId, epNum) {
+      const data = getEpisode(novId, epNum);
+      currentNovel = data.novel;
+      currentEpisode = data.episode;
+      audioTotalSeconds = currentEpisode.audioSeconds || 680;
+
+      // Update Navigation Links
+      const epListUrl = `episodes.html?category=${catSlug}&novel=${currentNovel.id}`;
+      document.getElementById("backToEpisodesBtn").href = epListUrl;
+      const sideEpisodesLink = document.getElementById("sideEpisodesLink");
+      if (sideEpisodesLink) sideEpisodesLink.href = epListUrl;
+      const bottomExplore = document.getElementById("bottomExploreLink");
+      if (bottomExplore) bottomExplore.href = `category.html?category=${catSlug}`;
+
+      // Header info
+      document.getElementById("headerEpBadge").textContent = `Episode ${currentEpisode.ep}`;
+      document.getElementById("headerEpTitle").textContent = currentEpisode.title;
+      document.getElementById("headerEpCounter").textContent = `${currentEpisode.ep} / ${currentNovel.totalEpisodes}`;
+
+      // Prev / Next links
+      const prevEpNum = Math.max(1, currentEpisode.ep - 1);
+      const nextEpNum = Math.min(currentNovel.totalEpisodes, currentEpisode.ep + 1);
+
+      const prevUrl = `story-hub.html?category=${catSlug}&novel=${currentNovel.id}&ep=${prevEpNum}`;
+      const nextUrl = `story-hub.html?category=${catSlug}&novel=${currentNovel.id}&ep=${nextEpNum}`;
+
+      document.getElementById("prevEpHeaderBtn").href = prevUrl;
+      document.getElementById("nextEpHeaderBtn").href = nextUrl;
+      document.getElementById("readerPrevEpBtn").href = prevUrl;
+      document.getElementById("readerNextEpBtn").href = nextUrl;
+
+      if (currentEpisode.ep <= 1) {
+        document.getElementById("prevEpHeaderBtn").classList.add("opacity-30", "pointer-events-none");
+        document.getElementById("readerPrevEpBtn").classList.add("opacity-30", "pointer-events-none");
+      }
+      if (currentEpisode.ep >= currentNovel.totalEpisodes) {
+        document.getElementById("nextEpHeaderBtn").classList.add("opacity-30", "pointer-events-none");
+        document.getElementById("readerNextEpBtn").classList.add("opacity-30", "pointer-events-none");
+      }
+
+      // Hero Banner Info
+      document.getElementById("hubNovelCover").src = currentNovel.cover;
+      document.getElementById("hubCategoryPill").textContent = currentNovel.categoryName;
+      document.getElementById("hubNovelName").textContent = currentNovel.title;
+      document.getElementById("hubEpisodeHeading").textContent = `Episode ${currentEpisode.ep}: ${currentEpisode.title}`;
+      document.getElementById("hubAudioDuration").textContent = currentEpisode.audioDuration;
+      document.getElementById("hubReadDuration").textContent = currentEpisode.readTime;
+      document.getElementById("hubAuthorName").textContent = currentNovel.author;
+
+      // Audio setup
+      document.getElementById("audioTotalDuration").textContent = currentEpisode.audioDuration;
+      document.getElementById("audioScrubber").max = audioTotalSeconds;
+
+      // Video poster
+      document.getElementById("videoPosterImg").style.backgroundImage = `url('${currentNovel.backdrop || currentNovel.cover}')`;
+      document.getElementById("videoEpisodeTag").textContent = `EP ${currentEpisode.ep < 10 ? '0' + currentEpisode.ep : currentEpisode.ep} • SCENE 1`;
+
+      // Reader content
+      renderChapterText(currentEpisode.content);
+
+      // Default format mode
+      switchFormatMode("audio");
+    }
+
+    /** Render formatted chapter text with clean paragraphs */
+    function renderChapterText(rawContent) {
+      const article = document.getElementById("chapterTextArticle");
+      if (!article) return;
+
+      const paragraphs = rawContent.split("\n\n").filter(p => p.trim() !== "");
+      article.innerHTML = paragraphs.map((p, idx) => {
+        // First paragraph stylized drop cap if applicable
+        if (idx === 0) {
+          return `<p class="leading-relaxed tracking-normal first-letter:text-3xl first-letter:font-bold first-letter:text-nova-crimson first-letter:mr-1 first-letter:float-left">${p}</p>`;
+        }
+        return `<p class="leading-relaxed tracking-normal">${p}</p>`;
+      }).join('');
+    }
+
+    /* ===================================================
+       PRIMARY 3-ACTION SELECTOR SWITCHER
+       'audio' | 'video' | 'read'
+       =================================================== */
+    function switchFormatMode(mode) {
+      activeFormat = mode;
+      const audioContainer = document.getElementById("audioFormatContainer");
+      const videoContainer = document.getElementById("videoFormatContainer");
+      const readContainer = document.getElementById("readFormatContainer");
+
+      const btnAudio = document.getElementById("btnSelectAudio");
+      const btnVideo = document.getElementById("btnSelectVideo");
+      const btnRead = document.getElementById("btnSelectRead");
+
+      const sideAudio = document.getElementById("sideTabAudio");
+      const sideVideo = document.getElementById("sideTabVideo");
+      const sideRead = document.getElementById("sideTabRead");
+
+      // Reset all buttons to inactive styling
+      [btnAudio, btnVideo, btnRead].forEach(btn => {
+        btn.className = "flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-nova-surface border border-white/10 text-nova-muted hover:text-white transition-all hover:scale-[1.02] active:scale-95 group text-center";
+      });
+
+      // Hide all containers
+      audioContainer.classList.add("hidden");
+      videoContainer.classList.add("hidden");
+      readContainer.classList.add("hidden");
+
+      if (sideAudio) sideAudio.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-muted hover:text-white hover:bg-white/5 transition-all text-left";
+      if (sideVideo) sideVideo.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-muted hover:text-white hover:bg-white/5 transition-all text-left";
+      if (sideRead) sideRead.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-muted hover:text-white hover:bg-white/5 transition-all text-left";
+
+      if (mode === "audio") {
+        audioContainer.classList.remove("hidden");
+        btnAudio.className = "flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-nova-surface border-2 border-nova-gold text-nova-gold shadow-lg shadow-nova-gold/10 transition-all hover:scale-[1.02] active:scale-95 group text-center";
+        if (sideAudio) sideAudio.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-gold bg-nova-gold/10 border border-nova-gold/20 transition-all text-left";
+      } else if (mode === "video") {
+        videoContainer.classList.remove("hidden");
+        btnVideo.className = "flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-nova-surface border-2 border-nova-crimson text-nova-crimson shadow-lg shadow-nova-crimson/10 transition-all hover:scale-[1.02] active:scale-95 group text-center";
+        if (sideVideo) sideVideo.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-nova-crimson bg-nova-crimson/10 border border-nova-crimson/20 transition-all text-left";
+        initVideoCanvas();
+      } else if (mode === "read") {
+        readContainer.classList.remove("hidden");
+        btnRead.className = "flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-nova-surface border-2 border-nova-berry text-white shadow-lg shadow-nova-berry/10 transition-all hover:scale-[1.02] active:scale-95 group text-center";
+        if (sideRead) sideRead.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-white bg-nova-berry/10 border border-nova-berry/20 transition-all text-left";
+      }
+      lucide.createIcons();
+    }
+
+    /* ===================================================
+       SPATIAL AUDIO PLAYER ENGINE & WEB AUDIO
+       =================================================== */
+    function initWebAudio() {
+      if (webAudioCtx) return;
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        webAudioCtx = new AudioCtx();
+        webAudioGain = webAudioCtx.createGain();
+        webAudioGain.gain.setValueAtTime(0.06, webAudioCtx.currentTime);
+        webAudioGain.connect(webAudioCtx.destination);
+      } catch (e) {
+        console.warn("Web Audio not supported or blocked", e);
+      }
+    }
+
+    function startAmbientSynth() {
+      if (!webAudioCtx) initWebAudio();
+      if (!webAudioCtx) return;
+      if (webAudioCtx.state === "suspended") webAudioCtx.resume();
+
+      try {
+        webAudioOscillator = webAudioCtx.createOscillator();
+        webAudioOscillator.type = "sine";
+        webAudioOscillator.frequency.setValueAtTime(140, webAudioCtx.currentTime); // warm cinematic hum
+        webAudioOscillator.connect(webAudioGain);
+        webAudioOscillator.start();
+      } catch (e) {}
+    }
+
+    function stopAmbientSynth() {
+      if (webAudioOscillator) {
+        try {
+          webAudioOscillator.stop();
+          webAudioOscillator.disconnect();
+        } catch (e) {}
+        webAudioOscillator = null;
+      }
+    }
+
+    function toggleAudioPlayback() {
+      isAudioPlaying = !isAudioPlaying;
+      const wave = document.getElementById("audioWaveformContainer");
+      const playIcon = document.getElementById("audioPlayIcon");
+      const pauseIcon = document.getElementById("audioPauseIcon");
+      const statusText = document.getElementById("audioNarrationStatus");
+
+      if (isAudioPlaying) {
+        wave.classList.remove("wave-paused");
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+        statusText.textContent = `▶ Playing: ${currentNovel.title} - ${currentEpisode.title} (Dolby 3D Voice)`;
+        statusText.classList.add("text-nova-gold");
+        startAmbientSynth();
+
+        audioInterval = setInterval(() => {
+          audioCurrentSeconds += 1;
+          if (audioCurrentSeconds >= audioTotalSeconds) {
+            audioCurrentSeconds = audioTotalSeconds;
+            toggleAudioPlayback();
+          }
+          updateAudioScrubberUI();
+        }, 1000 / audioPlaybackRate);
+      } else {
+        wave.classList.add("wave-paused");
+        playIcon.classList.remove("hidden");
+        pauseIcon.classList.add("hidden");
+        statusText.textContent = "Audio Paused • Tap Play to resume spatial voice";
+        statusText.classList.remove("text-nova-gold");
+        stopAmbientSynth();
+        clearInterval(audioInterval);
+      }
+      lucide.createIcons();
+    }
+
+    function updateAudioScrubberUI() {
+      const scrubber = document.getElementById("audioScrubber");
+      const currentEl = document.getElementById("audioCurrentTime");
+      scrubber.value = audioCurrentSeconds;
+      currentEl.textContent = formatTime(audioCurrentSeconds);
+    }
+
+    function handleScrubberSeek(val) {
+      audioCurrentSeconds = parseInt(val, 10);
+      document.getElementById("audioCurrentTime").textContent = formatTime(audioCurrentSeconds);
+    }
+
+    function skipAudioTime(delta) {
+      audioCurrentSeconds = Math.max(0, Math.min(audioTotalSeconds, audioCurrentSeconds + delta));
+      updateAudioScrubberUI();
+    }
+
+    function setPlaybackSpeed(rate, btn) {
+      audioPlaybackRate = rate;
+      const parent = btn.parentElement;
+      Array.from(parent.children).forEach(c => {
+        c.className = "px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-nova-muted hover:text-white";
+      });
+      btn.className = "px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-nova-gold text-nova-obsidian";
+
+      if (isAudioPlaying) {
+        clearInterval(audioInterval);
+        audioInterval = setInterval(() => {
+          audioCurrentSeconds += 1;
+          if (audioCurrentSeconds >= audioTotalSeconds) {
+            audioCurrentSeconds = audioTotalSeconds;
+            toggleAudioPlayback();
+          }
+          updateAudioScrubberUI();
+        }, 1000 / audioPlaybackRate);
+      }
+    }
+
+    function setAudioVolume(val) {
+      if (webAudioGain && webAudioCtx) {
+        webAudioGain.gain.setValueAtTime(parseFloat(val) * 0.1, webAudioCtx.currentTime);
+      }
+    }
+
+    /* ===================================================
+       VIDEO PLAYER SIMULATION
+       =================================================== */
+    function toggleVideoPlayback() {
+      isVideoPlaying = !isVideoPlaying;
+      const centerPlay = document.getElementById("videoCenterPlayIcon");
+      const centerPause = document.getElementById("videoCenterPauseIcon");
+      const bottomIcon = document.getElementById("videoBottomPlayIcon");
+
+      if (isVideoPlaying) {
+        centerPlay.classList.add("hidden");
+        centerPause.classList.remove("hidden");
+        bottomIcon.setAttribute("data-lucide", "pause");
+        videoInterval = setInterval(() => {
+          videoSeconds += 1;
+          if (videoSeconds >= videoTotalSeconds) {
+            videoSeconds = videoTotalSeconds;
+            toggleVideoPlayback();
+          }
+          updateVideoUI();
+        }, 1000);
+      } else {
+        centerPlay.classList.remove("hidden");
+        centerPause.classList.add("hidden");
+        bottomIcon.setAttribute("data-lucide", "play");
+        clearInterval(videoInterval);
+      }
+      lucide.createIcons();
+    }
+
+    function updateVideoUI() {
+      const scrubber = document.getElementById("videoScrubber");
+      const display = document.getElementById("videoTimeDisplay");
+      scrubber.value = videoSeconds;
+      display.textContent = `${formatTime(videoSeconds)} / ${formatTime(videoTotalSeconds)}`;
+    }
+
+    function handleVideoSeek(val) {
+      videoSeconds = parseInt(val, 10);
+      updateVideoUI();
+    }
+
+    function cycleVideoQuality(btn) {
+      const q = ["720p", "1080p", "4K HDR"];
+      const current = btn.textContent.trim();
+      let nextIdx = (q.indexOf(current) + 1) % q.length;
+      btn.textContent = q[nextIdx];
+      showToast(`Video quality set to ${q[nextIdx]}`);
+    }
+
+    function toggleFullscreenVideo() {
+      const c = document.getElementById("videoCinemaCanvas").parentElement;
+      if (!document.fullscreenElement) {
+        c.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function initVideoCanvas() {
+      const canvas = document.getElementById("videoCinemaCanvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      const particles = Array.from({ length: 40 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.8,
+        dy: (Math.random() - 0.5) * 0.8,
+        a: Math.random() * 0.5 + 0.2
+      }));
+
+      function renderFrame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(229, 25, 75, ${p.a})`;
+          ctx.fill();
+        });
+        if (activeFormat === "video") {
+          videoAnimId = requestAnimationFrame(renderFrame);
+        }
+      }
+      renderFrame();
+    }
+
+    /* ===================================================
+       READER TOOLS (Font Size, Font Family)
+       =================================================== */
+    function adjustFontSize(delta) {
+      readerFontSizeLevel = Math.max(0, Math.min(3, readerFontSizeLevel + delta));
+      const levels = ["reader-font-sm", "reader-font-base", "reader-font-lg", "reader-font-xl"];
+      const displayTexts = ["85%", "100%", "120%", "140%"];
+      
+      const article = document.getElementById("chapterTextArticle");
+      levels.forEach(l => article.classList.remove(l));
+      article.classList.add(levels[readerFontSizeLevel]);
+      document.getElementById("fontSizeDisplay").textContent = displayTexts[readerFontSizeLevel];
+    }
+
+    function toggleReaderFontFamily() {
+      readerIsSerif = !readerIsSerif;
+      const article = document.getElementById("chapterTextArticle");
+      const btn = document.getElementById("fontFamilyToggleBtn");
+
+      if (readerIsSerif) {
+        article.classList.remove("font-reader-sans");
+        article.classList.add("font-reader-serif");
+        btn.textContent = "Serif";
+      } else {
+        article.classList.remove("font-reader-serif");
+        article.classList.add("font-reader-sans");
+        btn.textContent = "Sans-Serif";
+      }
+    }
+
+    /* ===================================================
+       OFFLINE DOWNLOAD TOAST NOTIFICATION
+       =================================================== */
+    function handleDownloadAction(itemTitle) {
+      showToast(`Downloading ${itemTitle}... Saved to offline cache.`);
+    }
+
+    function showToast(message) {
+      const container = document.getElementById("toastContainer");
+      const msg = document.getElementById("toastMessage");
+      msg.textContent = message;
+      container.classList.remove("opacity-0", "translate-y-3");
+      container.classList.add("opacity-100", "translate-y-0");
+
+      setTimeout(() => {
+        container.classList.remove("opacity-100", "translate-y-0");
+        container.classList.add("opacity-0", "translate-y-3");
+      }, 2500);
+    }
+
+    function formatTime(totalSec) {
+      const m = Math.floor(totalSec / 60);
+      const s = Math.floor(totalSec % 60);
+      return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+  </script>
+</body>
+</html>

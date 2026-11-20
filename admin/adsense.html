@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Google AdSense Monetization — NovaStudios Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Palette -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',
+              surface: '#18181B',
+              obsidian: '#0A0A0C',
+              crimson: '#E5194B',
+              berry: '#D11D53',
+              gold: '#F5A623',
+              glow: '#F8D568',
+              muted: '#8E8E93'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+  <style>
+    .admin-input {
+      background-color: #0A0A0C;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      transition: all 0.15s ease-in-out;
+    }
+    .admin-input:focus {
+      outline: none;
+      border-color: #E5194B;
+      box-shadow: 0 0 0 1px #E5194B;
+    }
+  </style>
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-20 lg:pb-10 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight font-display text-white">
+            Nova<span class="text-nova-crimson">Admin</span>
+          </span>
+          <div class="text-[10px] text-nova-muted font-mono tracking-wider uppercase">Monetization</div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Modules</div>
+      
+      <a href="index.html" id="nav-overview" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <span>Overview & Analytics</span>
+      </a>
+
+      <a href="upload.html" id="nav-upload" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="cloud-upload" class="w-5 h-5 text-nova-gold"></i>
+        <span>Upload Content</span>
+      </a>
+
+      <a href="novels.html" id="nav-novels" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="book-open" class="w-5 h-5"></i>
+        <span>Manage Novels</span>
+      </a>
+
+      <a href="users.html" id="nav-users" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="users" class="w-5 h-5 text-emerald-400"></i>
+        <span>Registered Users</span>
+      </a>
+
+      <a href="adsense.html" id="nav-adsense" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl bg-nova-crimson/10 text-white font-semibold border-l-4 border-nova-crimson">
+        <i data-lucide="dollar-sign" class="w-5 h-5 text-nova-glow"></i>
+        <span>Google AdSense</span>
+      </a>
+
+      <a href="settings.html" id="nav-settings" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="sliders" class="w-5 h-5"></i>
+        <span>Platform Settings</span>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-white/5 bg-nova-obsidian/40">
+      <a
+        href="../dashboard/index.html"
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs border border-white/10 transition-colors"
+      >
+        <i data-lucide="external-link" class="w-4 h-4 text-nova-crimson"></i>
+        <span>Back to User App</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN PAGE WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- Top App Header -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-8 py-3.5">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3">
+          <button
+            id="mobileMenuBtn"
+            class="lg:hidden p-2 rounded-xl bg-nova-surface border border-white/10 text-white hover:text-nova-crimson transition-colors"
+            aria-label="Toggle Navigation Drawer"
+          >
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div>
+            <h1 class="text-base sm:text-xl font-bold font-display text-white">
+              Google AdSense Monetization
+            </h1>
+            <p class="text-[11px] text-nova-muted">Configure publisher client ID, banner placements, and in-stream ads</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span id="adStatusBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-nova-muted/20 text-nova-muted border border-white/10">
+            NOT CONFIGURED
+          </span>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Mobile Slide-over Drawer -->
+    <div id="mobileDrawer" class="fixed inset-0 z-50 bg-nova-obsidian/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 lg:hidden">
+      <div class="fixed left-0 top-0 bottom-0 w-72 bg-nova-surface p-6 flex flex-col justify-between shadow-2xl border-r border-white/10">
+        <div>
+          <div class="flex items-center justify-between pb-6 border-b border-white/10">
+            <span class="font-bold font-display text-lg text-white">NovaAdmin</span>
+          </div>
+          <nav class="py-6 space-y-2">
+            <a href="index.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>Overview & Analytics</span>
+            </a>
+            <a href="upload.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="cloud-upload" class="w-4 h-4 text-nova-gold"></i>
+              <span>Upload Content</span>
+            </a>
+            <a href="novels.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              <span>Manage Novels</span>
+            </a>
+            <a href="users.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+              <span>Registered Users</span>
+            </a>
+            <a href="adsense.html" class="flex items-center gap-3 p-3 rounded-xl bg-nova-crimson/10 text-white font-medium text-sm">
+              <i data-lucide="dollar-sign" class="w-4 h-4 text-nova-glow"></i>
+              <span>Google AdSense</span>
+            </a>
+            <a href="settings.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="sliders" class="w-4 h-4"></i>
+              <span>Platform Settings</span>
+            </a>
+          </nav>
+        </div>
+        <div>
+          <a href="../dashboard/index.html" class="flex items-center justify-center gap-2 p-3 rounded-xl bg-nova-crimson text-white font-bold text-xs">
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            <span>Back to User App</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-8 py-6 space-y-6">
+
+      <div class="p-5 sm:p-7 rounded-2xl bg-nova-surface border border-white/5 shadow-xl space-y-6">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold font-display text-white flex items-center gap-2">
+              <i data-lucide="dollar-sign" class="w-5 h-5 text-nova-glow"></i>
+              <span>Publisher Credentials & Placement Slots</span>
+            </h3>
+            <p class="text-xs text-nova-muted">Changes persist into storage and syndicate across consumer reader and audio players</p>
+          </div>
+
+          <!-- Master Toggle -->
+          <div class="flex items-center gap-3 bg-nova-obsidian px-3.5 py-2 rounded-xl border border-white/5">
+            <span class="text-xs font-semibold text-white">Enable AdSense</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="masterToggle" class="sr-only peer" onchange="handleToggleChange(this.checked)" />
+              <div class="w-9 h-5 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-nova-crimson"></div>
+            </label>
+          </div>
+        </div>
+
+        <form id="adSenseForm" onsubmit="handleAdSenseSave(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Publisher ID -->
+            <div>
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">
+                Google AdSense Publisher ID
+              </label>
+              <input
+                id="pubId"
+                type="text"
+                class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs font-mono"
+                placeholder="ca-pub-xxxxxxxxxxxxxxxx"
+              />
+              <span class="text-[10px] text-nova-muted mt-1 block">Your primary Google Publisher Client ID</span>
+            </div>
+
+            <!-- Home Feed Banner Slot -->
+            <div>
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">
+                Home Feed Banner Slot ID
+              </label>
+              <input
+                id="slotHome"
+                type="text"
+                class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs font-mono"
+                placeholder="e.g. 9823410"
+              />
+              <span class="text-[10px] text-nova-muted mt-1 block">Responsive horizontal ad placed below hero carousel</span>
+            </div>
+
+            <!-- Chapter Reader In-Article Slot -->
+            <div>
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">
+                Chapter Reader In-Article Slot ID
+              </label>
+              <input
+                id="slotReader"
+                type="text"
+                class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs font-mono"
+                placeholder="e.g. 4592018"
+              />
+              <span class="text-[10px] text-nova-muted mt-1 block">Mid-chapter native display ad inside story reader</span>
+            </div>
+
+            <!-- Audio/Video Pre-Roll Slot -->
+            <div>
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">
+                Audio / Video Pre-Roll Slot ID
+              </label>
+              <input
+                id="slotPreRoll"
+                type="text"
+                class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs font-mono"
+                placeholder="e.g. 7839215"
+              />
+              <span class="text-[10px] text-nova-muted mt-1 block">5-second audio sponsorship before voice drama playback</span>
+            </div>
+
+          </div>
+
+          <!-- Auto-Ads Script -->
+          <div>
+            <label class="block text-xs font-semibold text-nova-muted mb-1.5">
+              Auto-Ads Script / Header Snippet
+            </label>
+            <textarea
+              id="autoAds"
+              rows="3"
+              class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs font-mono"
+              placeholder='<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx" crossorigin="anonymous"></script>'
+            ></textarea>
+            <span class="text-[10px] text-nova-muted mt-1 block">Included in document head on customer reading pages</span>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <button
+              type="button"
+              onclick="previewTestUnit()"
+              class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-nova-gold text-xs font-semibold transition-colors flex items-center gap-2"
+            >
+              <i data-lucide="eye" class="w-4 h-4"></i>
+              <span>Test Unit Preview</span>
+            </button>
+
+            <button
+              type="submit"
+              class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-nova-gold to-nova-glow text-nova-obsidian text-xs font-bold shadow-lg shadow-nova-gold/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2"
+            >
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>Save AdSense Config</span>
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+      <!-- Live Test Banner Box -->
+      <div id="testBannerContainer" class="p-5 rounded-2xl bg-nova-surface border border-white/5 shadow-xl space-y-3 hidden">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-nova-gold font-bold font-display uppercase tracking-wider">Simulated Ad Slot Delivery</span>
+          <span class="text-[11px] font-mono text-nova-muted" id="testSlotInfo">Slot: 9823410</span>
+        </div>
+        <div class="w-full h-24 rounded-xl bg-nova-obsidian border border-dashed border-white/20 flex flex-col items-center justify-center text-center p-3">
+          <span class="text-xs font-bold text-white">Google AdSense Responsive Unit</span>
+          <span class="text-[10px] text-nova-muted font-mono mt-0.5" id="testPubInfo">Client: ca-pub-xxxxxxxxxxxxxxxx</span>
+          <span class="text-[9px] text-emerald-400 font-mono mt-1">STATUS: OK 200 (Ad ready for distribution)</span>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 sm:px-8 text-center text-xs text-nova-muted">
+      <p>© 2026 NovaStudios Entertainment Inc. Monetization configurations persist to platform storage.</p>
+    </footer>
+
+  </div>
+
+  <!-- Shared Admin Core Module -->
+  <script src="../assets/js/admin-core.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initAdminNavigation("adsense");
+      loadConfig();
+      lucide.createIcons();
+    });
+
+    function loadConfig() {
+      const cfg = getStoredAdSense();
+      document.getElementById("masterToggle").checked = !!cfg.enabled;
+      document.getElementById("pubId").value = cfg.publisherId || "";
+      document.getElementById("slotHome").value = cfg.slotHome || "";
+      document.getElementById("slotReader").value = cfg.slotReader || "";
+      document.getElementById("slotPreRoll").value = cfg.slotPreRoll || "";
+      document.getElementById("autoAds").value = cfg.autoAdsScript || "";
+
+      updateBadgeUI(cfg.enabled && !!cfg.publisherId);
+    }
+
+    function updateBadgeUI(active) {
+      const badge = document.getElementById("adStatusBadge");
+      if (active) {
+        badge.className = "text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        badge.textContent = "ACTIVE • SAVED";
+      } else {
+        badge.className = "text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-nova-crimson/20 text-nova-crimson border border-nova-crimson/30";
+        badge.textContent = "PAUSED / INACTIVE";
+      }
+    }
+
+    function handleToggleChange(enabled) {
+      updateBadgeUI(enabled && !!document.getElementById("pubId").value.trim());
+      showAdminToast(`AdSense monetization ${enabled ? 'ENABLED' : 'PAUSED'}.`);
+    }
+
+    function handleAdSenseSave(e) {
+      e.preventDefault();
+      const cfg = {
+        enabled: document.getElementById("masterToggle").checked,
+        publisherId: document.getElementById("pubId").value.trim(),
+        slotHome: document.getElementById("slotHome").value.trim(),
+        slotReader: document.getElementById("slotReader").value.trim(),
+        slotPreRoll: document.getElementById("slotPreRoll").value.trim(),
+        autoAdsScript: document.getElementById("autoAds").value.trim()
+      };
+
+      saveStoredAdSense(cfg);
+      updateBadgeUI(cfg.enabled && !!cfg.publisherId);
+      showAdminToast("AdSense configuration successfully saved to storage!");
+    }
+
+    function previewTestUnit() {
+      const pub = document.getElementById("pubId").value.trim() || "ca-pub-xxxxxxxxxxxxxxxx";
+      const slot = document.getElementById("slotHome").value.trim() || "slot-default";
+      const box = document.getElementById("testBannerContainer");
+      document.getElementById("testPubInfo").textContent = `Client: ${pub}`;
+      document.getElementById("testSlotInfo").textContent = `Slot: ${slot}`;
+      box.classList.remove("hidden");
+      showAdminToast("Simulated ad test container verified.");
+    }
+  </script>
+</body>
+</html>

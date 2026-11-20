@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Content Upload Studio — NovaStudios Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Palette -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',
+              surface: '#18181B',
+              obsidian: '#0A0A0C',
+              crimson: '#E5194B',
+              berry: '#D11D53',
+              gold: '#F5A623',
+              glow: '#F8D568',
+              muted: '#8E8E93'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+  <style>
+    .admin-input {
+      background-color: #0A0A0C;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      transition: all 0.15s ease-in-out;
+    }
+    .admin-input:focus {
+      outline: none;
+      border-color: #E5194B;
+      box-shadow: 0 0 0 1px #E5194B;
+    }
+  </style>
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-20 lg:pb-10 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight font-display text-white">
+            Nova<span class="text-nova-crimson">Admin</span>
+          </span>
+          <div class="text-[10px] text-nova-muted font-mono tracking-wider uppercase">Content Studio</div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Modules</div>
+      
+      <a href="index.html" id="nav-overview" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <span>Overview & Analytics</span>
+      </a>
+
+      <a href="upload.html" id="nav-upload" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl bg-nova-crimson/10 text-white font-semibold border-l-4 border-nova-crimson">
+        <i data-lucide="cloud-upload" class="w-5 h-5 text-nova-gold"></i>
+        <span>Upload Content</span>
+      </a>
+
+      <a href="novels.html" id="nav-novels" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="book-open" class="w-5 h-5"></i>
+        <span>Manage Novels</span>
+      </a>
+
+      <a href="users.html" id="nav-users" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="users" class="w-5 h-5 text-emerald-400"></i>
+        <span>Registered Users</span>
+      </a>
+
+      <a href="adsense.html" id="nav-adsense" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="dollar-sign" class="w-5 h-5 text-nova-glow"></i>
+        <span>Google AdSense</span>
+      </a>
+
+      <a href="settings.html" id="nav-settings" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="sliders" class="w-5 h-5"></i>
+        <span>Platform Settings</span>
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-white/5 bg-nova-obsidian/40">
+      <a
+        href="../dashboard/index.html"
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs border border-white/10 transition-colors"
+      >
+        <i data-lucide="external-link" class="w-4 h-4 text-nova-crimson"></i>
+        <span>Back to User App</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN PAGE WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- Top App Header -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-8 py-3.5">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3">
+          <button
+            id="mobileMenuBtn"
+            class="lg:hidden p-2 rounded-xl bg-nova-surface border border-white/10 text-white hover:text-nova-crimson transition-colors"
+            aria-label="Toggle Navigation Drawer"
+          >
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div>
+            <h1 class="text-base sm:text-xl font-bold font-display text-white">
+              Content Upload Studio
+            </h1>
+            <p class="text-[11px] text-nova-muted">Publish new novel releases, chapter text, spatial audio stems, and video</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="novels.html"
+            class="px-3.5 py-2 rounded-xl bg-nova-surface hover:bg-white/10 border border-white/10 text-white text-xs font-semibold flex items-center gap-2 transition-colors"
+          >
+            <i data-lucide="book-open" class="w-3.5 h-3.5 text-nova-gold"></i>
+            <span>View Published Titles</span>
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Mobile Slide-over Drawer -->
+    <div id="mobileDrawer" class="fixed inset-0 z-50 bg-nova-obsidian/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 lg:hidden">
+      <div class="fixed left-0 top-0 bottom-0 w-72 bg-nova-surface p-6 flex flex-col justify-between shadow-2xl border-r border-white/10">
+        <div>
+          <div class="flex items-center justify-between pb-6 border-b border-white/10">
+            <span class="font-bold font-display text-lg text-white">NovaAdmin</span>
+          </div>
+          <nav class="py-6 space-y-2">
+            <a href="index.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>Overview & Analytics</span>
+            </a>
+            <a href="upload.html" class="flex items-center gap-3 p-3 rounded-xl bg-nova-crimson/10 text-white font-medium text-sm">
+              <i data-lucide="cloud-upload" class="w-4 h-4 text-nova-gold"></i>
+              <span>Upload Content</span>
+            </a>
+            <a href="novels.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              <span>Manage Novels</span>
+            </a>
+            <a href="users.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+              <span>Registered Users</span>
+            </a>
+            <a href="adsense.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="dollar-sign" class="w-4 h-4 text-nova-glow"></i>
+              <span>Google AdSense</span>
+            </a>
+            <a href="settings.html" class="flex items-center gap-3 p-3 rounded-xl text-nova-muted hover:text-white text-sm">
+              <i data-lucide="sliders" class="w-4 h-4"></i>
+              <span>Platform Settings</span>
+            </a>
+          </nav>
+        </div>
+        <div>
+          <a href="../dashboard/index.html" class="flex items-center justify-center gap-2 p-3 rounded-xl bg-nova-crimson text-white font-bold text-xs">
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            <span>Back to User App</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-8 py-6 space-y-6">
+
+      <div class="p-5 sm:p-7 rounded-2xl bg-nova-surface border border-white/5 shadow-xl space-y-6">
+        
+        <form id="contentUploadForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+          
+          <!-- PART 1: NOVEL METADATA -->
+          <div class="space-y-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-white font-display flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-nova-crimson text-white text-[10px] flex items-center justify-center font-mono">1</span>
+              <span>Novel Metadata</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-nova-muted mb-1.5">Novel Title *</label>
+                <input
+                  id="novelTitle"
+                  type="text"
+                  required
+                  placeholder="e.g. Cold Blue Eyes"
+                  class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-nova-muted mb-1.5">Author Name *</label>
+                <input
+                  id="authorName"
+                  type="text"
+                  required
+                  placeholder="e.g. Elena Vance"
+                  class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-nova-muted mb-1.5">Genre Category *</label>
+                <select id="novelCategory" class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm cursor-pointer">
+                  <option value="romantic">Romantic</option>
+                  <option value="dark-fantasy">Dark Fantasy</option>
+                  <option value="billionaire-ceo">Billionaire & CEO</option>
+                  <option value="scifi-thriller">Sci-Fi & Thriller</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Cover Image URL / Picker -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-semibold text-nova-muted mb-1.5">Cover Image CDN URL *</label>
+                <input
+                  id="coverUrl"
+                  type="url"
+                  required
+                  placeholder="https://images.unsplash.com/photo-..."
+                  class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-nova-muted mb-1.5">Or Choose Local Cover File</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="admin-input w-full rounded-xl px-3 py-2 text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-white/10 file:text-white hover:file:bg-nova-crimson cursor-pointer"
+                  onchange="handleLocalCover(event)"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-nova-muted mb-1.5">Novel Synopsis / Back-Cover Pitch *</label>
+              <textarea
+                id="synopsis"
+                required
+                rows="3"
+                placeholder="He was the ruthless enforcer who ruled in silence..."
+                class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm resize-none"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- PART 2: EPISODE MEDIA CONFIG -->
+          <div class="space-y-4 pt-4 border-t border-white/5">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-white font-display flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-nova-gold text-nova-obsidian text-[10px] flex items-center justify-center font-mono font-bold">2</span>
+              <span>Episode & Multi-Format Configuration</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-nova-muted mb-1.5">Episode Number *</label>
+                <input
+                  id="episodeNumber"
+                  type="number"
+                  min="1"
+                  value="1"
+                  required
+                  class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono"
+                />
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-semibold text-nova-muted mb-1.5">Episode Title *</label>
+                <input
+                  id="episodeTitle"
+                  type="text"
+                  required
+                  placeholder="e.g. The Midnight Contract"
+                  class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <!-- Chapter Reading Text Area -->
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-xs font-semibold text-nova-muted flex items-center gap-1.5">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5 text-nova-berry"></i>
+                  <span>Full Chapter Text *</span>
+                </label>
+                <span class="text-[10px] text-nova-muted">Markdown / Plain paragraphs</span>
+              </div>
+              <textarea
+                id="chapterText"
+                required
+                rows="6"
+                placeholder="The rainfall drummed against the stained glass dome..."
+                class="admin-input w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono"
+              ></textarea>
+            </div>
+
+            <!-- Audio & Video Streams -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Audio -->
+              <div class="p-4 rounded-xl bg-nova-obsidian/60 border border-white/5 space-y-3">
+                <div class="flex items-center gap-2 text-xs font-bold text-nova-gold font-display">
+                  <i data-lucide="headphones" class="w-4 h-4"></i>
+                  <span>Spatial Audio Stems</span>
+                </div>
+                <div>
+                  <label class="block text-[11px] text-nova-muted mb-1">Audio Stream URL (.mp3/.wav)</label>
+                  <input
+                    id="audioUrl"
+                    type="text"
+                    placeholder="https://cdn.novastudios.com/audio/ep01.mp3"
+                    class="admin-input w-full rounded-lg px-3 py-2 text-xs"
+                  />
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-[11px] text-nova-muted mb-1">Audio Duration (mm:ss)</label>
+                    <input
+                      id="audioDuration"
+                      type="text"
+                      value="11:20"
+                      class="admin-input w-full rounded-lg px-3 py-2 text-xs font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-[11px] text-nova-muted mb-1">Spatial Engine</label>
+                    <select id="audioEngine" class="admin-input w-full rounded-lg px-3 py-2 text-xs">
+                      <option>Dolby Atmos Dual POV</option>
+                      <option>Binaural 3D Master</option>
+                      <option>Stereo</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Video -->
+              <div class="p-4 rounded-xl bg-nova-obsidian/60 border border-white/5 space-y-3">
+                <div class="flex items-center gap-2 text-xs font-bold text-nova-crimson font-display">
+                  <i data-lucide="film" class="w-4 h-4"></i>
+                  <span>1080p Video Adaptation</span>
+                </div>
+                <div>
+                  <label class="block text-[11px] text-nova-muted mb-1">Video Stream / Embed URL (.mp4)</label>
+                  <input
+                    id="videoUrl"
+                    type="text"
+                    placeholder="https://cdn.novastudios.com/video/ep01.mp4"
+                    class="admin-input w-full rounded-lg px-3 py-2 text-xs"
+                  />
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-[11px] text-nova-muted mb-1">Resolution</label>
+                    <select id="videoResolution" class="admin-input w-full rounded-lg px-3 py-2 text-xs">
+                      <option>1080p 60FPS HD</option>
+                      <option>720p Mobile HD</option>
+                      <option>4K UHD Master</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] text-nova-muted mb-1">Aspect Ratio</label>
+                    <select id="videoAspect" class="admin-input w-full rounded-lg px-3 py-2 text-xs">
+                      <option>16:9 Landscape</option>
+                      <option>9:16 Vertical Reel</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Toggles -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-nova-obsidian/70 border border-white/5 cursor-pointer">
+                <input id="toggleFreeReading" type="checkbox" checked class="w-4 h-4 accent-nova-crimson rounded" />
+                <span class="text-xs font-medium text-white">Enable Free Reading</span>
+              </label>
+
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-nova-obsidian/70 border border-white/5 cursor-pointer">
+                <input id="toggleOfflineDownload" type="checkbox" checked class="w-4 h-4 accent-nova-gold rounded" />
+                <span class="text-xs font-medium text-white">Enable Offline Download</span>
+              </label>
+
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-nova-obsidian/70 border border-white/5 cursor-pointer">
+                <input id="toggleFeaturedHome" type="checkbox" checked class="w-4 h-4 accent-emerald-500 rounded" />
+                <span class="text-xs font-medium text-white">Feature on Homepage</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <button
+              type="reset"
+              class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-nova-muted hover:text-white text-xs font-semibold transition-colors"
+            >
+              Clear Form
+            </button>
+
+            <button
+              type="submit"
+              class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-nova-crimson to-nova-berry text-white text-xs sm:text-sm font-bold shadow-lg shadow-nova-crimson/30 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2"
+            >
+              <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+              <span>Publish Novel & Episode</span>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </main>
+
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 sm:px-8 text-center text-xs text-nova-muted">
+      <p>© 2026 NovaStudios Entertainment Inc. All publications persist directly to platform state.</p>
+    </footer>
+
+  </div>
+
+  <!-- Shared Admin Core Module -->
+  <script src="../assets/js/admin-core.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initAdminNavigation("upload");
+      lucide.createIcons();
+    });
+
+    function handleLocalCover(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById("coverUrl").value = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const title = document.getElementById("novelTitle").value.trim();
+      const author = document.getElementById("authorName").value.trim();
+      const categorySlug = document.getElementById("novelCategory").value;
+      const cover = document.getElementById("coverUrl").value.trim();
+      const synopsis = document.getElementById("synopsis").value.trim();
+      const epNum = parseInt(document.getElementById("episodeNumber").value, 10) || 1;
+      const epTitle = document.getElementById("episodeTitle").value.trim();
+      const chapterText = document.getElementById("chapterText").value.trim();
+      const audioUrl = document.getElementById("audioUrl").value.trim();
+      const audioDuration = document.getElementById("audioDuration").value.trim();
+      const videoUrl = document.getElementById("videoUrl").value.trim();
+
+      const catNames = {
+        "romantic": "Romantic",
+        "dark-fantasy": "Dark Fantasy",
+        "billionaire-ceo": "Billionaire & CEO",
+        "scifi-thriller": "Sci-Fi & Thriller"
+      };
+
+      const novelId = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      const storedNovels = getStoredNovels();
+
+      let targetNovel = storedNovels.find(n => n.id === novelId);
+      if (targetNovel) {
+        targetNovel.totalEpisodes = Math.max(targetNovel.totalEpisodes || 1, epNum);
+        targetNovel.cover = cover || targetNovel.cover;
+        if (!targetNovel.episodes) targetNovel.episodes = [];
+        targetNovel.episodes.push({ ep: epNum, title: epTitle, readTime: "7 min read", audioDuration, audioUrl, videoUrl, content: chapterText });
+      } else {
+        storedNovels.unshift({
+          id: novelId,
+          title: title,
+          author: author,
+          categorySlug: categorySlug,
+          categoryName: catNames[categorySlug] || categorySlug,
+          cover: cover,
+          synopsis: synopsis,
+          totalEpisodes: epNum,
+          formats: ["Text", "Audio", "Video"],
+          status: "PUBLISHED",
+          createdAt: new Date().toISOString(),
+          episodes: [{ ep: epNum, title: epTitle, readTime: "7 min read", audioDuration, audioUrl, videoUrl, content: chapterText }]
+        });
+      }
+
+      saveStoredNovels(storedNovels);
+
+      // Increment episode number for next episode
+      document.getElementById("episodeNumber").value = epNum + 1;
+      document.getElementById("episodeTitle").value = "";
+      document.getElementById("chapterText").value = "";
+
+      showAdminToast(`Successfully published "${title}" - Ep ${epNum}!`);
+      setTimeout(() => {
+        if (confirm(`"${title}" published! Would you like to view it in the Published Novels table?`)) {
+          window.location.href = "novels.html";
+        }
+      }, 500);
+    }
+  </script>
+</body>
+</html>

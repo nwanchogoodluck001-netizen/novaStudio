@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NovaStudios — Mobile Dashboard & Stories</title>
+
+  <!-- Google Fonts: Outfit (Display) & Inter (UI/Reading) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',        // Main Background
+              surface: '#18181B',   // Elevated Surfaces / Bottom Navbar
+              obsidian: '#0A0A0C',  // Deep Shadows / Overlays
+              crimson: '#E5194B',   // Primary Brand Accent
+              berry: '#D11D53',     // Profile Badge & Secondary Accent
+              gold: '#F5A623',      // Highlight / Warm Amber Gold
+              glow: '#F8D568',      // Golden Glow
+              muted: '#8E8E93',     // Muted Cool Gray
+              steel: '#1E2B3C',
+              taupe: '#B59E88'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-24 lg:pb-8 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR (lg:flex) ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <!-- Brand Header -->
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30 group-hover:scale-105 transition-transform">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-2xl font-extrabold tracking-tight font-display text-white">
+          Nova<span class="text-nova-crimson">Studios</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Navigation</div>
+      
+      <a href="index.html" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl bg-nova-crimson/10 text-white font-semibold border-l-4 border-nova-crimson">
+        <i data-lucide="home" class="w-5 h-5 text-nova-crimson"></i>
+        <span>Home Dashboard</span>
+      </a>
+
+      <a href="category.html?category=romantic" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="compass" class="w-5 h-5"></i>
+        <span>Explore Genres</span>
+      </a>
+
+      <button onclick="openDiscoverModal()" class="w-full flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all text-left">
+        <i data-lucide="flame" class="w-5 h-5 text-nova-gold"></i>
+        <span>Top Charts</span>
+        <span class="ml-auto text-[10px] bg-nova-crimson/20 text-nova-crimson font-bold px-1.5 py-0.5 rounded">HOT</span>
+      </button>
+
+      <button onclick="openLibraryModal()" class="w-full flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all text-left">
+        <i data-lucide="bookmark" class="w-5 h-5"></i>
+        <span>My Library</span>
+        <span id="sidebarSavedBadge" class="ml-auto text-[10px] bg-white/10 text-white font-semibold px-2 py-0.5 rounded-full">2</span>
+      </button>
+
+      <div class="pt-6 pb-2">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Quick Genres</div>
+      </div>
+
+      <a href="category.html?category=romantic" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Romantic</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+      <a href="category.html?category=dark-fantasy" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Dark Fantasy</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+      <a href="category.html?category=billionaire-ceo" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Billionaire & CEO</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+      <a href="category.html?category=scifi-thriller" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs text-nova-muted hover:text-white hover:bg-white/5 transition-colors">
+        <span class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-cyan-500"></span> Sci-Fi & Thriller</span>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-nova-muted"></i>
+      </a>
+    </nav>
+
+    <!-- Desktop User Footer -->
+    <div class="p-4 border-t border-white/5 bg-nova-obsidian/40">
+      <div class="flex items-center justify-between p-2.5 rounded-xl bg-nova-bg/80 border border-white/5">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="openProfileModal()">
+          <div class="w-9 h-9 rounded-full bg-nova-berry flex items-center justify-center font-bold text-white shadow-md shadow-nova-berry/40">
+            N
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-1.5">
+              <span>Nova VIP</span>
+              <span class="text-[9px] bg-nova-gold/20 text-nova-gold px-1.5 py-0.5 rounded font-mono">PRO</span>
+            </div>
+            <div class="text-[11px] text-nova-muted flex items-center gap-1">
+              <i data-lucide="coins" class="w-3 h-3 text-nova-gold"></i>
+              <span id="sidebarCoinCount">480 Coins</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="openRewardsModal()" class="p-2 text-nova-gold hover:bg-nova-gold/10 rounded-lg transition-colors" title="Daily Rewards">
+          <i data-lucide="gift" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- ==================== TOP APP HEADER (Sticky, #111113) ==================== -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-6 py-3.5 transition-all">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        
+        <!-- Left: Brand Logo & Title -->
+        <a href="index.html" class="flex items-center gap-2.5 group">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-md shadow-nova-crimson/30">
+            <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+          </div>
+          <span class="text-xl sm:text-2xl font-black tracking-tight font-display text-white">
+            Nova<span class="text-nova-crimson">Studios</span>
+          </span>
+        </a>
+
+        <!-- Middle: Quick Search Input (Desktop) -->
+        <div class="hidden md:flex items-center relative flex-1 max-w-md mx-8">
+          <i data-lucide="search" class="w-4 h-4 text-nova-muted absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input
+            id="desktopSearchInput"
+            type="text"
+            placeholder="Search novels, authors, voice dramas..."
+            class="w-full bg-nova-surface border border-white/10 focus:border-nova-crimson rounded-full py-2 pl-10 pr-4 text-xs text-white placeholder-nova-muted outline-none transition-all shadow-inner focus:ring-1 focus:ring-nova-crimson"
+            onfocus="openSearchModal()"
+          />
+          <kbd class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] bg-white/10 text-nova-muted px-1.5 py-0.5 rounded font-mono">⌘K</kbd>
+        </div>
+
+        <!-- Right Action Buttons -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          
+          <!-- Search Button (Mobile) -->
+          <button
+            onclick="openSearchModal()"
+            class="p-2 sm:p-2.5 rounded-full bg-nova-surface border border-white/5 hover:border-white/20 text-white transition-colors relative"
+            aria-label="Open Search"
+          >
+            <i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+          </button>
+
+          <!-- Gift / Rewards Button (#F5A623) -->
+          <button
+            onclick="openRewardsModal()"
+            class="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full bg-nova-gold/10 border border-nova-gold/30 hover:bg-nova-gold/20 text-nova-gold transition-all"
+            aria-label="Daily Rewards"
+          >
+            <i data-lucide="gift" class="w-4 h-4 sm:w-4.5 sm:h-4.5 animate-pulse"></i>
+            <span class="text-xs font-bold font-mono tracking-tight" id="topHeaderCoins">480</span>
+          </button>
+
+          <!-- Circular User Avatar Badge (#D11D53 with 'N') -->
+          <button
+            onclick="openProfileModal()"
+            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-nova-berry flex items-center justify-center font-bold text-sm text-white shadow-md shadow-nova-berry/40 border border-white/20 hover:scale-105 active:scale-95 transition-transform"
+            aria-label="User Profile"
+          >
+            N
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ==================== MAIN PAGE CONTAINER ==================== -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-4 space-y-7">
+
+      <!-- ==================== QUICK GENRE PILLS ==================== -->
+      <section class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 text-xs select-none">
+        <a href="index.html" class="flex-shrink-0 px-4 py-2 rounded-full bg-nova-crimson text-white font-semibold shadow-md shadow-nova-crimson/30">
+          All Stories
+        </a>
+        <a href="category.html?category=romantic" class="flex-shrink-0 px-4 py-2 rounded-full bg-nova-surface hover:bg-white/10 text-nova-muted hover:text-white border border-white/5 transition-all">
+          Romantic
+        </a>
+        <a href="category.html?category=dark-fantasy" class="flex-shrink-0 px-4 py-2 rounded-full bg-nova-surface hover:bg-white/10 text-nova-muted hover:text-white border border-white/5 transition-all">
+          Dark Fantasy
+        </a>
+        <a href="category.html?category=billionaire-ceo" class="flex-shrink-0 px-4 py-2 rounded-full bg-nova-surface hover:bg-white/10 text-nova-muted hover:text-white border border-white/5 transition-all">
+          Billionaire & CEO
+        </a>
+        <a href="category.html?category=scifi-thriller" class="flex-shrink-0 px-4 py-2 rounded-full bg-nova-surface hover:bg-white/10 text-nova-muted hover:text-white border border-white/5 transition-all">
+          Sci-Fi & Thriller
+        </a>
+      </section>
+
+      <!-- ==================== HERO FEATURED SPOTLIGHT ==================== -->
+      <section class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-nova-obsidian via-nova-surface to-nova-obsidian border border-white/10 shadow-2xl">
+        <div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1200&q=80');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-nova-obsidian via-nova-obsidian/70 to-transparent"></div>
+        
+        <div class="relative p-5 sm:p-8 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+          <div class="space-y-2.5 max-w-2xl">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider bg-nova-crimson text-white uppercase font-display">
+                <i data-lucide="flame" class="w-3 h-3"></i> #1 Ranked Drama
+              </span>
+              <span class="inline-flex items-center gap-1 text-[11px] text-nova-gold font-semibold bg-nova-gold/10 px-2 py-0.5 rounded border border-nova-gold/20">
+                <i data-lucide="headphones" class="w-3 h-3"></i> 4.8M Listens
+              </span>
+            </div>
+            
+            <h1 class="text-2xl sm:text-4xl font-extrabold font-display tracking-tight text-white leading-tight">
+              Cold Blue Eyes
+            </h1>
+            
+            <p class="text-xs sm:text-sm text-nova-muted line-clamp-2 max-w-xl">
+              He was the ruthless enforcer who ruled New Manhattan in silence. She was the classical pianist who witnessed the assassination he never intended her to survive.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-white/70">
+              <span class="bg-white/10 px-2 py-0.5 rounded">36 Full Episodes</span>
+              <span>•</span>
+              <span class="text-nova-gold">Spatial Dual Voice</span>
+              <span>•</span>
+              <span>Elena Vance</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <a
+              href="story-hub.html?category=romantic&novel=cold-blue-eyes&ep=1"
+              class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white font-bold text-xs sm:text-sm shadow-lg shadow-nova-crimson/30 transition-all hover:scale-[1.02] active:scale-95"
+            >
+              <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+              <span>Start Ep 1</span>
+            </a>
+
+            <a
+              href="episodes.html?category=romantic&novel=cold-blue-eyes"
+              class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-nova-surface hover:bg-white/10 text-white font-semibold text-xs sm:text-sm border border-white/10 transition-colors"
+            >
+              <i data-lucide="list" class="w-4 h-4"></i>
+              <span>Episodes</span>
+            </a>
+
+            <button
+              onclick="handleQuickSave(this, 'cold-blue-eyes')"
+              class="p-3 rounded-xl bg-nova-surface hover:bg-white/10 border border-white/10 text-white transition-colors"
+              title="Bookmark to library"
+            >
+              <i data-lucide="bookmark" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           GENRE CATEGORY HORIZONTAL ROWS
+           1. Romantic
+           2. Dark Fantasy
+           3. Billionaire & CEO
+           4. Sci-Fi & Thriller
+           ================================================================= -->
+      <div id="genresContainer" class="space-y-9">
+        <!-- Rendered dynamically by JavaScript to guarantee zero dead links -->
+      </div>
+
+      <!-- ==================== VIP PASS / AUDIO DRAMA AD BANNER ==================== -->
+      <section class="rounded-2xl p-6 bg-gradient-to-r from-[#201509] via-nova-surface to-nova-obsidian border border-nova-gold/20 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div class="space-y-1.5 text-center md:text-left z-10">
+          <div class="inline-flex items-center gap-2 text-xs font-bold text-nova-gold uppercase tracking-wider font-display">
+            <i data-lucide="crown" class="w-4 h-4"></i> Unlimited Audio Pass
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold font-display text-white">Unlock Every Chapter & Dual-POV Audio Drama</h3>
+          <p class="text-xs text-nova-muted max-w-lg">Get instant 1080p video adaptations, 24-bit spatial audio downloads, and offline reading with zero ads.</p>
+        </div>
+        <button onclick="openRewardsModal()" class="z-10 px-6 py-3 rounded-xl bg-gradient-to-r from-nova-gold to-nova-glow text-nova-obsidian font-bold text-xs uppercase tracking-wider shadow-lg shadow-nova-gold/20 hover:scale-105 transition-all">
+          Claim 7-Day Free Trial
+        </button>
+        <div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-nova-gold/10 blur-2xl pointer-events-none"></div>
+      </section>
+
+    </main>
+
+    <!-- Footer Copyright -->
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 text-center text-xs text-nova-muted">
+      <div class="flex items-center justify-center gap-2 mb-2 font-display font-bold text-white/70">
+        <span>NovaStudios</span> • <span>Audio Drama & Interactive Novels</span>
+      </div>
+      <p>© 2026 NovaStudios Entertainment Inc. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- ==================== PERSISTENT BOTTOM NAVIGATION BAR (Mobile Fixed #18181B) ==================== -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-nova-surface/95 backdrop-blur-xl border-t border-white/5 z-50 px-3 flex items-center justify-around select-none">
+    
+    <!-- Home (Active state in #FFFFFF) -->
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-white group">
+      <div class="relative">
+        <i data-lucide="home" class="w-5 h-5 text-nova-crimson transition-transform group-hover:scale-110"></i>
+        <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-nova-crimson animate-pulse"></span>
+      </div>
+      <span class="text-[10px] font-bold font-display">Home</span>
+    </a>
+
+    <!-- Explore (Inactive #8E8E93) -->
+    <a href="category.html?category=romantic" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="compass" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Explore</span>
+    </a>
+
+    <!-- Discover (Inactive #8E8E93) -->
+    <button onclick="openDiscoverModal()" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="flame" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Discover</span>
+    </button>
+
+    <!-- My Library (Inactive #8E8E93) -->
+    <button onclick="openLibraryModal()" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors relative group">
+      <i data-lucide="bookmark" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span id="mobileSavedBadge" class="absolute top-0 right-5 w-4 h-4 rounded-full bg-nova-crimson text-white text-[9px] font-bold flex items-center justify-center">2</span>
+      <span class="text-[10px] font-medium font-display">Library</span>
+    </button>
+
+    <!-- Profile (Inactive #8E8E93) -->
+    <button onclick="openProfileModal()" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <div class="w-5 h-5 rounded-full bg-nova-berry flex items-center justify-center text-[10px] font-bold text-white">
+        N
+      </div>
+      <span class="text-[10px] font-medium font-display">Profile</span>
+    </button>
+
+  </nav>
+
+  <!-- ==================== LIVE SEARCH MODAL OVERLAY ==================== -->
+  <div id="searchModal" class="fixed inset-0 z-50 bg-nova-obsidian/90 backdrop-blur-xl flex flex-col p-4 sm:p-6 opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="max-w-2xl mx-auto w-full flex flex-col h-full">
+      <!-- Search Input Header -->
+      <div class="flex items-center gap-3 pb-4 border-b border-white/10">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-5 h-5 text-nova-muted absolute left-4 top-1/2 -translate-y-1/2"></i>
+          <input
+            id="modalSearchInput"
+            type="text"
+            placeholder="Search novels, genres, characters..."
+            class="w-full bg-nova-surface border border-white/10 focus:border-nova-crimson rounded-2xl py-3 pl-12 pr-10 text-sm text-white placeholder-nova-muted outline-none transition-all shadow-xl"
+            oninput="handleLiveSearch(this.value)"
+          />
+          <button id="clearSearchBtn" onclick="clearLiveSearch()" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-nova-muted hover:text-white">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <button onclick="closeSearchModal()" class="px-3.5 py-3 rounded-xl bg-nova-surface hover:bg-white/10 text-white font-medium text-xs">
+          Cancel
+        </button>
+      </div>
+
+      <!-- Quick Category Suggestions -->
+      <div class="py-3 flex items-center gap-2 overflow-x-auto no-scrollbar text-xs">
+        <span class="text-nova-muted text-[11px] font-mono mr-1">Filter:</span>
+        <button onclick="filterSearchCategory('romantic')" class="px-3 py-1 rounded-full bg-white/5 hover:bg-nova-crimson/20 hover:text-nova-crimson text-nova-muted transition-colors">Romantic</button>
+        <button onclick="filterSearchCategory('dark-fantasy')" class="px-3 py-1 rounded-full bg-white/5 hover:bg-purple-500/20 hover:text-purple-400 text-nova-muted transition-colors">Dark Fantasy</button>
+        <button onclick="filterSearchCategory('billionaire-ceo')" class="px-3 py-1 rounded-full bg-white/5 hover:bg-amber-500/20 hover:text-amber-400 text-nova-muted transition-colors">Billionaire & CEO</button>
+        <button onclick="filterSearchCategory('scifi-thriller')" class="px-3 py-1 rounded-full bg-white/5 hover:bg-cyan-500/20 hover:text-cyan-400 text-nova-muted transition-colors">Sci-Fi</button>
+      </div>
+
+      <!-- Results Container -->
+      <div id="searchResultsList" class="flex-1 overflow-y-auto space-y-2.5 pt-2 pb-6">
+        <div class="text-center py-16 text-nova-muted text-xs">
+          <i data-lucide="book-open" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
+          Type a novel title, genre, or trope (e.g. "Cold", "Obsidian", "CEO")
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DAILY REWARDS / COINS MODAL (#F5A623) ==================== -->
+  <div id="rewardsModal" class="fixed inset-0 z-50 bg-nova-obsidian/85 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="bg-nova-surface border border-nova-gold/30 rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl relative">
+      <button onclick="closeRewardsModal()" class="absolute top-4 right-4 text-nova-muted hover:text-white p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-nova-gold to-nova-glow mx-auto flex items-center justify-center shadow-lg shadow-nova-gold/30">
+        <i data-lucide="gift" class="w-8 h-8 text-nova-obsidian"></i>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold font-display text-white">Daily Streak Rewards</h3>
+        <p class="text-xs text-nova-muted mt-1">Claim free coins every 24 hours to unlock VIP episodes and audio drama adaptations.</p>
+      </div>
+
+      <!-- Streak Progress -->
+      <div class="grid grid-cols-7 gap-1.5 py-2">
+        <div class="bg-nova-gold/20 border border-nova-gold rounded-lg py-2 text-[10px] text-nova-gold font-bold">D1<br/>✓</div>
+        <div class="bg-nova-gold/20 border border-nova-gold rounded-lg py-2 text-[10px] text-nova-gold font-bold">D2<br/>✓</div>
+        <div class="bg-nova-gold/20 border border-nova-gold rounded-lg py-2 text-[10px] text-nova-gold font-bold">D3<br/>✓</div>
+        <div class="bg-nova-gold/20 border border-nova-gold rounded-lg py-2 text-[10px] text-nova-gold font-bold">D4<br/>✓</div>
+        <div class="bg-nova-gold/20 border border-nova-gold rounded-lg py-2 text-[10px] text-nova-gold font-bold">D5<br/>✓</div>
+        <div class="bg-nova-gold/20 border border-nova-gold rounded-lg py-2 text-[10px] text-nova-gold font-bold">D6<br/>✓</div>
+        <div class="bg-nova-gold text-nova-obsidian rounded-lg py-2 text-[10px] font-black animate-pulse">D7<br/>+100</div>
+      </div>
+
+      <div class="bg-nova-obsidian/60 p-3.5 rounded-2xl flex items-center justify-between border border-white/5">
+        <span class="text-xs text-nova-muted">Current Coin Balance</span>
+        <span class="text-lg font-bold font-mono text-nova-gold flex items-center gap-1.5">
+          <i data-lucide="coins" class="w-4 h-4"></i>
+          <span id="modalBalanceCoins">480</span>
+        </span>
+      </div>
+
+      <button
+        id="claimRewardBtn"
+        onclick="claimDailyCoins()"
+        class="w-full py-3.5 rounded-xl bg-gradient-to-r from-nova-gold to-nova-glow text-nova-obsidian font-bold text-xs uppercase tracking-wider shadow-lg shadow-nova-gold/30 hover:scale-[1.02] active:scale-95 transition-all"
+      >
+        Claim +100 Coins Today
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MY LIBRARY MODAL ==================== -->
+  <div id="libraryModal" class="fixed inset-0 z-50 bg-nova-obsidian/85 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="bg-nova-surface border border-white/10 rounded-3xl max-w-lg w-full p-6 flex flex-col max-h-[85vh] shadow-2xl relative">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <i data-lucide="bookmark" class="w-5 h-5 text-nova-crimson"></i>
+          <h3 class="text-lg font-bold font-display text-white">My Library</h3>
+        </div>
+        <button onclick="closeLibraryModal()" class="text-nova-muted hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="libraryListContainer" class="flex-1 overflow-y-auto py-4 space-y-3">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== USER PROFILE MODAL ==================== -->
+  <div id="profileModal" class="fixed inset-0 z-50 bg-nova-obsidian/85 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="bg-nova-surface border border-white/10 rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl relative">
+      <button onclick="closeProfileModal()" class="absolute top-4 right-4 text-nova-muted hover:text-white p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="w-20 h-20 rounded-full bg-nova-berry mx-auto flex items-center justify-center text-3xl font-extrabold text-white shadow-xl shadow-nova-berry/40 border-2 border-white/20">
+        N
+      </div>
+
+      <div>
+        <h3 class="text-lg font-bold font-display text-white">Nova Member</h3>
+        <p class="text-xs text-nova-muted">member_74910@novastudios.com</p>
+        <span class="inline-block mt-2 text-[10px] font-bold bg-nova-gold/20 text-nova-gold px-2.5 py-0.5 rounded-full border border-nova-gold/30">
+          VIP ALL-ACCESS ACTIVE
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 text-left">
+        <div class="bg-nova-obsidian/70 p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-nova-muted">Saved Stories</div>
+          <div class="text-base font-bold text-white font-mono" id="profileSavedCount">2</div>
+        </div>
+        <div class="bg-nova-obsidian/70 p-3 rounded-xl border border-white/5">
+          <div class="text-[10px] text-nova-muted">Available Coins</div>
+          <div class="text-base font-bold text-nova-gold font-mono" id="profileCoinCount">480</div>
+        </div>
+      </div>
+
+      <div class="pt-2 space-y-2">
+        <a href="category.html?category=romantic" class="block w-full py-2.5 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white text-xs font-bold transition-colors">
+          Browse All Catalogs
+        </a>
+        <a href="../admin/index.html" class="block w-full py-2.5 rounded-xl bg-nova-gold/10 hover:bg-nova-gold/20 text-nova-gold border border-nova-gold/30 text-xs font-semibold transition-colors flex items-center justify-center gap-1.5">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+          <span>Admin Operations Dashboard</span>
+        </a>
+        <a href="../index.html" class="block w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-nova-muted hover:text-white text-xs font-semibold transition-colors">
+          Back to Public Landing Page
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Story Data Store -->
+  <script src="../assets/js/stories-data.js"></script>
+
+  <!-- Dashboard Page Logic -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCategoryRows();
+      updateSavedBadgeUI();
+      lucide.createIcons();
+    });
+
+    /** Render horizontal scrollable shelves for the 4 Novel Genres */
+    function renderCategoryRows() {
+      const container = document.getElementById("genresContainer");
+      if (!container) return;
+
+      const categories = getAllCategories();
+
+      container.innerHTML = categories.map(cat => {
+        const novels = getNovelsByCategory(cat.slug);
+
+        return `
+          <section class="space-y-3.5">
+            <!-- Section Header: Category Title on Left, Crimson Chevron on Right -->
+            <div class="flex items-center justify-between">
+              <a
+                href="category.html?category=${cat.slug}"
+                class="flex items-center gap-2.5 text-lg sm:text-xl font-bold font-display text-white group cursor-pointer"
+              >
+                <span>${cat.name}</span>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-nova-crimson group-hover:translate-x-1 transition-transform"></i>
+              </a>
+
+              <a
+                href="category.html?category=${cat.slug}"
+                class="text-xs font-semibold text-nova-muted hover:text-nova-crimson transition-colors flex items-center gap-1"
+              >
+                <span>See All (${novels.length})</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-nova-crimson"></i>
+              </a>
+            </div>
+
+            <!-- Horizontal Scrollable Shelf of 12px Rounded Cover Artworks -->
+            <div class="flex items-stretch gap-3.5 sm:gap-4 overflow-x-auto no-scrollbar pb-2 select-none -mx-4 px-4 sm:mx-0 sm:px-0">
+              ${novels.map(novel => `
+                <a
+                  href="category.html?category=${cat.slug}&novel=${novel.id}"
+                  class="flex-shrink-0 w-36 sm:w-44 group block cursor-pointer cover-card"
+                  title="${novel.title} by ${novel.author}"
+                >
+                  <!-- 12px Rounded Vertical Cover Artwork -->
+                  <div class="relative w-full aspect-[2/3] rounded-[12px] overflow-hidden bg-nova-surface border border-white/5 shadow-md group-hover:border-nova-crimson/50 transition-all">
+                    <img
+                      src="${novel.cover}"
+                      alt="${novel.title}"
+                      loading="lazy"
+                      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80'"
+                    />
+
+                    <!-- Dark Gradient Vignette Overlay (#0A0A0C) -->
+                    <div class="absolute inset-0 cover-vignette"></div>
+
+                    <!-- Top Badges -->
+                    <div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
+                      <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${novel.badgeColor || 'bg-nova-crimson text-white'} uppercase tracking-tight shadow">
+                        ${novel.badge}
+                      </span>
+                      <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-nova-obsidian/80 text-nova-gold flex items-center gap-0.5 backdrop-blur-sm">
+                        <i data-lucide="star" class="w-2.5 h-2.5 fill-nova-gold"></i> ${novel.rating}
+                      </span>
+                    </div>
+
+                    <!-- Stylized Title Typography Overlaid at the Bottom -->
+                    <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3 pointer-events-none">
+                      <h4 class="text-xs sm:text-sm font-bold font-display text-white line-clamp-1 leading-snug drop-shadow-md group-hover:text-nova-crimson transition-colors">
+                        ${novel.title}
+                      </h4>
+                      <p class="text-[10px] text-white/70 line-clamp-1 mt-0.5">
+                        ${novel.author}
+                      </p>
+                      <div class="flex items-center gap-1.5 mt-1 text-[9px] text-nova-muted font-medium">
+                        <span class="text-nova-gold">${novel.totalEpisodes} EPs</span>
+                        <span>•</span>
+                        <span>${novel.formats.join('/')}</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              `).join('')}
+            </div>
+          </section>
+        `;
+      }).join('');
+    }
+
+    /** Quick Bookmark Helper */
+    function handleQuickSave(btn, novelId) {
+      const state = toggleSaveNovel(novelId);
+      updateSavedBadgeUI();
+      if (btn) {
+        btn.classList.toggle("text-nova-crimson", state);
+        btn.classList.toggle("border-nova-crimson", state);
+      }
+    }
+
+    function updateSavedBadgeUI() {
+      const saved = JSON.parse(localStorage.getItem("nova_saved_novels") || '["cold-blue-eyes", "my-ex-became-a-god"]');
+      const count = saved.length;
+      const b1 = document.getElementById("sidebarSavedBadge");
+      const b2 = document.getElementById("mobileSavedBadge");
+      const b3 = document.getElementById("profileSavedCount");
+      if (b1) b1.textContent = count;
+      if (b2) b2.textContent = count;
+      if (b3) b3.textContent = count;
+    }
+
+    /* ==================== SEARCH OVERLAY ==================== */
+    function openSearchModal() {
+      const modal = document.getElementById("searchModal");
+      modal.classList.remove("opacity-0", "pointer-events-none");
+      setTimeout(() => document.getElementById("modalSearchInput").focus(), 100);
+      lucide.createIcons();
+    }
+
+    function closeSearchModal() {
+      const modal = document.getElementById("searchModal");
+      modal.classList.add("opacity-0", "pointer-events-none");
+    }
+
+    function clearLiveSearch() {
+      const input = document.getElementById("modalSearchInput");
+      input.value = "";
+      handleLiveSearch("");
+    }
+
+    function filterSearchCategory(slug) {
+      const input = document.getElementById("modalSearchInput");
+      input.value = slug;
+      handleLiveSearch(slug);
+    }
+
+    function handleLiveSearch(query) {
+      const clearBtn = document.getElementById("clearSearchBtn");
+      const list = document.getElementById("searchResultsList");
+      if (!query || query.trim() === "") {
+        clearBtn.classList.add("hidden");
+        list.innerHTML = `
+          <div class="text-center py-16 text-nova-muted text-xs">
+            <i data-lucide="book-open" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
+            Type a novel title, genre, or trope (e.g. "Cold", "Obsidian", "CEO")
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      clearBtn.classList.remove("hidden");
+      const results = searchStories(query);
+
+      if (results.length === 0) {
+        list.innerHTML = `
+          <div class="text-center py-16 text-nova-muted text-xs">
+            <i data-lucide="search-x" class="w-8 h-8 mx-auto mb-2 text-nova-crimson"></i>
+            No stories found matching "<span class="text-white">${query}</span>".
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      list.innerHTML = results.map(novel => `
+        <a
+          href="episodes.html?category=${novel.categorySlug}&novel=${novel.id}"
+          class="flex items-center gap-3.5 p-3 rounded-2xl bg-nova-surface hover:bg-white/5 border border-white/5 hover:border-nova-crimson/30 transition-all group"
+        >
+          <img src="${novel.cover}" alt="${novel.title}" class="w-12 h-16 rounded-lg object-cover flex-shrink-0" />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-nova-gold font-mono font-bold">${novel.categoryName}</span>
+              <span class="text-[10px] bg-white/10 text-nova-muted px-1.5 py-0.2 rounded">${novel.totalEpisodes} EPs</span>
+            </div>
+            <h4 class="text-sm font-bold font-display text-white group-hover:text-nova-crimson truncate">
+              ${novel.title}
+            </h4>
+            <p class="text-xs text-nova-muted truncate">${novel.author} • ${novel.tags.slice(0, 2).join(', ')}</p>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-nova-crimson flex-shrink-0 group-hover:translate-x-1 transition-transform"></i>
+        </a>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    /* ==================== REWARDS MODAL ==================== */
+    function openRewardsModal() {
+      const modal = document.getElementById("rewardsModal");
+      modal.classList.remove("opacity-0", "pointer-events-none");
+      lucide.createIcons();
+    }
+
+    function closeRewardsModal() {
+      const modal = document.getElementById("rewardsModal");
+      modal.classList.add("opacity-0", "pointer-events-none");
+    }
+
+    function claimDailyCoins() {
+      const btn = document.getElementById("claimRewardBtn");
+      const current = parseInt(localStorage.getItem("nova_user_coins") || "480", 10);
+      const next = current + 100;
+      localStorage.setItem("nova_user_coins", next);
+
+      document.getElementById("topHeaderCoins").textContent = next;
+      document.getElementById("sidebarCoinCount").textContent = `${next} Coins`;
+      document.getElementById("modalBalanceCoins").textContent = next;
+      document.getElementById("profileCoinCount").textContent = next;
+
+      btn.disabled = true;
+      btn.textContent = "Claimed! (+100 Coins)";
+      btn.classList.remove("from-nova-gold", "to-nova-glow");
+      btn.classList.add("bg-green-600", "text-white");
+
+      setTimeout(() => closeRewardsModal(), 1200);
+    }
+
+    /* ==================== LIBRARY MODAL ==================== */
+    function openLibraryModal() {
+      const modal = document.getElementById("libraryModal");
+      const container = document.getElementById("libraryListContainer");
+      const savedIds = JSON.parse(localStorage.getItem("nova_saved_novels") || '["cold-blue-eyes", "my-ex-became-a-god"]');
+
+      if (savedIds.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-nova-muted text-xs">
+            <i data-lucide="bookmark" class="w-8 h-8 mx-auto mb-2 opacity-30"></i>
+            Your library is empty. Save any novel to continue reading anytime!
+          </div>
+        `;
+      } else {
+        container.innerHTML = savedIds.map(id => {
+          const novel = getNovelById(id);
+          return `
+            <div class="flex items-center gap-3.5 p-3 rounded-2xl bg-nova-obsidian/70 border border-white/5">
+              <img src="${novel.cover}" alt="${novel.title}" class="w-12 h-16 rounded-lg object-cover flex-shrink-0" />
+              <div class="flex-1 min-w-0">
+                <span class="text-[10px] text-nova-gold font-bold font-mono">${novel.categoryName}</span>
+                <h4 class="text-sm font-bold text-white truncate">${novel.title}</h4>
+                <p class="text-xs text-nova-muted truncate">${novel.author} • ${novel.totalEpisodes} Episodes</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <a
+                  href="episodes.html?category=${novel.categorySlug}&novel=${novel.id}"
+                  class="px-3 py-1.5 rounded-lg bg-nova-crimson text-white text-xs font-bold hover:bg-nova-berry transition-colors"
+                >
+                  Read
+                </a>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      modal.classList.remove("opacity-0", "pointer-events-none");
+      lucide.createIcons();
+    }
+
+    function closeLibraryModal() {
+      const modal = document.getElementById("libraryModal");
+      modal.classList.add("opacity-0", "pointer-events-none");
+    }
+
+    /* ==================== PROFILE MODAL ==================== */
+    function openProfileModal() {
+      const modal = document.getElementById("profileModal");
+      modal.classList.remove("opacity-0", "pointer-events-none");
+      lucide.createIcons();
+    }
+
+    function closeProfileModal() {
+      const modal = document.getElementById("profileModal");
+      modal.classList.add("opacity-0", "pointer-events-none");
+    }
+
+    function openDiscoverModal() {
+      openSearchModal();
+    }
+
+    // Keyboard Shortcut (⌘K / Ctrl+K)
+    window.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        openSearchModal();
+      }
+      if (e.key === "Escape") {
+        closeSearchModal();
+        closeRewardsModal();
+        closeLibraryModal();
+        closeProfileModal();
+      }
+    });
+  </script>
+</body>
+</html>

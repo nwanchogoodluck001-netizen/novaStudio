@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Episodes List — NovaStudios</title>
+
+  <!-- Google Fonts: Outfit (Display) & Inter (UI/Reading) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nova: {
+              bg: '#111113',        // Main Background
+              surface: '#18181B',   // Elevated Surfaces / List Rows
+              obsidian: '#0A0A0C',  // Deep Shadows / Overlays
+              crimson: '#E5194B',   // Primary Brand Accent
+              berry: '#D11D53',     // Profile Badge & Secondary Accent
+              gold: '#F5A623',      // Warm Amber Gold
+              glow: '#F8D568',      // Golden Glow
+              muted: '#8E8E93',     // Muted Cool Gray
+              steel: '#1E2B3C',
+              taupe: '#B59E88'
+            }
+          },
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/css/custom.css" />
+</head>
+
+<body class="bg-nova-bg text-white font-sans antialiased selection:bg-nova-crimson selection:text-white min-h-screen pb-24 lg:pb-8 flex flex-col">
+
+  <!-- ==================== DESKTOP FIXED SIDEBAR ==================== -->
+  <aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-nova-surface border-r border-white/5 flex-col z-40 select-none">
+    <div class="h-20 flex items-center px-6 border-b border-white/5">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-nova-crimson to-nova-berry flex items-center justify-center shadow-lg shadow-nova-crimson/30 group-hover:scale-105 transition-transform">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-2xl font-extrabold tracking-tight font-display text-white">
+          Nova<span class="text-nova-crimson">Studios</span>
+        </span>
+      </a>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Navigation</div>
+      
+      <a href="index.html" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span>Home Dashboard</span>
+      </a>
+
+      <a id="sideExploreLink" href="category.html?category=romantic" class="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-nova-muted hover:text-white hover:bg-white/5 font-medium transition-all">
+        <i data-lucide="compass" class="w-5 h-5"></i>
+        <span>Explore Genres</span>
+      </a>
+
+      <div class="pt-6 pb-2">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-nova-muted px-3 mb-2 font-display">Quick Access</div>
+      </div>
+
+      <a id="sidePlayEp1Link" href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-nova-crimson/10 text-nova-crimson font-semibold border border-nova-crimson/20">
+        <i data-lucide="play" class="w-4 h-4 fill-nova-crimson"></i>
+        <span>Play Episode 1</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ==================== MAIN PAGE WRAPPER ==================== -->
+  <div class="lg:pl-64 flex-1 flex flex-col w-full">
+
+    <!-- ==================== TOP HEADER (Sticky, #111113) ==================== -->
+    <header class="sticky top-0 z-30 bg-nova-bg/95 backdrop-blur-xl border-b border-white/5 px-4 sm:px-6 py-3.5">
+      <div class="max-w-4xl mx-auto flex items-center justify-between gap-4">
+        
+        <!-- Left: Back Arrow returning to category.html + Novel Title -->
+        <div class="flex items-center gap-3 min-w-0">
+          <a
+            id="backToCategoryBtn"
+            href="category.html?category=romantic"
+            class="w-9 h-9 rounded-full bg-nova-surface hover:bg-white/10 border border-white/5 flex items-center justify-center text-white transition-colors group flex-shrink-0"
+            aria-label="Back to Category Novels"
+          >
+            <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform"></i>
+          </a>
+
+          <div class="min-w-0">
+            <span id="headerCategoryPill" class="text-[10px] font-mono text-nova-crimson uppercase tracking-wider font-bold">
+              Romantic
+            </span>
+            <h1 id="headerNovelTitle" class="text-sm sm:text-lg font-bold font-display text-white truncate leading-tight">
+              Cold Blue Eyes
+            </h1>
+          </div>
+        </div>
+
+        <!-- Right: Bookmark and Share Buttons -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button
+            id="bookmarkNovelBtn"
+            onclick="toggleNovelBookmark()"
+            class="p-2 sm:px-3 sm:py-1.5 rounded-full bg-nova-surface hover:bg-white/10 border border-white/10 text-white flex items-center gap-1.5 text-xs font-semibold transition-colors"
+          >
+            <i data-lucide="bookmark" class="w-4 h-4"></i>
+            <span class="hidden sm:inline" id="bookmarkBtnText">Save</span>
+          </button>
+
+          <a
+            id="headerStartEp1"
+            href="#"
+            class="px-3.5 py-1.5 rounded-full bg-nova-crimson hover:bg-nova-berry text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-nova-crimson/30 transition-all"
+          >
+            <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
+            <span>Start Ep 1</span>
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-5 space-y-6">
+
+      <!-- ==================== COMPACT NOVEL INFO BANNER ==================== -->
+      <section class="rounded-2xl p-4 sm:p-6 bg-nova-surface border border-white/10 shadow-xl relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row gap-5 items-start">
+          
+          <!-- Cover Thumbnail -->
+          <div class="relative w-28 sm:w-36 aspect-[2/3] rounded-xl overflow-hidden bg-nova-obsidian border border-white/10 flex-shrink-0 shadow-lg mx-auto sm:mx-0">
+            <img
+              id="novelBannerCover"
+              src=""
+              alt="Novel Cover"
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute top-2 left-2">
+              <span id="novelBadgePill" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-nova-crimson text-white uppercase shadow">
+                HOT #1
+              </span>
+            </div>
+          </div>
+
+          <!-- Metadata & Synopsis -->
+          <div class="flex-1 space-y-2.5 text-center sm:text-left">
+            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+              <span id="novelCategoryBadge" class="text-[11px] font-bold px-2 py-0.5 rounded bg-white/10 text-white font-mono">
+                Romantic
+              </span>
+              <span class="text-xs text-nova-gold font-bold flex items-center gap-1 bg-nova-gold/10 px-2 py-0.5 rounded border border-nova-gold/20">
+                <i data-lucide="star" class="w-3 h-3 fill-nova-gold"></i>
+                <span id="novelRatingVal">4.96</span>
+              </span>
+              <span class="text-xs text-nova-muted" id="novelPlaysVal">4.8M Plays</span>
+            </div>
+
+            <h2 id="novelBannerTitle" class="text-xl sm:text-2xl font-extrabold font-display text-white">
+              Cold Blue Eyes
+            </h2>
+
+            <div class="text-xs text-nova-muted flex items-center justify-center sm:justify-start gap-2">
+              <span>Author: <strong id="novelBannerAuthor" class="text-white">Elena Vance</strong></span>
+              <span>•</span>
+              <span id="novelTotalEpisodesVal" class="text-nova-gold font-semibold">36 Episodes</span>
+            </div>
+
+            <div class="text-xs text-white/70 flex flex-wrap items-center justify-center sm:justify-start gap-1.5 py-1">
+              <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-[11px] text-white">Full Text</span>
+              <span class="px-2 py-0.5 rounded bg-nova-gold/10 border border-nova-gold/20 text-[11px] text-nova-gold">Dolby Voice Drama</span>
+              <span class="px-2 py-0.5 rounded bg-nova-crimson/10 border border-nova-crimson/20 text-[11px] text-nova-crimson">1080p Video Teaser</span>
+            </div>
+
+            <p id="novelSynopsisText" class="text-xs sm:text-sm text-nova-muted leading-relaxed line-clamp-3">
+              Synopsis loading...
+            </p>
+
+            <button
+              id="toggleSynopsisBtn"
+              onclick="toggleSynopsisExpand()"
+              class="text-xs text-nova-crimson hover:underline font-semibold"
+            >
+              Read full synopsis
+            </button>
+
+            <!-- Actions: Download Full Pack & Play First Ep -->
+            <div class="pt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3">
+              <a
+                id="mainStartEp1Btn"
+                href="#"
+                class="px-5 py-2.5 rounded-xl bg-nova-crimson hover:bg-nova-berry text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg shadow-nova-crimson/30 transition-all hover:scale-[1.02] active:scale-95"
+              >
+                <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                <span>Start Episode 1</span>
+              </a>
+
+              <!-- "Download Full Novel Pack" Button -->
+              <button
+                onclick="openDownloadPackModal()"
+                class="px-4 py-2.5 rounded-xl bg-nova-obsidian hover:bg-white/10 text-nova-gold hover:text-white text-xs sm:text-sm font-semibold border border-nova-gold/30 hover:border-white/20 flex items-center gap-2 transition-all"
+              >
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Download Full Novel Pack</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =================================================================
+           EPISODES VERTICAL LIST
+           Clean, structured rows inside #18181B list containers
+           ================================================================= -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between px-2">
+          <div class="flex items-center gap-2">
+            <h3 class="text-sm sm:text-base font-bold font-display text-white">All Episodes</h3>
+            <span id="episodesListCount" class="text-xs font-mono text-nova-muted">(36)</span>
+          </div>
+
+          <div class="text-xs text-nova-muted flex items-center gap-1.5">
+            <i data-lucide="arrow-down-up" class="w-3.5 h-3.5"></i>
+            <span>Order: 1 - End</span>
+          </div>
+        </div>
+
+        <div id="episodesListContainer" class="rounded-2xl bg-nova-surface border border-white/5 overflow-hidden shadow-xl divide-y divide-white/[0.06]">
+          <!-- Rendered dynamically via JavaScript -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-white/5 py-6 px-4 text-center text-xs text-nova-muted">
+      <p>© 2026 NovaStudios Entertainment. Mobile Reading & Audio Network.</p>
+    </footer>
+
+  </div>
+
+  <!-- ==================== DOWNLOAD FULL PACK MODAL ==================== -->
+  <div id="downloadModal" class="fixed inset-0 z-50 bg-nova-obsidian/85 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="bg-nova-surface border border-white/10 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+      <button onclick="closeDownloadPackModal()" class="absolute top-4 right-4 text-nova-muted hover:text-white p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-nova-crimson/20 border border-nova-crimson/30 flex items-center justify-center text-nova-crimson">
+          <i data-lucide="package" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-bold font-display text-white">Download Full Novel Pack</h3>
+          <p class="text-xs text-nova-muted" id="downloadModalNovelName">Cold Blue Eyes</p>
+        </div>
+      </div>
+
+      <p class="text-xs text-nova-muted leading-relaxed">
+        Choose your preferred offline bundle. Downloads are stored directly in your browser cache and device storage for zero-data reading and listening.
+      </p>
+
+      <div class="space-y-2.5 pt-1">
+        <!-- Audio Drama Pack (MP3) -->
+        <div class="p-3.5 rounded-xl bg-nova-obsidian/60 border border-white/5 flex items-center justify-between hover:border-nova-gold/40 transition-colors">
+          <div class="flex items-center gap-3">
+            <i data-lucide="headphones" class="w-5 h-5 text-nova-gold"></i>
+            <div>
+              <div class="text-xs font-bold text-white">Complete Audio Drama (320kbps MP3)</div>
+              <div class="text-[10px] text-nova-muted">All 36 Episodes • 420 MB</div>
+            </div>
+          </div>
+          <button onclick="simulateDownload(this, 'Audio Drama')" class="px-3 py-1.5 rounded-lg bg-nova-gold/20 text-nova-gold text-xs font-bold hover:bg-nova-gold hover:text-nova-obsidian transition-colors">
+            Get MP3
+          </button>
+        </div>
+
+        <!-- E-Book Pack (EPUB & PDF) -->
+        <div class="p-3.5 rounded-xl bg-nova-obsidian/60 border border-white/5 flex items-center justify-between hover:border-nova-crimson/40 transition-colors">
+          <div class="flex items-center gap-3">
+            <i data-lucide="book" class="w-5 h-5 text-nova-crimson"></i>
+            <div>
+              <div class="text-xs font-bold text-white">Complete Unabridged Text (EPUB / PDF)</div>
+              <div class="text-[10px] text-nova-muted">All Chapters + Illustrations • 18 MB</div>
+            </div>
+          </div>
+          <button onclick="simulateDownload(this, 'EPUB Book')" class="px-3 py-1.5 rounded-lg bg-nova-crimson/20 text-nova-crimson text-xs font-bold hover:bg-nova-crimson hover:text-white transition-colors">
+            Get EPUB
+          </button>
+        </div>
+      </div>
+
+      <div id="downloadProgressBarContainer" class="hidden pt-2 space-y-1.5">
+        <div class="flex items-center justify-between text-[11px] text-nova-muted">
+          <span id="downloadStatusText">Preparing bundle...</span>
+          <span id="downloadPercentageText">0%</span>
+        </div>
+        <div class="w-full bg-nova-obsidian rounded-full h-2 overflow-hidden border border-white/5">
+          <div id="downloadProgressBar" class="bg-gradient-to-r from-nova-crimson to-nova-gold h-full w-0 transition-all duration-300"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PERSISTENT BOTTOM NAVIGATION BAR ==================== -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-nova-surface/95 backdrop-blur-xl border-t border-white/5 z-50 px-3 flex items-center justify-around select-none">
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="home" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Home</span>
+    </a>
+
+    <a id="bottomExploreLink" href="category.html?category=romantic" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-white group">
+      <div class="relative">
+        <i data-lucide="compass" class="w-5 h-5 text-nova-crimson"></i>
+        <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-nova-crimson"></span>
+      </div>
+      <span class="text-[10px] font-bold font-display">Explore</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="flame" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Discover</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <i data-lucide="bookmark" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+      <span class="text-[10px] font-medium font-display">Library</span>
+    </a>
+
+    <a href="index.html" class="flex flex-col items-center justify-center gap-1 flex-1 py-1 text-nova-muted hover:text-white transition-colors group">
+      <div class="w-5 h-5 rounded-full bg-nova-berry flex items-center justify-center text-[10px] font-bold text-white">
+        N
+      </div>
+      <span class="text-[10px] font-medium font-display">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Shared Story Data Store -->
+  <script src="../assets/js/stories-data.js"></script>
+
+  <!-- Episodes Page Logic -->
+  <script>
+    let activeNovel = null;
+    let activeCategorySlug = "romantic";
+    let isSynopsisExpanded = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const { category, novelId } = getStoryUrlParams();
+      activeCategorySlug = category || "romantic";
+      activeNovel = getNovelById(novelId);
+
+      loadNovelView(activeNovel, activeCategorySlug);
+      lucide.createIcons();
+    });
+
+    function loadNovelView(novel, categorySlug) {
+      // Setup Back Button Link
+      const backBtn = document.getElementById("backToCategoryBtn");
+      backBtn.href = `category.html?category=${categorySlug}`;
+
+      const sideExplore = document.getElementById("sideExploreLink");
+      if (sideExplore) sideExplore.href = `category.html?category=${categorySlug}`;
+      const bottomExplore = document.getElementById("bottomExploreLink");
+      if (bottomExplore) bottomExplore.href = `category.html?category=${categorySlug}`;
+
+      // Header info
+      document.getElementById("headerCategoryPill").textContent = novel.categoryName;
+      document.getElementById("headerNovelTitle").textContent = novel.title;
+
+      // Start Ep 1 Link
+      const ep1Url = `story-hub.html?category=${categorySlug}&novel=${novel.id}&ep=1`;
+      document.getElementById("headerStartEp1").href = ep1Url;
+      document.getElementById("mainStartEp1Btn").href = ep1Url;
+      const sidePlay = document.getElementById("sidePlayEp1Link");
+      if (sidePlay) sidePlay.href = ep1Url;
+
+      // Banner details
+      document.getElementById("novelBannerCover").src = novel.cover;
+      document.getElementById("novelBadgePill").textContent = novel.badge;
+      document.getElementById("novelCategoryBadge").textContent = novel.categoryName;
+      document.getElementById("novelRatingVal").textContent = novel.rating;
+      document.getElementById("novelPlaysVal").textContent = `${novel.totalPlays} Plays`;
+      document.getElementById("novelBannerTitle").textContent = novel.title;
+      document.getElementById("novelBannerAuthor").textContent = novel.author;
+      document.getElementById("novelTotalEpisodesVal").textContent = `${novel.totalEpisodes} Episodes`;
+      document.getElementById("novelSynopsisText").textContent = novel.synopsis;
+      document.getElementById("downloadModalNovelName").textContent = `${novel.title} by ${novel.author}`;
+      document.getElementById("episodesListCount").textContent = `(${novel.totalEpisodes})`;
+
+      // Bookmark state
+      updateBookmarkState(novel.id);
+
+      // Render episodes
+      renderEpisodesList(novel, categorySlug);
+    }
+
+    /** Render structured rows inside #18181B list containers */
+    function renderEpisodesList(novel, categorySlug) {
+      const container = document.getElementById("episodesListContainer");
+      if (!container) return;
+
+      // Build episodes list (using static detailed episodes, procedural for remainder up to totalEpisodes)
+      const list = [];
+      const totalToDisplay = Math.min(novel.totalEpisodes, 20); // show up to 20 structured episodes
+
+      for (let i = 1; i <= totalToDisplay; i++) {
+        const { episode } = getEpisode(novel.id, i);
+        list.push(episode);
+      }
+
+      container.innerHTML = list.map((ep, idx) => {
+        const epPill = ep.ep < 10 ? `EP 0${ep.ep}` : `EP ${ep.ep}`;
+        const hubUrl = `story-hub.html?category=${categorySlug}&novel=${novel.id}&ep=${ep.ep}`;
+
+        return `
+          <a
+            href="${hubUrl}"
+            class="list-row-hover flex items-center justify-between p-3.5 sm:p-4 hover:bg-white/[0.04] transition-all cursor-pointer group"
+          >
+            <!-- Left: Episode Number Pill + Episode Title + Sub-label -->
+            <div class="flex items-center gap-3 sm:gap-4 min-w-0 pr-2">
+              
+              <!-- Episode Number Pill (EP 01) -->
+              <span class="px-2.5 py-1.5 rounded-lg bg-nova-obsidian border border-white/10 text-white font-mono text-[11px] font-bold group-hover:border-nova-crimson/50 group-hover:text-nova-crimson transition-colors flex-shrink-0">
+                ${epPill}
+              </span>
+
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <h4 class="text-xs sm:text-sm font-bold font-display text-white group-hover:text-nova-crimson transition-colors truncate">
+                    ${ep.title}
+                  </h4>
+                  ${ep.isVip ? `
+                    <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-nova-gold/20 text-nova-gold border border-nova-gold/30 font-mono">
+                      VIP
+                    </span>
+                  ` : `
+                    <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-green-500/20 text-green-400 border border-green-500/30">
+                      FREE
+                    </span>
+                  `}
+                </div>
+
+                <!-- Sub-label: Reading time & audio duration -->
+                <div class="flex items-center gap-2 text-[11px] text-nova-muted mt-0.5">
+                  <span class="flex items-center gap-1">
+                    <i data-lucide="book-open" class="w-3 h-3 text-white/50"></i>
+                    ${ep.readTime}
+                  </span>
+                  <span>•</span>
+                  <span class="flex items-center gap-1 text-nova-gold">
+                    <i data-lucide="headphones" class="w-3 h-3"></i>
+                    ${ep.audioDuration} audio
+                  </span>
+                  <span class="hidden sm:inline text-white/30">•</span>
+                  <span class="hidden sm:inline text-white/60">${ep.videoDuration}</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right: Action pill & Crimson chevron (>) -->
+            <div class="flex items-center gap-2 flex-shrink-0 pl-2">
+              <span class="hidden sm:inline-block text-[11px] font-semibold text-nova-muted group-hover:text-nova-crimson transition-colors">
+                Play / Read
+              </span>
+              <div class="w-8 h-8 rounded-full bg-white/5 group-hover:bg-nova-crimson flex items-center justify-center transition-colors">
+                <i data-lucide="chevron-right" class="w-4 h-4 text-nova-crimson group-hover:text-white transition-colors"></i>
+              </div>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function toggleSynopsisExpand() {
+      const p = document.getElementById("novelSynopsisText");
+      const btn = document.getElementById("toggleSynopsisBtn");
+      isSynopsisExpanded = !isSynopsisExpanded;
+
+      if (isSynopsisExpanded) {
+        p.classList.remove("line-clamp-3");
+        btn.textContent = "Show less";
+      } else {
+        p.classList.add("line-clamp-3");
+        btn.textContent = "Read full synopsis";
+      }
+    }
+
+    function updateBookmarkState(novelId) {
+      const saved = isNovelSaved(novelId);
+      const btn = document.getElementById("bookmarkNovelBtn");
+      const txt = document.getElementById("bookmarkBtnText");
+      if (saved) {
+        btn.classList.add("text-nova-crimson", "border-nova-crimson");
+        if (txt) txt.textContent = "Saved";
+      } else {
+        btn.classList.remove("text-nova-crimson", "border-nova-crimson");
+        if (txt) txt.textContent = "Save";
+      }
+    }
+
+    function toggleNovelBookmark() {
+      if (!activeNovel) return;
+      const state = toggleSaveNovel(activeNovel.id);
+      updateBookmarkState(activeNovel.id);
+    }
+
+    /* ==================== DOWNLOAD PACK MODAL ==================== */
+    function openDownloadPackModal() {
+      const modal = document.getElementById("downloadModal");
+      modal.classList.remove("opacity-0", "pointer-events-none");
+      lucide.createIcons();
+    }
+
+    function closeDownloadPackModal() {
+      const modal = document.getElementById("downloadModal");
+      modal.classList.add("opacity-0", "pointer-events-none");
+    }
+
+    function simulateDownload(btn, type) {
+      btn.disabled = true;
+      btn.textContent = "Downloading...";
+      const progressContainer = document.getElementById("downloadProgressBarContainer");
+      const progressBar = document.getElementById("downloadProgressBar");
+      const statusText = document.getElementById("downloadStatusText");
+      const percentText = document.getElementById("downloadPercentageText");
+
+      progressContainer.classList.remove("hidden");
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += 15;
+        if (progress > 100) progress = 100;
+        progressBar.style.width = `${progress}%`;
+        percentText.textContent = `${progress}%`;
+        statusText.textContent = `Packaging ${type}... (${progress}%)`;
+
+        if (progress === 100) {
+          clearInterval(interval);
+          statusText.textContent = `Downloaded! Saved offline.`;
+          btn.textContent = "Downloaded ✓";
+          btn.classList.add("bg-green-600", "text-white");
+          setTimeout(() => {
+            closeDownloadPackModal();
+            progressContainer.classList.add("hidden");
+            progressBar.style.width = "0%";
+            btn.disabled = false;
+            btn.textContent = `Get ${type.includes('Audio') ? 'MP3' : 'EPUB'}`;
+            btn.classList.remove("bg-green-600", "text-white");
+          }, 1800);
+        }
+      }, 200);
+    }
+  </script>
+</body>
+</html>
